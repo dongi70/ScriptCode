@@ -121,12 +121,6 @@ dlgMssg[2] = "type=button, no=5, show=1, enable=0, mode=bttnMode, lamp=1, \~
             ";			
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
 
-
-//
-
-//
-
-
 // 에디터 만들기
 dlgMssg[0] = "type=edit, no=4, enable=1, show=1, \~ // 컨트롤속성
 			readonly=0, \~ // 
