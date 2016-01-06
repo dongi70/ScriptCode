@@ -1,0 +1,296 @@
+//--------------------------------------------------------------------------------------------------------
+//
+// 칼라코드 변수 선언
+//
+//--------------------------------------------------------------------------------------------------------
+VAR WHITE   (0xffffff);
+VAR RED     (0x0000ff);
+VAR GREEN   (0x00ff00);
+VAR BLUE    (0xff0000);
+VAR CYAN    (0xffff00);
+VAR YELLOW  (0x00ffff);
+VAR BLACK   (0x000000);
+VAR GRAY    (0XE0E0E0);
+
+
+//-----------------------------------------------
+// 화면을 그리는 기본적인 메시지변수 선언
+//-----------------------------------------------
+VAR  maindlg, dlgMssg[100](0);
+
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 커스텀 화면 전체 클리어
+//
+//--------------------------------------------------------------------------------------------------------
+dlgMssg[0] = "type=all, clear=1";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//-----------------------------------------------
+// 스위치 벨
+//-----------------------------------------------
+VAR bellHz(3000);
+
+//-----------------------------------------------
+//
+// 화면을 위치, 색 지정들을 위한 몇가지 변수지정
+//
+//-----------------------------------------------
+VAR bttnMode(0);        // 버튼모드 : 일반 버튼 = 0, 이미지버튼 = 1
+VAR bttnX;              // 버튼 (초기)위치 X
+VAR bttnY;              // 버튼 (초기)위치 Y
+VAR bttnOffsetX;        // 버튼 배열 X옵셋
+VAR bttnOffsetY;        // 버튼 배열 Y옵셋
+VAR bttnW;              // 버튼 너비 W
+VAR bttnH;              // 버튼 높이 H
+VAR bttnR;              // 버튼 라운드 R
+VAR bttnFontSize(25);   // 버튼 폰트사이즈
+
+// 버튼의 칼라속성
+VAR bttnColor,  bttnBkColor,    bttnHovColor,   bttnSelColor,   bttnSelTextColor,   bttnDisColor;
+VAR bttn2Color, bttn2BkColor,   bttn2HovColor,  bttn2SelColor,  bttn2SelTextColor,  bttn2DisColor;
+
+// 버튼 칼라지정
+bttnColor           = BLACK;    // 텍스트 및 일반칼라
+bttnSelTextColor    = RED;      // 선택되었을 때 텍스트 칼라
+bttnBkColor         = GRAY;     // 기본 배경칼라 (이미지 버튼의 경우 의미없음)
+bttnHovColor        = CYAN;     // 마우스포인터 올려질 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnSelColor        = CYAN;     // 선택되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnDisColor        = GRAY;     // 비활성화 되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+
+//----------------------------------------------
+//
+//  사용자 입력
+//
+//----------------------------------------------
+dlgMssg[0] = "type=button, no=1, show=1, enable=0, mode=bttnMode, lamp=1, \~
+            beep=bellHz, beeptime=0.1, \~
+			x=30, y=30, w=200, h=45, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=40,  title=사용자입력, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
+            ";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 에디터 만들기
+dlgMssg[0] = "type=edit, no=2, enable=1, show=1, \~ // 컨트롤속성
+			readonly=0, \~ // 
+			x=230,y=30,w=300,h=45, border=1, \~ // 윈도우 위치 및 크기 설정
+			color=BLUE, bkcolor=YELLOW, fontsize=40, \~ // 칼라, 폰트
+			memory=38090, writememory=-1, \~ // 연결메모리
+			format=%s, \~ // 
+			“;
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------------
+//  Sample 입력
+//----------------------------------------------
+bttnX = 30;              // 버튼 (초기)위치 X
+bttnY = 100;              // 버튼 (초기)위치 Y
+bttnOffsetX = 50;        // 버튼 배열 X옵셋
+bttnOffsetY = 60;        // 버튼 배열 Y옵셋
+bttnW = 200;              // 버튼 너비 W
+bttnH= 45;              // 버튼 높이 H
+bttnR = 0;              // 버튼 라운드 R
+
+dlgMssg[0] = "type=button, no=3, show=1, enable=0, mode=bttnMode, lamp=1, \~
+            beep=bellHz, beeptime=0.1, \~
+			x=bttnX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=40,  title=Sample1, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
+            ";
+dlgMssg[1] = "type=button, no=4, show=1, enable=0, mode=bttnMode, lamp=1, \~
+            beep=bellHz, beeptime=0.1, \~
+			x=bttnX, y=bttnY+bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=40,  title=Sample2, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
+            ";
+dlgMssg[2] = "type=button, no=5, show=1, enable=0, mode=bttnMode, lamp=1, \~
+            beep=bellHz, beeptime=0.1, \~
+			x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=40,  title=Sample3, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
+            ";			
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+
+//
+
+//
+
+
+// 에디터 만들기
+dlgMssg[0] = "type=edit, no=4, enable=1, show=1, \~ // 컨트롤속성
+			readonly=0, \~ // 
+			x=230,y=30,w=300,h=45, border=1, \~ // 윈도우 위치 및 크기 설정
+			color=BLUE, bkcolor=YELLOW, fontsize=40, \~ // 칼라, 폰트
+			memory=38090, writememory=-1, \~ // 연결메모리
+			format=%s, \~ // 
+			“;
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 사용 시약 선택 (버튼)
+//
+//--------------------------------------------------------------------------------------------------------
+bttnX       = 220;
+bttnY       = 280;   
+bttnOffsetX = 120;
+bttnOffsetY = 100;
+bttnW       = 110;
+bttnH       = 80;
+bttnR       = 50;
+bttnFontSize= 35;
+
+bttnColor       = BLACK;
+bttnBkColor     = YELLOW;
+bttnHovColor    = CYAN;
+bttnSelColor    = GREEN;
+bttnDisColor    = GRAY;
+bttnSelTextColor= RED;
+
+dlgMssg[0] = "type=button, no=17, show=1, mode=bttnMode, enable=0, lamp=1, \~
+            beep=bellHz, beeptime=0.1, \~
+			x=30, y=bttnY, w=180, h=80, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=40,  title=Chip Type, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
+            ";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+//------------------------------------------------------------
+//
+//------------------------------------------------------------
+dlgMssg[0] ="type=button, no=50, lamp=1, enable=1, show=1, mode=1, \~
+		beep=bellHz, beeptime=0.1, \~
+        x=bttnX+0*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, \~
+        seltextcolor=bttnSelTextColor, \~
+        image=Bttn_Cm_YellowGreen_01.bmp, \~
+        fontsize=bttnFontSize, title=시약1, \~
+        memory=38080,writememory=38080, valtype=int, setvalue =1, toggle = 1 \~
+        ";       
+dlgMssg[1] ="type=button, no=51, lamp=1, enable=1, show=1, mode=1, \~
+		beep=bellHz, beeptime=0.1, \~
+        x=bttnX+1*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, \~
+        seltextcolor=bttnSelTextColor, \~
+        image=Bttn_Cm_YellowGreen_01.bmp, \~
+        fontsize=bttnFontSize, title=시약2, \~
+      	memory=38081,writememory=38081, valtype=int, setvalue =1,toggle = 1  \~
+        ";
+dlgMssg[2] ="type=button, no=52, lamp=1, enable=1, show=1, mode=1, \~
+		beep=bellHz, beeptime=0.1, \~
+        x=bttnX+2*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, \~
+        seltextcolor=bttnSelTextColor, \~
+        image=Bttn_Cm_YellowGreen_01.bmp, \~
+        fontsize=bttnFontSize, title=시약3, \~
+       	memory=38082,writememory=38082, valtype=int, setvalue =1, toggle = 1 \~
+        ";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 메인 조작버튼
+//
+//--------------------------------------------------------------------------------------------------------
+bttnMode    = 1;        // 이미지버튼 
+bttnX       = 0;	// 10	
+bttnY       = 460;
+bttnOffsetX = 157	//	115;	
+bttnW       = 157;	//110;
+bttnH       = 100;	//90;
+bttnR       = 30;   // 25
+bttnFontSize= 22;
+//----------------------------------------
+// 비상정지  -> 장치연결
+//----------------------------------------
+#30162 = 0; // 새롭게 그리면 항상 자동모드로 설정해둔다.
+dlgMssg[0] = "  type=button, no=41, show=1, mode=bttnMode, lamp-1,              \~ 기본 설정
+				beep=bellHz, beeptime=0.1, \~
+                x=bttnX + 0*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ 위치 및 모양 설정
+                color=bttnColor, bkcolor=bttnBkColor, seltextcolor=WHITE,       \~ 칼라 
+                title=Setting, seltitle=Setting, fontsize=bttnFontSize,       \~ 타이틀설정
+                image=Common_Button_Green.bmp,                                    \~ 이미지 등록
+                autoblink=0, blink=0.0,                                         \~ 깜박임속성
+                memory=38000,writememory=38000, valtype=int, setvalue =1,         \~ 연결 메모리
+                link=\\BitValue\\Setting.code";                          
+
+
+//----------------------------------------
+// 리셋 -> Pre TEST
+//----------------------------------------
+dlgMssg[1] = "type=button, no=42, show=1, mode=bttnMode, lamp-1, \~
+			beep=bellHz, beeptime=0.1, \~
+            x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=bttnFontSize, title=SelfCheck, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, \~
+            memory=38000,writememory=38000, valtype=int, setvalue =2, \~
+            link=\\BitValue\\SelfCheck.code";
+
+//----------------------------------------
+// 원점 -> Test
+//----------------------------------------
+dlgMssg[2] = "type=button, no=43, show=1, mode=bttnMode, lamp-1, \~
+    		beep=bellHz, beeptime=0.1, \~
+	        x=bttnX + 2*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=bttnFontSize,  title=Test, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, \~
+            memory=38000,writememory=38000, valtype=int, setvalue =3,  \~
+            link=\\BitValue\\OP_Test.code";
+
+//----------------------------------------
+// 일시정지 -> 결과
+//----------------------------------------
+dlgMssg[3] = "type=button, no=44, show=1, mode=bttnMode, lamp-1, \~
+			beep=bellHz, beeptime=0.1, \~
+            x=bttnX + 3*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=bttnFontSize,  title=Result, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0,\~
+            memory=38000,writememory=38000, valtype=int, setvalue =4,  \~
+            link=\\BitValue\\Result.code";
+
+//----------------------------------------
+// 시작  -> 종료
+//----------------------------------------
+dlgMssg[4] = "type=button, no=45, show=1, mode=bttnMode, lamp=1, \~
+            beep=bellHz, beeptime=0.1, \~
+			x=bttnX + 4*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=bttnFontSize,  title=END, \~
+            image=Common_Button_Red.bmp, \~
+            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
+            memory=38000,writememory=38000, valtype=int, setvalue =5, \~
+            link=\\BitValue\\OpCode\\Exit.code";
+
+
+//----------------------------------------
+// 윈도우에 각 컨트롤 특성을 보낸다.
+//----------------------------------------
+WINC_SET_USER_WINDOW(1, dlgMssg, 5);
+
+//-----------------------------------------------
+// 커스텀 화면 프레임을 그린다.
+//-----------------------------------------------
+dlgMssg[0] = "type=frame, enable=1, jogkey=1, show=1, redraw=1, float=0, \~
+        x=0, y=0, w=780, h=463, resize = 1,\~
+        image=BitValueImage\\Back2.bmp, \~
+        ";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+return (0);
