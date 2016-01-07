@@ -1,0 +1,43 @@
+/*
+VAR portNo(4);
+VAR ReagentTime:#10010;
+
+// 모션보드에 즉시명령방식으로 순차처리하는 방법
+
+if(1)
+{
+	WINC_ENTER_IMCMD();
+	WINC_SET_GIO( 0x01<<portNo)
+	WINC_LEAVE_IMCMD();
+
+	delay( ReagentTime );
+
+	WINC_ENTER_IMCMD();
+	WINC_CLR_GIO( 0x01<<portNo)
+	WINC_LEAVE_IMCMD();
+}
+
+// 모션보드에 Queue명령방식으로 일괄처리하는 방법
+if(0)
+{
+	WINC_ENTER_QUEUECMD();
+
+		WINC_SET_GIO( 0x01<<portNo );
+		WINC_CMD_DELAY( ReagentTime*1000.0 );
+		WINC_CLR_GIO( 0x01<<portNo );
+
+	WINC_LEAVE_QUEUECMD();
+}
+*/
+// 모터 ON
+call("\\BitValue\\AllMotorOn.code");
+VAR result, x, y; // 변수 선언문
+x = 100; // 상수 대입문
+y = 100; // 상수 대입문
+beep(2000,0.2); // 함수 실행문 주파수 2000hz, 0.2초동안 비프울림
+result = x * sin(PI) + y * cos(PI); // 수식 대입문
+PRINT x,y,result; // 프린트문
+
+WINC_RUN_NCCODE("\\BitValue\\OpCode\\Reagent_1.nc");
+
+

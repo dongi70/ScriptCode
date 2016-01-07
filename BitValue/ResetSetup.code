@@ -1,0 +1,23 @@
+
+VAR i;
+VAR ProcessOn[10]:#10000;
+
+// 프로세스 플래그OFF
+i=0;
+while(i<10)
+{
+	ProcessOn[i] = 0;
+	i = i+1;
+}
+
+// 조그 ON
+WINC_JOG_ENABLE(1);
+
+// 조그 연속모드
+WINC_JOG_MODE(0);
+
+// 조그 오버라이딩
+WINC_JOG_SPEED(50.0);
+
+// 시약분주 시간
+#10010 = 1.0;

@@ -1,0 +1,38 @@
+//---------------------------------------
+//
+//   모터 이동은 급속으로 이동하게 함.
+//   ( 시스템 메모리상의 #38121, 38122 )
+//---------------------------------------
+
+VAR Motor_Speed;
+VAR Speed_Temp;
+VAR Default_move;
+VAR Default_Speed;
+VAR Set_Value;
+
+//-------------------------------------
+//  모터 설정 읽어 저장하기.
+//-------------------------------------
+Set_Value = WINC_GET_DATA_INT(38050);
+WINC_PUT_DATA_INT(38051,Set_Value);
+
+Default_move = 70;
+Default_Speed = 100;
+
+Speed_Temp = WINC_GET_DATA_INT(38050);
+
+Motor_Speed = Default_move/Default_Speed * Speed_Temp/100;
+
+WINC_PUT_DATA_REAL(38121,Motor_Speed);
+WINC_PUT_DATA_REAL(38122,Motor_Speed);
+
+/*
+VAR fmt;
+fmt = 123;
+
+FILE *f;
+f=fopen(test_log.txt,"w+");
+fprintf_str(f,fmt,s);
+fclose(f);
+
+*/

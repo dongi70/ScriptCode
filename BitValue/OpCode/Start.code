@@ -1,0 +1,10 @@
+
+// 모터 ON
+call("\\BitValue\\AllMotorOn.code");
+
+// 일시정지상태에서만 동작합니다. 
+if( #30196 ) 
+{
+	WINC_START();
+}
+

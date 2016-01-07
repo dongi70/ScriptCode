@@ -1,0 +1,12 @@
+VAR Sensor1_IONo(1); // 센서1번의 GIO입력번호는 1
+VAR Output1_IONo(2); // 출력1번의 GIO출력번호는 2
+VAR Sensor1:#10100; // 센서1번의 입력상태를 시스템메모리 10100번지에 맵핑
+VAR Output1:#10200; // 출력1번의 출력제어를 시스템메모리 10200번지에 맵핑
+// 입력신호의 변수 버퍼링
+Sensor1 = X(Sensor1_IONo);
+// 조건처리
+if( Sensor1 ) { Output1 = 0; }
+else { Output1 = 1; }
+// 변수값 출력
+putY( Output1_IONo, Output1);
+PRINT $Output1;

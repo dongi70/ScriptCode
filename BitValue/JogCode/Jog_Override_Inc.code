@@ -1,0 +1,6 @@
+VAR JogOverride:#30803;
+JogOverride = JogOverride + 5;
+if( JogOverride > 100 ) { JogOverride = 100; }
+WINC_JOG_SPEED(JogOverride);
+
+return(JogOverride);

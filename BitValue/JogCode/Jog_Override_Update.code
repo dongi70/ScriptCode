@@ -1,0 +1,17 @@
+
+/*
+VAR FeedOverride:#30126;
+if( FeedOverride > 200 ) { FeedOverride = 200; }
+if( FeedOverride < 10 ) { FeedOverride = 10; }
+WINC_FEED_OVERRIDE(#30126);
+
+{
+	// 에디터갱신
+	VAR dlgMssg[2];
+	dlgMssg[0] = "type=edit, no=16,	show=1";
+	WINC_SET_USER_WINDOW(0, dlgMssg, 1);
+}
+return(#30216);
+
+*/
+

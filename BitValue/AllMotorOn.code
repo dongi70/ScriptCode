@@ -1,0 +1,7 @@
+
+// 서보 강제 on
+{
+	WINC_ENTER_IMCMD();
+	WINC_SET_GIO(0x01);
+	WINC_LEAVE_IMCMD();
+}

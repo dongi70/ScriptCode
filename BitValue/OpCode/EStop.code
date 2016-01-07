@@ -1,0 +1,16 @@
+
+WINC_ESTOP();
+
+// 아래는 모션보드에 직접 명령을 전송하는 방식
+WINC_ENTER_IMCMD();
+{
+	WINC_CMD_ESTOP();
+}
+WINC_LEAVE_IMCMD();
+
+// 소리내기
+VAR soundPath;
+soundPath = get_programpath();
+soundPath = sprintf_str("%s\\Sound\\waterdrop.wav", soundPath);
+volume(100);
+sound( soundPath );

@@ -1,0 +1,6 @@
+// Background_Setup.code 파일은
+// Motion Master 프로그램이 실행될 때 단 한번만 실행됩니다.
+
+// 0번 타이머 시작
+startT(0, 1.0);
+

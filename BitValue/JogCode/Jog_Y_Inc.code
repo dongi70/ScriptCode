@@ -1,0 +1,5 @@
+
+include("\\BitValue\\JogCode\\Jog_Inhibit.code");
+WINC_JOG_ENABLE(1);
+WINC_JOG_MODE(1); 
+WINC_JOG_MOVE(2,1);

@@ -1,0 +1,10 @@
+VAR ReagentTime:#10010;
+
+if( ReagentTime < 10.0 ) 
+{
+	ReagentTime = ReagentTime + 0.1;
+}
+else
+{
+	ReagentTime = 10.0;
+}

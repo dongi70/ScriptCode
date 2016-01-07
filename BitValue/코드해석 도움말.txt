@@ -1,0 +1,47 @@
+
+1. 폴더구조
+
+(1) 모션마스터 설치폴더내 ScriptCode 폴더의  BitValue폴더에 전체 커스텀내용이 포함되어 있습니다.
+
+(2) BackupCode 폴더는 모션마스터를 새롭게 인스톨한 후에 복구되어야하는 기본코드파일입니다.
+
+(3) JogCode 폴더는 조그동작에 필요한 기본코드집합입니다.
+
+(4) OpCode 폴더는 조그동작이외의 모든 동작코드집합입니다.
+
+
+2. 초기 리셋/셋업 코드
+
+ResetSetup.code 파일에 초기 리셋동작에 필요한 설정코드를 삽입합니다.
+
+
+3. 코드동작
+
+ScriptCode 내의 Show_Custom_UI.code 파일이 실행될 때 내부에서 BitValue\Custom_UI.code 파일을 호출합니다.
+
+Show_Custom_UI.code 에서 먼저 전체 윈도우 기본형태를 설정합니다. 
+
+BitValue\Custom_UI.code 에서 사용자 뷰영역에 다양한 화면컨트롤을 생성하고 해당하는 화면컨트롤이 작동될때 실행하는
+
+연결스크립트파일들이 JogCode폴더와 OpCode폴더내에 있습니다.
+
+
+[검사 프로세스]버튼 예를 들면> 
+	
+	[검사 프로세스] 버튼을 누르면 -> OpCode\Proc_Diagnosis.code 파일의 스크립트실행 -> OpCode\Proc_Diagnosis.nc 파일로 G코드실행.
+	
+	즉, [검사 프로세스] 버튼을 누르면 
+		
+		Proc_Diagnosis.code 내에의 WINC_RUN_NCCODE()함수에 의해서
+		
+			최종 Proc_Diagnosis.nc G코드파일을 MDI 방식으로 실행해 주게 됩니다.
+
+	그러므로 원하는 동작순서코드를 Proc_Diagnosis.nc 파일에 G코드방식으로 기입합니다.(스크립트파일이 아닌)
+
+
+4. BitValue\Custom_UI.code 파일의 내용을 보면서 화면을 만들고 각 화면컨트롤과 연결되는 스크립트파일의 동작함수들을 살펴보세요.
+
+
+5. 그외 필요로 하는 동작코드는 ScriptCode\Custom_Screen\폴더내에 다양하게 참조하실 수 있습니다.
+
+

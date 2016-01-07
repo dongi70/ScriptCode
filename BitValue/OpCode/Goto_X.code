@@ -1,0 +1,17 @@
+// 자동동작중에는 작동안하기
+VAR OnAuto:#30194;
+if( OnAuto ) { return (0); }
+
+// 현재 모션동작시에는 동작안하기
+if( #30199 ) { return (0); }
+
+VAR workpos;
+workpos=#37900;
+
+// 모터 ON
+call("\\BitValue\\AllMotorOn.code");
+
+// G코드 스트링를 통해 이동명령을 처리한다.
+VAR str_gcode;
+str_gcode = sprintf_real("G53 F1000 G01 X%lf", workpos);
+WINC_RUN_NCSTR( str_gcode );

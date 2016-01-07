@@ -1,0 +1,5 @@
+
+// ธ๐ลอ ON
+call("\\BitValue\\AllMotorOn.code");
+
+WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_All.nc");

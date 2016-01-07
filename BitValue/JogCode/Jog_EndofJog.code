@@ -1,0 +1,9 @@
+
+VAR AutoMode:#30162;
+//AutoMode = 1;
+beep(2000,0.1);
+
+// JOG 모드 클리어
+WINC_PUT_DATA_BOOL(30815,0);
+
+call("AutoMode.code");

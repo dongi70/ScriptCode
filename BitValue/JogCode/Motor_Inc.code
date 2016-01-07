@@ -1,0 +1,8 @@
+VAR Memory_Value;
+VAR Memory_Inc;
+if(1)
+{
+	Memory_Value = WINC_GET_DATA_INT(38050);
+	Memory_Inc = Memory_Value + 50;
+	WINC_PUT_DATA_INT(38050,Memory_Inc);
+}

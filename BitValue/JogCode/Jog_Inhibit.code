@@ -1,0 +1,14 @@
+// 원점복귀시 동작안하기
+VAR OnHome:#30195;
+if( OnHome ) { return (0); }
+
+// 공구교환시 동작안하기
+VAR OnAtc:#30195;
+if( OnAtc ) { return (0); }
+
+// 서보 강제 on
+{
+	WINC_ENTER_IMCMD();
+	WINC_SET_GIO(0x01);
+	WINC_LEAVE_IMCMD();
+}

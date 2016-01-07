@@ -1,0 +1,51 @@
+
+/*
+	해당 포트를 토글하는 스크립트처리문
+*/
+
+VAR portNo(5);
+//WINC_SET_GIO( 1<< portNo); // GIO 포트셋 함수
+
+
+//모션보드에 즉시실행 GOUT명령을 전송하는 방식
+if(1)
+{
+	VAR GOUT;
+	GOUT = WINC_GET_GIO(0x10);
+
+	if( GOUT & (1<<portNo) )
+	{
+		WINC_ENTER_IMCMD(); // 즉시실행명령 시작
+
+		WINC_CLR_GIO( 1<< portNo); // GIO 포트클리어 함수
+
+		WINC_LEAVE_IMCMD(); // 즉시실행명령 종료
+	}
+	else
+	{
+		WINC_ENTER_IMCMD(); // 즉시실행명령 시작
+
+		WINC_SET_GIO( 1<< portNo); // GIO 포트셋 함수
+
+		WINC_LEAVE_IMCMD(); // 즉시실행명령 종료
+	}
+}
+
+// 시스템 메모리를 이용하는 방식 
+if(0)
+{
+	VAR GOUT;
+
+	GOUT = WINC_GET_DATA_HEX(36710);
+
+	if( GOUT & (1<<portNo) )
+	{
+		WINC_PUT_DATA_HEX(36720, (1<<portNo) );
+	}
+	else
+	{
+		WINC_PUT_DATA_HEX(36730, (1<<portNo) );
+	}
+}
+
+

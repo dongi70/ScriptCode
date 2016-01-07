@@ -1,0 +1,9 @@
+
+// 모터 ON
+call("\\BitValue\\AllMotorOn.code");
+
+// 축동작 시퀀스에 따른 모든축 원점복귀
+//WINC_HOME(0);
+
+WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Loading_Sample.nc");
+
