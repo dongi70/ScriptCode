@@ -12,12 +12,10 @@ VAR YELLOW  (0x00ffff);
 VAR BLACK   (0x000000);
 VAR GRAY    (0XE0E0E0);
 
-
 //-----------------------------------------------
 // 화면을 그리는 기본적인 메시지변수 선언
 //-----------------------------------------------
 VAR  maindlg, dlgMssg[100](0);
-
 
 //--------------------------------------------------------------------------------------------------------
 //
@@ -64,14 +62,16 @@ bttnDisColor        = GRAY;     // 비활성화 되었을 때 칼라 (이미지 버튼의 경우 �
 // 메인 조작버튼
 //
 //--------------------------------------------------------------------------------------------------------
-bttnMode    = 1;        // 이미지버튼 
-bttnX       = 10;
-bttnY       = 10;
-bttnOffsetX = 115;
-bttnW       = 110;
+
+bttnMode    = 1;
+bttnX       = 670; //562
+bttnY       = 10;//14;
+bttnOffsetX = 0;
+bttnOffsetY = 90;
+bttnW       = 100;
 bttnH       = 90;
-bttnR       = 30;   // 25
-bttnFontSize= 22;
+bttnR       = 5;
+bttnFontSize= 20;
 
 //----------------------------------------
 // 비상정지
@@ -92,7 +92,7 @@ dlgMssg[0] = "  type=button, no=10, show=1, mode=bttnMode, lamp=1,              
 //----------------------------------------
 dlgMssg[1] = "type=button, no=11, show=1, mode=bttnMode, lamp=1, \~
 			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+            x=bttnX + 0*bttnOffsetX, y=bttnY+1*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
             color=BLACK, bkcolor=bttnBkColor, \~
             fontsize=bttnFontSize, title=리셋, \~
             image=Common_Button_Yellow.bmp, \~
@@ -105,7 +105,7 @@ dlgMssg[1] = "type=button, no=11, show=1, mode=bttnMode, lamp=1, \~
 //----------------------------------------
 dlgMssg[2] = "type=button, no=12, show=1, mode=bttnMode, lamp-1, \~
     		beep=bellHz, beeptime=0.1, \~
-	        x=bttnX + 2*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+	        x=bttnX + 0*bttnOffsetX, y=bttnY+2*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
             color=BLACK, bkcolor=bttnBkColor, \~
             fontsize=bttnFontSize,  title=원점, \~
             image=Common_Button_Yellow.bmp, \~
@@ -118,7 +118,7 @@ dlgMssg[2] = "type=button, no=12, show=1, mode=bttnMode, lamp-1, \~
 //----------------------------------------
 dlgMssg[3] = "type=button, no=13, show=1, mode=bttnMode, lamp-1, \~
 			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 3*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+            x=bttnX + 0*bttnOffsetX, y=bttnY+3*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
             color=BLACK, bkcolor=bttnBkColor, \~
             fontsize=bttnFontSize,  title=일시정지, \~
             image=Common_Button_Pink.bmp, \~
@@ -131,7 +131,7 @@ dlgMssg[3] = "type=button, no=13, show=1, mode=bttnMode, lamp-1, \~
 //----------------------------------------
 dlgMssg[4] = "type=button, no=14, show=1, mode=bttnMode, lamp=1, \~
             beep=bellHz, beeptime=0.1, \~
-			x=bttnX + 4*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+			x=bttnX + 0*bttnOffsetX, y=bttnY+4*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
             color=BLACK, bkcolor=bttnBkColor, \~
             fontsize=bttnFontSize,  title=시작, \~
             image=Common_Button_Green.bmp, \~
@@ -144,180 +144,119 @@ dlgMssg[4] = "type=button, no=14, show=1, mode=bttnMode, lamp=1, \~
 //----------------------------------------
 WINC_SET_USER_WINDOW(1, dlgMssg, 5);
 
-//----------------------------------------------
-//
-//  사용자 입력
-//
-//----------------------------------------------
-dlgMssg[0] = "type=button, no=16, show=1, enable=0, mode=bttnMode, lamp=1, \~
-            beep=bellHz, beeptime=0.1, \~
-			x=30, y=120, w=200, h=80, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=40,  title=사용자입력, \~
-            image=Common_Button_Green.bmp, \~
-            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
-//            readmemory=30194, valtype=real,\~
-            ";
-WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-
-// 에디터 만들기
-dlgMssg[0] = "type=edit, no=15, enable=1, show=1, \~ // 컨트롤속성
-			readonly=0, \~ // 
-			x=230,y=120,w=300,h=80, border=1, \~ // 윈도우 위치 및 크기 설정
-			color=BLUE, bkcolor=YELLOW, fontsize=40, \~ // 칼라, 폰트
-			memory=38090, writememory=-1, \~ // 연결메모리
-			format=%s, \~ // 
-“;
-WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-
-
-//--------------------------------------------------------------------------------------------------------
-//
-// 사용 시약 선택 (버튼)
-//
-//--------------------------------------------------------------------------------------------------------
-bttnX       = 220;
-bttnY       = 220;    //320
-bttnOffsetX = 120;
-bttnOffsetY = 100;
-bttnW       = 110;
-bttnH       = 80;
-bttnR       = 50;
-bttnFontSize= 35;
-
-bttnColor       = BLACK;
-bttnBkColor     = YELLOW;
-bttnHovColor    = CYAN;
-bttnSelColor    = GREEN;
-bttnDisColor    = GRAY;
-bttnSelTextColor= RED;
-
-dlgMssg[0] = "type=button, no=17, show=1, mode=bttnMode, enable=0, lamp=1, \~
-            beep=bellHz, beeptime=0.1, \~
-			x=30, y=220, w=180, h=80, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=40,  title=시약 선택, \~
-            image=Common_Button_Green.bmp, \~
-            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
-//            readmemory=30194, valtype=real,\~
-            ";
-WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-//------------------------------------------------------------
-//
-//------------------------------------------------------------
-dlgMssg[0] ="type=button, no=50, lamp=1, enable=1, show=1, mode=1, \~
-		beep=bellHz, beeptime=0.1, \~
-        x=bttnX+0*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, \~
-        seltextcolor=bttnSelTextColor, \~
-        image=Bttn_Cm_YellowGreen_01.bmp, \~
-        fontsize=bttnFontSize, title=시약1, \~
-        memory=38080,writememory=38080, valtype=int, setvalue =1, toggle = 1 \~
-        ";       
-dlgMssg[1] ="type=button, no=51, lamp=1, enable=1, show=1, mode=1, \~
-		beep=bellHz, beeptime=0.1, \~
-        x=bttnX+1*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, \~
-        seltextcolor=bttnSelTextColor, \~
-        image=Bttn_Cm_YellowGreen_01.bmp, \~
-        fontsize=bttnFontSize, title=시약2, \~
-      	memory=38081,writememory=38081, valtype=int, setvalue =1,toggle = 1  \~
-        ";
-dlgMssg[2] ="type=button, no=52, lamp=1, enable=1, show=1, mode=1, \~
-		beep=bellHz, beeptime=0.1, \~
-        x=bttnX+2*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, \~
-        seltextcolor=bttnSelTextColor, \~
-        image=Bttn_Cm_YellowGreen_01.bmp, \~
-        fontsize=bttnFontSize, title=시약3, \~
-       	memory=38082,writememory=38082, valtype=int, setvalue =1, toggle = 1 \~
-        ";
-
-WINC_SET_USER_WINDOW(1, dlgMssg, 3);
-
-
 //--------------------------------------------------------------------------------------------------------
 //
 //  주 동작 버튼
 //
 //--------------------------------------------------------------------------------------------------------
-bttnMode    = 1;
-bttnX       = 595; //562
-bttnY       = 14;
-bttnOffsetX = 0;
-bttnOffsetY = 70;
-bttnW       = 180;
-bttnH       = 60;
-bttnR       = 5;
-bttnFontSize= 20;
-
-//----------------------------------------
-// 샘플로딩
-//----------------------------------------
-dlgMssg[0] = "type=button, no=20, show=1, mode=bttnMode, lamp=1, \~
-			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 0*bttnOffsetX, y=bttnY + 0*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize, title=샘플 로딩, \~
-            image=Common_Button_Green.bmp, \~
-            autoblink=1, blink=0.5, \~
-            readmemory=10000, valtype=real, \~
-            link=\\Proc_Loading_Sample.code";
-
-//----------------------------------------
-// 완료
-//----------------------------------------
-dlgMssg[1] = "type=button, no=21, show=1, mode=bttnMode, lamp=1, \~
-			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 1*bttnOffsetX, y=bttnY + 1*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize, title=완료, \~
-            image=Common_Button_Green.bmp, \~
-            autoblink=1, blink=0.5, \~
-            readmemory=10001, valtype=real, \~
-            link=\\BitValue\\OpCode\\Proc_Finishing.code";
+bttnMode    = 1;        // 이미지버튼 
+bttnX       = 15;
+bttnY       = 20;
+bttnOffsetX = 220;
+bttnW       = 200;
+bttnH       = 150;
+bttnR       = 30;   // 25
+bttnFontSize= 22;
 
 //----------------------------------------
 // 검사프로세스
 //----------------------------------------
-dlgMssg[2] = "type=button, no=22, show=1, mode=bttnMode, lamp=1, \~
+dlgMssg[0] = "type=button, no=22, show=1, mode=bttnMode, lamp=1, \~
 			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 2*bttnOffsetX, y=bttnY + 2*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
+			x=bttnX + 0*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ 위치 및 모양 설정
             color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize, title=검사 프로세스, \~
+            fontsize=bttnFontSize, title=Diagnosis Process, \~
             image=Common_Button_Green.bmp, \~
             autoblink=1, blink=0.5, \~
             readmemory=10002, valtype=real, \~
-            link=\\BitValue\\OpCode\\Proc_Diagnosis.code";
+			link=-1,\~
+			link2=\\BitValue\\OpCode\\Proc_1.code, \~
+            link3=\\BitValue\\OpCode\\Proc_Diagnosis.code, \~
+			";
 
 //----------------------------------------
 // 크리닝 프로세스
 //----------------------------------------
-dlgMssg[3] = "type=button, no=23, show=1, mode=bttnMode, lamp=1, \~
+dlgMssg[1] = "type=button, no=23, show=1, mode=bttnMode, lamp=1, \~
 			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 3*bttnOffsetX, y=bttnY + 3*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
+			x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ 위치 및 모양 설정
             color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize, title=크리닝 프로세스, \~
+            fontsize=bttnFontSize, title=Washing Process, \~
             image=Common_Button_Green.bmp, \~
             autoblink=1, blink=0.5, \~
             readmemory=10003, valtype=real, \~
-            link=\\BitValue\\OpCode\\Proc_Cleaning.code";
+			link=\\BitValue\\OpCode\\Proc_2.code, \~
+            link2=\\BitValue\\OpCode\\Proc_Cleaning.code";
 
 //----------------------------------------
 // 전공정 프로세스
 //----------------------------------------
-dlgMssg[4] = "type=button, no=24, show=1, mode=bttnMode, lamp=1, \~
+dlgMssg[2] = "type=button, no=24, show=1, mode=bttnMode, lamp=1, \~
 			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 4*bttnOffsetX, y=bttnY + 4*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~
+			x=bttnX + 2*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ 위치 및 모양 설정
             color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize, title=잔량처리 프로세스, \~
+            fontsize=bttnFontSize, title= Dry Process, \~
             image=Common_Button_Green.bmp, \~
             autoblink=1, blink=0.5, \~
             readmemory=10004, valtype=real, \~
-            link=\\BitValue\\OpCode\\Proc_All.code";
+			link=\\BitValue\\OpCode\\Proc_3.code, \~
+            link2=\\BitValue\\OpCode\\Proc_All.code";
 
-//----------------------------------------
-// 윈도우에 전송
-//----------------------------------------
-WINC_SET_USER_WINDOW(1, dlgMssg, 5);
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
 
+//------------------------------------------
+//  진행 프로세스
+//------------------------------------------
+
+dlgMssg[0] = "type=button, no=1, show=1, enable=0, mode=bttnMode, lamp=1, \~
+			x=10, y=220, w=300, h=45, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=30,  title= Progress Process : , \~
+            ";
+			
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+dlgMssg[0] = "type=edit, no=25, enable=1, show=1, readonly=1, \~
+    x=330, y=220, w=300, h=45, border=0, \~
+    color=BLACK, font=굴림체, bkcolor=WHITE, \~
+    format=%s, keypad=1, fontsize=40, \~
+    memory=38030, readmemory=38030, \~
+	";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//------------------------------------------
+//                진행 시간
+//------------------------------------------
+
+dlgMssg[0] = "type=button, no=26, show=1, enable=0, mode=bttnMode, lamp=1, \~
+			x=10, y=320, w=250, h=45, round=bttnR, \~
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=35,  title=Progess Time:, \~
+            ";
+			
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+dlgMssg[0] = "type=edit, no=27, enable=1, show=1, readonly=1, \~
+    x=280, y=320, w=80, h=45, border=0, \~
+    color=BLACK, font=굴림체, bkcolor=WHITE, \~
+    format=%2.0f, keypad=1, fontsize=40, \~
+    memory=38045, readmemory=38045, \~
+	";
+dlgMssg[1] = "type=edit, no=28, enable=1, show=1, readonly=1, \~
+    x=380, y=320, w=80, h=45, border=0, \~
+    color=BLACK, font=굴림체, bkcolor=WHITE, \~
+    format=%2.0f, keypad=1, fontsize=40, \~
+    memory=38046, readmemory=38046, \~
+	";
+dlgMssg[2] = "type=edit, no=29, enable=1, show=1, readonly=1, \~9
+    x=480, y=320, w=80, h=45, border=0, \~
+    color=BLACK, font=굴림체, bkcolor=WHITE, \~
+    format=%2.0f, keypad=1, fontsize=40, \~
+    memory=38047, readmemory=38047, \~
+	";	
+		
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
 
 //-----------------------------------------------
 // 커스텀 화면 프레임을 그린다.
