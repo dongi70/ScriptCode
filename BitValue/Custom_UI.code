@@ -39,6 +39,10 @@ VAR bellHz(3000);
 //   모터 속도 초기값 설정
 //----------------------------------------------
 WINC_PUT_DATA_INT(38050,200);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 79ebeb9851257b97667298ee5a6058799c21a573
 //-----------------------------------------------
 //
 // 화면을 위치, 색 지정들을 위한 몇가지 변수지정
@@ -81,7 +85,11 @@ bttnR       = 30;   // 25
 bttnFontSize= 22;
 
 //----------------------------------------
+<<<<<<< HEAD
 // 장비 설정
+=======
+// 비상정지  -> 장치연결
+>>>>>>> 79ebeb9851257b97667298ee5a6058799c21a573
 //----------------------------------------
 #30162 = 0; // 새롭게 그리면 항상 자동모드로 설정해둔다.
 dlgMssg[0] = "  type=button, no=41, show=1, mode=bttnMode, lamp-1,              \~ 기본 설정
@@ -95,17 +103,29 @@ dlgMssg[0] = "  type=button, no=41, show=1, mode=bttnMode, lamp-1,              
                 link=\\BitValue\\Setting.code";                          
 
 //----------------------------------------
+<<<<<<< HEAD
 // 샘플 로딩
+=======
+// 리셋 -> Pre TEST
+>>>>>>> 79ebeb9851257b97667298ee5a6058799c21a573
 //----------------------------------------
 dlgMssg[1] = "type=button, no=42, show=1, mode=bttnMode, lamp-1, \~
 			beep=bellHz, beeptime=0.1, \~
             x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
             color=BLACK, bkcolor=bttnBkColor, \~
+<<<<<<< HEAD
             fontsize=bttnFontSize, title=Sample Load, \~
             image=Common_Button_Green.bmp, \~
             autoblink=0, blink=0.0, \~
             memory=38000,writememory=38000, valtype=int, setvalue =2, \~
             link=\\BitValue\\Sample_Load.code";
+=======
+            fontsize=bttnFontSize, title=SelfCheck, \~
+            image=Common_Button_Green.bmp, \~
+            autoblink=0, blink=0.0, \~
+            memory=38000,writememory=38000, valtype=int, setvalue =2, \~
+            link=\\BitValue\\SelfCheck.code";
+>>>>>>> 79ebeb9851257b97667298ee5a6058799c21a573
 
 //----------------------------------------
 // 원점 -> Test

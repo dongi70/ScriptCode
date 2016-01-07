@@ -196,6 +196,7 @@ WINC_SET_USER_WINDOW(1, dlgMssg, 3);
 //  모터 속도 변경
 //
 //------------------------------------------------
+<<<<<<< HEAD
 if(1)
 {
 	VAR Set_Value;
@@ -214,6 +215,8 @@ if(1)
 	}
 	
 }
+=======
+>>>>>>> 79ebeb9851257b97667298ee5a6058799c21a573
 
 dlgMssg[0] = "type=button, no=15, show=1, mode=bttnMode, enable=0, lamp=1, \~
             beep=bellHz, beeptime=0.1, \~
@@ -290,7 +293,11 @@ dlgMssg[1] = "type=button, no=22, show=1, mode=bttnMode, lamp=1, \~
             readmemory=30172, valtype=real, \~
             link=-1,\~
 			link2=\\BitValue\\Set_Complete.code, \~
+<<<<<<< HEAD
 			link3=\\BitValue\\Sample_Load.code, \~
+=======
+			link3=\\BitValue\\OP_Test.code, \~
+>>>>>>> 79ebeb9851257b97667298ee5a6058799c21a573
 			";
 		
 WINC_SET_USER_WINDOW(1, dlgMssg, 2);
