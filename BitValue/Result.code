@@ -430,8 +430,6 @@ if(0)
 
 }
 
-
-
 //--------------------------------------------------------------------------------------------------------
 //
 // 조그동작
@@ -452,90 +450,6 @@ bttnHovColor    = CYAN;
 bttnSelColor    = GREEN;
 bttnDisColor    = GRAY;
 bttnSelTextColor= RED;
-
-
-//--------------------------------------------------------------------------------------------------------
-//
-// 메인 조작버튼
-//
-//--------------------------------------------------------------------------------------------------------
-bttnMode    = 1;        // 이미지버튼 
-bttnX       = 0;	// 10	
-bttnY       = 460;
-bttnOffsetX = 157	//	115;	
-bttnW       = 157;	//110;
-bttnH       = 100;	//90;
-bttnR       = 30;   // 25
-bttnFontSize= 22;
-
-//----------------------------------------
-// 비상정지  -> 장치연결
-//----------------------------------------
-#30162 = 0; // 새롭게 그리면 항상 자동모드로 설정해둔다.
-dlgMssg[0] = "  type=button, no=41, show=1, mode=bttnMode, lamp-1,              \~ 기본 설정
-				beep=bellHz, beeptime=0.1, \~
-                x=bttnX + 0*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ 위치 및 모양 설정
-                color=bttnColor, bkcolor=bttnBkColor, seltextcolor=WHITE,       \~ 칼라 
-                title=Setting, seltitle=Setting, fontsize=bttnFontSize,       \~ 타이틀설정
-                image=Common_Button_Green.bmp,                                    \~ 이미지 등록
-                autoblink=0, blink=0.0,                                         \~ 깜박임속성
-                memory=38000,writememory=38000, valtype=int, setvalue =1,         \~ 연결 메모리
-                link=\\BitValue\\Setting.code";                          
-
-
-//----------------------------------------
-// 리셋 -> Pre TEST
-//----------------------------------------
-dlgMssg[1] = "type=button, no=42, show=1, mode=bttnMode, lamp-1, \~
-			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize, title=SelfCheck, \~
-            image=Common_Button_Green.bmp, \~
-            autoblink=0, blink=0.0, \~
-            memory=38000,writememory=38000, valtype=int, setvalue =2, \~
-            link=\\BitValue\\SelfCheck.code";
-
-//----------------------------------------
-// 원점 -> Test
-//----------------------------------------
-dlgMssg[2] = "type=button, no=43, show=1, mode=bttnMode, lamp-1, \~
-    		beep=bellHz, beeptime=0.1, \~
-	        x=bttnX + 2*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize,  title=Test, \~
-            image=Common_Button_Green.bmp, \~
-            autoblink=0, blink=0.0, \~
-            memory=38000,writememory=38000, valtype=int, setvalue =3,  \~
-            link=\\BitValue\\OP_Test.code";
-
-//----------------------------------------
-// 일시정지 -> 결과
-//----------------------------------------
-dlgMssg[3] = "type=button, no=44, show=1, mode=bttnMode, lamp-1, \~
-			beep=bellHz, beeptime=0.1, \~
-            x=bttnX + 3*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize,  title=Result, \~
-            image=Common_Button_Green.bmp, \~
-            autoblink=0, blink=0.0,\~
-            memory=38000,writememory=38000, valtype=int, setvalue =4,  \~
-            link=\\BitValue\\Result.code";
-
-//----------------------------------------
-// 시작  -> 종료
-//----------------------------------------
-dlgMssg[4] = "type=button, no=45, show=1, mode=bttnMode, lamp=1, \~
-            beep=bellHz, beeptime=0.1, \~
-			x=bttnX + 4*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize,  title=END, \~
-            image=Common_Button_Red.bmp, \~
-            autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~
-            memory=38000,writememory=38000, valtype=int, setvalue =5, \~
-            link=\\BitValue\\OpCode\\Exit.code";
-
-WINC_SET_USER_WINDOW(1, dlgMssg, 5);
 
 
 //-----------------------------------------------
