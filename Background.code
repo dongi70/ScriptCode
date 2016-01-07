@@ -358,7 +358,7 @@
 		//messagebox(0,0," 테스트 1 ","");
 		OP_UI = WINC_GET_DATA_INT(38000);
 		
-		if(OP_UI == 2)
+//		if(OP_UI == 2)			
 		{
 			SVAR ProcTimeCnt(0); // 지역적 전역변수 선언 및 0 초기화
 		
@@ -472,143 +472,46 @@
 				//	clrM(38014);
 					WINC_PUT_DATA_INT(38015,0);
 				}
-			}
-	/*
-			messagebox(0,0," 테스트 1 ","");
-		
-		// 입력 변수 맵핑
-			VAR Sensor1_IONo(0);
-			VAR Sensor2_IONo(1);
-			VAR Sensor3_IONo(2);
-			VAR Sensor4_IONo(3);
-			
-			VAR Sensor1:#10100; // 센서1의 입력상태를 시스템메모리 10100번지에 맵핑
-			VAR Sensor2:#10101; // 센서2의 입력상태를 시스템메모리 10101번지에 맵핑
-			VAR Sensor3:#10102; // 센서1의 입력상태를 시스템메모리 10100번지에 맵핑
-			VAR Sensor4:#10103; // 센서2의 입력상태를 시스템메모리 10101번지에 맵핑
-		
-		// 출력 변수 맵핑
-			VAR Output1_IONo(1); // 출력포트 번호 선언
-			VAR Output2_IONo(2);
-			VAR Output3_IONo(3);
-			VAR Output4_IONo(4);
-			VAR Output1:#10200; // 출력포트 변수 선언
-			VAR Output2:#10201;
-			VAR Output3:#10202;
-			VAR Output4:#10203;
-
-		// 입력신호의 변수 버퍼링
-			Sensor1 = X(Sensor1_IONo);
-			Sensor2 = X(Sensor2_IONo);
-			Sensor3 = X(Sensor3_IONo);
-			Sensor4 = X(Sensor4_IONo);
-
-		// 입출력 로직연산
-			Output1 = !Sensor1; 	// 반전
-			Output2 = !Sensor2; 	// 반전
-			Output3 = !Sensor3;		// 반전
-			Output4 = !Sensor4;		// 반전
-	
-		
-			if( Output1  ) 
-			{ 
-			
-			//	setY(0); 
-			//	messagebox(0,0," 입력 센서 1 이상 ","");
-					
-		// MDI 실행버튼
-				dlgMssg[0] = "type=button, no=0, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=40, w=260, h=30, \~
-				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 1 용량 OK , fontsize=25;// \~
-			}
-			else 
-			{  		
-			//	clrY(0);
-			
-			// MDI 실행버튼
-				dlgMssg[0] = "type=button, no=0, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=40, w=260, h=30, \~
-				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 1 용량 Fail, fontsize=25;// \~
-			}
-			if( Output2  ) 
-			{ 
-			
-			//	setY(1); 
-			//	messagebox(0,0," 입력 센서 2 이상 ","");	
-			
-			// MDI 실행버튼
-				dlgMssg[1] = "type=button, no=1, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=70, w=260, h=30, \~
-				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 2 용량 OK , fontsize=25;// \~
-			}
-			else
-			{  
-			//	clrY(1);
-			// MDI 실행버튼
-				dlgMssg[1] = "type=button, no=1, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=70, w=260, h=30, \~
-				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 2 용량 Fail, fontsize=25;// \~
-			}
-			if( Output3  ) 
-			{ 
-			
-			//	setY(2); 
-			//	messagebox(0,0," 입력 센서 3 이상 ","");
-			
-			// MDI 실행버튼
-				dlgMssg[2] = "type=button, no=2, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=100, w=260, h=30, \~
-				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 3 용량 OK , fontsize=25;// \~
-			}
-			else
-			{  
-			//	clrY(2);
-			// MDI 실행버튼
-				dlgMssg[2] = "type=button, no=2, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=100, w=260, h=30, \~
-				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 3 용량 Fail, fontsize=25;// \~
-			}
-			if( Output4  ) 
-			{ 
-			
-			//	setY(3); 
-			//	messagebox(0,0," 입력 센서 4 이상 ","");
-			
-			// MDI 실행버튼
-				dlgMssg[3] = "type=button, no=3, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=130, w=260, h=30, \~
-				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 4 용량 OK , fontsize=25;// \~
-			}
-			else
-			{  
-			//	clrY(3);
-			// MDI 실행버튼
-				dlgMssg[3] = "type=button, no=3, enable=1, show=1, \~
-				mode=0, \~
-				x=440, y=130, w=260, h=30, \~
-				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
-				title=시약 4 용량 Fail, fontsize=25;// \~
-		
-			}
-			WINC_SET_USER_WINDOW(1,dlgMssg, 4);	
-		*/
-		
+			}		
 		}
 	}	
+//-------------------------------------------
+//		시스템 Timer
+//-------------------------------------------
+if(1)
+{
+	VAR Timer, Sec, Min, Hour;
+	VAR Temp;
+	
+	Timer = WINC_GET_DATA_REAL(30450);
+	Hour = (Timer/3600)-0.5;
+	Min = (Timer/60)-0.5;
+	Sec = Timer%60;
+	
+	if(Hour<0)
+	{
+		WINC_PUT_DATA_REAL(38045,0);
+	}
+	else
+	{
+		WINC_PUT_DATA_REAL(38045,Hour);
+	}
+	if(Min<0)
+	{
+		WINC_PUT_DATA_REAL(38046,0);
+	}
+	else
+	{
+		WINC_PUT_DATA_REAL(38046,Min);
+	}
+	WINC_PUT_DATA_REAL(38047,Sec);
+
+}
+
+	
+//--------------------------------------------------------------
+//
+//--------------------------------------------------------------	
 	if(0)
 	{
 		VAR ValveDllHandle:#12000;

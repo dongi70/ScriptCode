@@ -2,4 +2,38 @@
 // ธ๐ลอ ON
 call("\\BitValue\\AllMotorOn.code");
 
+VAR Cover_State;
+VAR Cover_Open;
+VAR Cover_Close;
+
+//-------------------------------------
+//  Cover ?? ??
+//-------------------------------------
+Cover_State = WINC_GET_DATA_INT(38015);
+
+if( Cover_State == 1)
+{
+	call("\\BitValue\\OP_Test.code");
+}
+else
+{
+	messagebox(0,1,"  COVER CLOSE \n ","");
+}
+
+
+/*
+if(1)
+{
+	VAR Complete;
+	
+	Complete = WINC_GET_DATA_INT(38052);
+	
+	if(Complete == 1)
+	{
+		messagebox(0,1,"  COVER CLOSE \n ","");
+		WINC_PUT_DATA_INT(38052,0);
+	}
+}	
+*/
+
 WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Finishing.nc");
