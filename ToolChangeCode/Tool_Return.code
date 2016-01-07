@@ -1,0 +1,3 @@
+
+// 공구복귀 NC코드 실행
+WINC_RUN_NCCODE("\\..\\LibraryNcCode\\M06.30.nc");

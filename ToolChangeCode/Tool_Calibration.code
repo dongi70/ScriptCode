@@ -1,0 +1,3 @@
+
+// 공구측정 NC코드 실행
+WINC_RUN_NCCODE("\\..\\LibraryNcCode\\G38.nc");

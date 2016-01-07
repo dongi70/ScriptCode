@@ -1,0 +1,10 @@
+// 자동동작중에는 작동안하기
+VAR OnAuto:#30194;
+if( OnAuto ) { return (0); }
+
+VAR pathname(0);
+pathname = file_dialog("*.*",1) // 1=열기 다이얼로그, 0=다른이름으로 저장 다이얼로그
+if( pathname >= 0 )
+{
+	WINC_LOAD_FILE(pathname);
+}

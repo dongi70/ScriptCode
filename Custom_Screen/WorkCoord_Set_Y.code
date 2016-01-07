@@ -1,0 +1,7 @@
+// 자동동작중에는 작동안하기
+VAR OnAuto:#30194;
+if( OnAuto ) { return (0); }
+
+VAR workpos[8];
+workpos[1]=#37901;
+WINC_SET_WORKCOORD(0x02, workpos);

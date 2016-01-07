@@ -1,0 +1,13 @@
+if( #30260 > 5.000)
+{
+	if( #37010 == 0 )
+	{
+		#37010 =  1;
+		VAR mainWnd[10];
+		mainWnd[0]="type=loading, show=0";
+		mainWnd[1]="type=frame, redraw=1, show=1, float=1, nosize=0";
+		mainWnd[2]="type=view, show=1, scroll=0";
+		WINC_SET_MAIN_WINDOW(mainWnd, 3);
+	}
+	
+}

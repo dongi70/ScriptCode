@@ -1,0 +1,6 @@
+// 전체 출력을 클리어 합니다.
+WINC_ENTER_IMCMD(); 
+
+	WINC_CLR_GIO(0xffffffff);
+
+WINC_LEAVE_IMCMD();

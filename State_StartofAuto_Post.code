@@ -1,0 +1,5 @@
+// Popup 다이얼로그 숨기기
+VAR dlgmssg[2];
+dlgmssg[0] = "type=frame, enable=1, show=0";
+WINC_SET_USER_WINDOW(1, dlgmssg, 1);
+

@@ -1,0 +1,8 @@
+
+VAR dragdropfile;
+
+dragdropfile = WINC_GET_DATA_STR(37300);
+
+//PRINT $dragdropfile;
+
+WINC_LOAD_FILE(dragdropfile);

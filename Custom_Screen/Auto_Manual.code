@@ -1,0 +1,21 @@
+VAR AutoMode:#30162;
+VAR OpMode:#30170;
+if( OpMode < 120 )
+{
+	AutoMode = !AutoMode;
+	
+	if( !AutoMode )
+	{
+		// JOG 화면생성
+		WINC_PUT_DATA_BOOL(30815,1);
+		
+		// JOG 동작을 연속으로 지정한다.
+		WINC_PUT_DATA_INT(30812,1);
+	}
+	else
+	{
+		// JOG 화면소멸
+		WINC_PUT_DATA_BOOL(30815,0);		
+	}
+}
+

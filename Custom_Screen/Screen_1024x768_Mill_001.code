@@ -1,0 +1,421 @@
+//--------------------------------------------------------------------------------------------------------
+//
+// 칼라코드 변수 선언
+//
+//--------------------------------------------------------------------------------------------------------
+VAR WHITE	(0xffffff);
+VAR RED		(0x0000ff);
+VAR GREEN	(0x00ff00);
+VAR BLUE	(0xff0000);
+VAR CYAN	(0xffff00);
+VAR YELLOW	(0x00ffff);
+VAR BLACK	(0x000000);
+VAR GRAY	(0XE0E0E0);
+
+//-----------------------------------------------
+// 화면을 그리는 기본적인 메시지변수 선언
+//-----------------------------------------------
+VAR  maindlg, dlgCtrl[100](0);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 커스텀 화면 전체 클리어
+//
+//--------------------------------------------------------------------------------------------------------
+dlgCtrl[0] = "type=all, clear=1";
+WINC_SET_USER_WINDOW(0, dlgCtrl, 1);
+
+//-----------------------------------------------
+// 커스텀 화면 프레임을 그린다.
+//-----------------------------------------------
+dlgCtrl[0] = "type=frame, enable=1, show=1, redraw=1, float=0, jogkey=1, x=0, y=0, w=1005, h=728,  resize = 1, image=Background_1024x768_Mill_001.png, link=";
+WINC_SET_USER_WINDOW(0, dlgCtrl, 1);
+
+//-----------------------------------------------
+//
+// 화면을 위치, 색 지정들을 위한 몇가지 변수지정
+//
+//-----------------------------------------------
+VAR bttnMode(0);		// 버튼모드 : 일반 버튼 = 0, 이미지버튼 = 1
+VAR bttnX;				// 버튼 (초기)위치 X
+VAR bttnY;				// 버튼 (초기)위치 Y
+VAR bttnOffsetX;		// 버튼 배열 X옵셋
+VAR bttnOffsetY;		// 버튼 배열 Y옵셋
+VAR bttnW;				// 버튼 너비 W
+VAR bttnH;				// 버튼 높이 H
+VAR bttnR;				// 버튼 라운드 R
+VAR bttnFontSize(25);	// 버튼 폰트사이즈
+
+// 버튼의 칼라속성
+VAR bttnColor,	bttnBkColor,	bttnHovColor,	bttnSelColor,	bttnSelTextColor,	bttnDisColor;
+VAR bttn2Color, bttn2BkColor,	bttn2HovColor,	bttn2SelColor,	bttn2SelTextColor,	bttn2DisColor;
+
+// 버튼 칼라지정
+bttnColor 			= BLACK;	// 텍스트 및 일반칼라
+bttnSelTextColor	= RED;		// 선택되었을 때 텍스트 칼라
+bttnBkColor 		= GRAY;		// 기본 배경칼라 (이미지 버튼의 경우 의미없음)
+bttnHovColor 		= CYAN;		// 마우스포인터 올려질 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnSelColor 		= CYAN;		// 선택되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnDisColor 		= GRAY;		// 비활성화 되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 메인 조작버튼
+//
+//--------------------------------------------------------------------------------------------------------
+bttnMode 	= 1;		// 이미지버튼 
+bttnX 		= 13;
+bttnY 		= 610;
+bttnOffsetX = 163;
+bttnW		= 160;
+bttnH		= 100;
+bttnR 		= 25; 
+bttnFontSize= 32;
+
+//----------------------------------------
+// 자동/수동
+//----------------------------------------
+#30162 = 1;	// 새롭게 그리면 항상 자동모드로 설정해둔다.
+dlgCtrl[0] = "type=button, no=10, show=1, mode=bttnMode, x=bttnX + 0*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, fontsize=bttnFontSize, round=bttnR, color=bttnColor, bkcolor=bttnBkColor, title=수동, seltitle=자동, link=\\Custom_Screen\\Auto_Manual.code, image=Common_Button.bmp, lamp=1, blink=0, auotblink=0, readmemory=30162, valtype=real";
+
+//----------------------------------------
+// 시작
+//----------------------------------------
+dlgCtrl[1] = "type=button, no=11, show=1, mode=bttnMode, x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, fontsize=bttnFontSize, round=bttnR, color=BLACK, bkcolor=bttnBkColor, title=시작, link=\\Custom_Screen\\Start.code, image=Common_Button.bmp, blinkimage=Common_Button_Green.bmp, blink=0.5, autoblink=1, readmemory=30194, valtype=real";
+
+//----------------------------------------
+// 정지
+//----------------------------------------
+dlgCtrl[2] = "type=button, no=12, show=1, mode=bttnMode, x=bttnX + 2*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, fontsize=bttnFontSize, round=bttnR, color=BLACK, bkcolor=bttnBkColor, title=정지, link=\\Custom_Screen\\Stop.code, image=Common_Button.bmp, blinkimage=Common_Button_Pink.bmp, blink=0.5, autoblink=1, readmemory=36005, valtype=real";
+
+//----------------------------------------
+// 홈
+//----------------------------------------
+dlgCtrl[3] = "type=button, no=13, show=1, mode=bttnMode, x=bttnX + 3*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, fontsize=bttnFontSize, round=bttnR, color=BLACK, bkcolor=bttnBkColor, title=홈, link=\\Custom_Screen\\Home.code, image=Common_Button.bmp, blinkimage=Common_Button_Blue.bmp, blink=0.5, autoblink=1, readmemory=30190, valtype=real";
+
+//----------------------------------------
+// 리셋
+//----------------------------------------
+dlgCtrl[4] = "type=button, no=14, show=1, mode=bttnMode, x=bttnX + 4*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, fontsize=bttnFontSize, round=bttnR, color=BLACK, bkcolor=bttnBkColor, title=리셋, link=\\Custom_Screen\\Reset.code, image=Common_Button.bmp, blinkimage=Common_Button_Yellow.bmp, blink=0.25, autoblink=1, readmemory=30192, valtype=real";
+
+//----------------------------------------
+// 알람목록
+//----------------------------------------
+dlgCtrl[5] = "type=button, no=15, show=1, mode=bttnMode,  x=bttnX + 5*bttnOffsetX, y=bttnY, w=bttnW/2-1, h=bttnH, fontsize=30, round=bttnR, color=BLACK, bkcolor=bttnBkColor, title=알람\n목록, link=\\Custom_Screen\\Alarm_List.code, image=Common_Button.bmp, memory=-1";
+
+//----------------------------------------
+// 종료
+//----------------------------------------
+dlgCtrl[6] = "type=button, no=16, show=1, mode=bttnMode,  x=bttnX + 5*bttnOffsetX + bttnW/2, y=bttnY, w=bttnW/2-1, h=bttnH, fontsize=30, round=bttnR, color=BLACK, bkcolor=bttnBkColor, title=종료, link=\\Custom_Screen\\Exit.code, image=Common_Button.bmp, blinkimage=Common_Button_Red.bmp, autoblink=1, blink=0.2, memory=30189";
+
+//----------------------------------------
+// 윈도우에 각 컨트롤 특성을 보낸다.
+//----------------------------------------
+WINC_SET_USER_WINDOW(0, dlgCtrl, 7);
+
+//----------------------------------------
+// 비상정지
+//----------------------------------------
+dlgCtrl[0] = "type=button, no=19, show=1, mode=0, x=807, y=95, w=170, h=170, fontsize=35, round=170, color=WHITE, bkcolor=RED, seltextcolor=RED, selcolor=YELLOW, title=비상정지, link=\\Custom_Screen\\EStop.code, blink=0.25, autoblink=1, readmemory=30191, valtype=real;
+
+WINC_SET_USER_WINDOW(0, dlgCtrl, 1);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 위치 좌표 정보 
+//
+//--------------------------------------------------------------------------------------------------------
+bttnX		= 13;
+bttnY		= 70;
+bttnOffsetX	= 10;
+bttnOffsetY	= 44;
+bttnW		= 88;
+bttnH		= 43;
+bttnR		= 5;
+bttnFontSize= 25;
+
+//----------------------------------------
+// 위치버튼
+//----------------------------------------
+dlgCtrl[0] ="type=button, no=0, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 0*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=X축,image=Common_Button.bmp, round=0, color=BLACK, link=\\Custom_Screen\\WorkCoord_Zero_X.code";
+dlgCtrl[1] ="type=button, no=1, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 1*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=Y축,image=Common_Button.bmp, round=0, color=BLACK, link=\\Custom_Screen\\WorkCoord_Zero_Y.code ";
+dlgCtrl[2] ="type=button, no=2, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 2*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=Z축,image=Common_Button.bmp, round=0, color=BLACK, link=\\Custom_Screen\\WorkCoord_Zero_Z.code ";
+
+dlgCtrl[3] ="type=button, no=3, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 3*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=A축,image=Common_Button.bmp, round=0, color=BLACK, link=\\Custom_Screen\\WorkCoord_Zero_A.code ";
+dlgCtrl[4] ="type=button, no=4, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 4*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=B축,image=Common_Button.bmp, round=0, color=BLACK, link=\\Custom_Screen\\WorkCoord_Zero_B.code ";
+dlgCtrl[5] ="type=button, no=5, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 5*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=C축,image=Common_Button.bmp, round=0, color=BLACK, link=\\Custom_Screen\\WorkCoord_Zero_C.code ";
+
+dlgCtrl[6] ="type=button, no=6, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 6*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=RPM,image=Common_Button.bmp, round=0, color=BLACK";
+dlgCtrl[7] ="type=button, no=7, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY + 7*bttnOffsetY, w=bttnW, h=bttnH, fontsize=bttnFontSize, title=피드,image=Common_Button.bmp, round=0, color=BLACK";
+
+WINC_SET_USER_WINDOW(0, dlgCtrl, 8);
+
+//----------------------------------------
+// 위치정보 창
+//----------------------------------------
+VAR editX;
+VAR editY;
+VAR editOffsetX;
+VAR editOffsetY;
+VAR editW;
+VAR editH;
+VAR editFontSize(32);
+
+editX = bttnX+bttnW+2;
+editY = bttnY;
+editOffsetX = 0;
+editOffsetY = bttnOffsetY;
+editH = bttnH-1;
+editW = 207;
+
+dlgCtrl[0] = "type=edit, no=0, enable=1, show=1, x=editX, y=editY + 0*editOffsetY, w=editW, h=editH, readonly=0, color=BLACK, font=굴림체, bkcolor=WHITE, format=% 9.3f, keypad=1, fontsize=editFontSize, memory=30010, writememory=37900, link2=\\Custom_Screen\\WorkCoord_Set_X.code";
+dlgCtrl[1] = "type=edit, no=1, enable=1, show=1, x=editX, y=editY + 1*editOffsetY, w=editW, h=editH, readonly=0, color=BLACK, font=굴림체, bkcolor=WHITE, format=% 9.3f, keypad=1,fontsize=editFontSize, memory=30011, writememory=37901, link2=\\Custom_Screen\\WorkCoord_Set_Y.code";
+dlgCtrl[2] = "type=edit, no=2, enable=1, show=1, x=editX, y=editY + 2*editOffsetY, w=editW, h=editH, readonly=0, color=BLACK, font=굴림체, bkcolor=WHITE, format=% 9.3f, keypad=1,fontsize=editFontSize, memory=30012, writememory=37902, link2=\\Custom_Screen\\WorkCoord_Set_Z.code";
+
+dlgCtrl[3] = "type=edit, no=3, enable=1, show=1, x=editX, y=editY + 3*editOffsetY, w=editW, h=editH, readonly=0, color=BLACK, bkcolor=0XF0FFF0, font=굴림체, format=% 9.3f, keypad=1, fontsize=editFontSize, memory=30013, writememory=37903, link2=\\Custom_Screen\\WorkCoord_Set_A.code";
+dlgCtrl[4] ="type=edit, no=4, enable=1, show=1, x=editX, y=editY + 4*editOffsetY, w=editW, h=editH, readonly=0, color=BLACK,, bkcolor=0XF0FFF0, font=굴림체, format=% 9.3f, keypad=1, fontsize=editFontSize, memory=30014, writememory=37904, link2=\\Custom_Screen\\WorkCoord_Set_B.code";
+dlgCtrl[5] ="type=edit, no=5, enable=1, show=1, x=editX, y=editY + 5*editOffsetY, w=editW, h=editH, readonly=0, color=BLACK,, bkcolor=0XF0FFF0, font=굴림체, format=% 9.3f, keypad=1, fontsize=editFontSize, memory=30015, writememory=37905, link2=\\Custom_Screen\\WorkCoord_Set_C.code";
+
+dlgCtrl[6] ="type=edit, no=6, enable=1, show=1, x=editX, y=editY + 6*editOffsetY, w=editW, h=editH, readonly=1, color=BLACK, bkcolor=0xD0F0FF, font=굴림체, format=% 9.1f, keypad=0, fontsize=editFontSize, memory=30122";
+dlgCtrl[7] ="type=edit, no=7, enable=1, show=1, x=editX, y=editY + 7*editOffsetY, w=editW, h=editH, readonly=1, color=BLACK, bkcolor=0xD0F0FF, font=굴림체, format=% 9.1f, keypad=0, fontsize=editFontSize, memory=30121";
+
+
+WINC_SET_USER_WINDOW(0, dlgCtrl, 8);
+
+//----------------------------------------
+//피드 오버라이드
+//----------------------------------------
+bttnX = 525;
+bttnY = 495;
+bttnW = 70;
+bttnH = 60;
+bttnFontSize = 18;
+
+// 버튼
+dlgCtrl[0] ="type=button, no=8, mode=1, enable=1, groupid=0, show=1, x=bttnX, y=bttnY ,w=bttnW, h=bttnH, fontsize=bttnFontSize, title=속도\n100%,image=Common_Button.bmp, link=\\Custom_Screen\\Feed_Override_100P.code, round=0, color=BLACK, setvalue=100, writememory=30126, valtype=real ";
+// 슬라이더바
+dlgCtrl[1] = "type=slider, no=2, enable=1, readonly=0, vertical=0, show=1, x=bttnX+bttnW+1, y=bttnY, w=110, h=bttnH, width=45, min=0, max=200,  pos=10, memory=30126, bkcolor=RED, outlinecolor=BLACK,  image=Slider_Bar.gif, link=\\Custom_Screen\\Feed_Override_Update.code";
+// 에디터
+dlgCtrl[2] = "type=edit, no=8, enable=1, show=1, x=bttnX+bttnW+110, y=bttnY, w=85, h=bttnH, readonly=0, color=BLACK, font=굴림체, bkcolor=WHITE, keypad=1, format=%3.0f%%, fontsize=30, memory=30126, writememory=30126, link2=\\Custom_Screen\\Feed_Override_Update.code ";
+
+WINC_SET_USER_WINDOW(0, dlgCtrl, 3);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 3D VIEW 출력 ;
+//
+//--------------------------------------------------------------------------------------------------------
+VAR _3dViewX(320);
+VAR _3dViewY(70);
+VAR _3dViewW(465);
+VAR _3dViewH(325);
+VAR _3dViewbkcolor(0xf0c000);
+VAR _3dViewOption
+VAR _3dViewer;
+VAR _3dViewerTarget;
+VAR _3dViewerUp;
+VAR _3dView;
+
+dlgCtrl[0] = "type=3dview, show=1, no=0, x=_3dViewX, y=_3dViewY, w=_3dViewW, h=_3dViewH, bkcolor=_3dViewbkcolor, title=\"3DView\", color=YELLOW, ";
+
+_3dViewOption	= " 3doption = 1, 3dtool=1, 3ddraft=1, 3dxyplane=0, ";
+_3dViewer 		= " 3dviewer.x=1000, 3dviewer.y=-1000, 3dviewer.z=1000, ";
+_3dViewerTarget = " 3dviewer.tx=100, 3dviewer.ty=100, 3dviewer.tz=0, ";
+_3dViewerUp 	= " 3dviewer.ux=0, 3dviewer.uy=0, 3dvieweruz=1,";
+
+_3dView = "3dview.xmin=-200, 3dview.xmax=200, 3dview.ymin=-1, 3dview.ymax=-1 ";
+
+// 스트링결합
+dlgCtrl[0] = strcat( dlgCtrl[0], _3dViewOption );
+dlgCtrl[0] = strcat( dlgCtrl[0], _3dViewer );
+dlgCtrl[0] = strcat( dlgCtrl[0], _3dViewerTarget );
+dlgCtrl[0] = strcat( dlgCtrl[0], _3dViewerUp );
+dlgCtrl[0] = strcat( dlgCtrl[0], _3dView );
+
+//----------------------------------------
+// 진행 바
+//----------------------------------------
+dlgCtrl[1] = "type=slider, no=1, enable=1, readonly=1, vertical=0, show=1, x=_3dViewX, y=_3dViewY+_3dViewH, w=_3dViewW, h=24, width=30, min=0, max=100,  pos=10, memory=30782, bkcolor=CYAN, outlinecolor=BLACK,  image=Slider_Bar.gif, link=";
+
+//----------------------------------------
+// 윈도우에 전송
+//----------------------------------------
+WINC_SET_USER_WINDOW(0, dlgCtrl, 2);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 진행 시간 표시
+//
+//--------------------------------------------------------------------------------------------------------
+//----------------------------------------
+// 자동1사이클 동작시간
+//----------------------------------------
+VAR timeEditX(800);
+VAR timeEditY(295);
+VAR timeEditOffsetX(65);
+VAR timeEditOffsetY(35);
+VAR timeEditW(60);
+VAR timeEditH(30);
+
+dlgCtrl[0] ="type=edit, no=10, enable=1, readonly=1, show=1, keypad=0, x=timeEditX + 0*timeEditOffsetX, y=timeEditY, w=timeEditW, h=timeEditH, fontsize=24, color=BLACK, format=%2.0f시, memory=30263";
+dlgCtrl[1] ="type=edit, no=11, enable=1, readonly=1, show=1, keypad=0, x=timeEditX + 1*timeEditOffsetX, y=timeEditY, w=timeEditW, h=timeEditH, fontsize=24, color=BLACK, format=%2.0f분, memory=30262";
+dlgCtrl[2] ="type=edit, no=12, enable=1, readonly=1, show=1, keypad=0, x=timeEditX + 2*timeEditOffsetX, y=timeEditY, w=timeEditW, h=timeEditH, fontsize=24, color=BLACK, format=%2.0f초, memory=30261";
+
+//----------------------------------------
+// 전체 동작시간
+//----------------------------------------
+dlgCtrl[3] ="type=edit, no=13, enable=1, readonly=1, show=1, x=timeEditX + 0*timeEditOffsetX, y=timeEditY+timeEditOffsetY,  w=timeEditW, h=timeEditH, fontsize=24, color=BLACK, format=%2.0f시, memory=30273";
+dlgCtrl[4] ="type=edit, no=14, enable=1, readonly=1, show=1, x=timeEditX + 1*timeEditOffsetX, y=timeEditY+timeEditOffsetY,  w=timeEditW, h=timeEditH, fontsize=24, color=BLACK, format=%2.0f분, memory=30272";
+dlgCtrl[5] ="type=edit, no=15, enable=1, readonly=1, show=1, x=timeEditX + 2*timeEditOffsetX, y=timeEditY+timeEditOffsetY,  w=timeEditW, h=timeEditH, fontsize=24, color=BLACK, format=%2.0f초, memory=30271";
+
+//----------------------------------------
+// 윈도우에 전송
+//----------------------------------------
+WINC_SET_USER_WINDOW(0, dlgCtrl, 6);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 선택버튼
+//
+//--------------------------------------------------------------------------------------------------------
+bttnMode	= 1;
+bttnX		= 13;
+bttnY		= 425;
+bttnOffsetX	= 111;
+bttnOffsetY	= 80;
+bttnW		= 110;
+bttnH		= 55;
+bttnR		= 5;
+bttnFontSize= 25;
+
+//----------------------------------------
+// 선택 (F1,F2,F3,F4)
+//----------------------------------------
+dlgCtrl[0] ="type=button, no=20, mode=bttnMode, enable=1, lamp=0, autoblink=0, blink=0, groupid=0, show=1, x=bttnX+0*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, ,fontsize=bttnFontSize, title=F1,image=Common_Button.bmp, blinkimage=Common_Button_Green.bmp, round=0, color = BLACK, link=\\Custom_Screen\\F1_Menu.code";
+
+dlgCtrl[1] ="type=button, no=21, mode=bttnMode, enable=1, lamp=0, autoblink=0, blink=0, groupid=0, show=1, x=bttnX+1*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, ,fontsize=bttnFontSize, title=F2,image=Common_Button.bmp, blinkimage=Common_Button_Green.bmp, round=0, color = BLACK, link=\\Custom_Screen\\F2_Menu.code";
+
+dlgCtrl[2] ="type=button, no=22, mode=bttnMode, enable=1, lamp=0, autoblink=0, blink=0, groupid=0, show=1, x=bttnX+2*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, ,fontsize=bttnFontSize, title=F3,image=Common_Button.bmp, blinkimage=Common_Button_Green.bmp, round=0, color = BLACK, link=\\Custom_Screen\\F3_Menu.code";
+
+dlgCtrl[3] ="type=button, no=23, mode=bttnMode, enable=1, lamp=0, autoblink=0, blink=0, groupid=0, show=1, x=bttnX+3*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, ,fontsize=bttnFontSize, title=F4,image=Common_Button.bmp, blinkimage=Common_Button_Green.bmp, round=0, color = BLACK, link=\\Custom_Screen\\F4_Menu.code";
+
+//----------------------------------------
+// 파일 로딩
+//----------------------------------------
+dlgCtrl[4] ="type=button, no=27, mode=bttnMode, enable=1, groupid=0, show=1, x=bttnX+4*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, title=파일,image=Common_Button.bmp, link=\\Custom_Screen\\File_Load.code, round=0, color=RED, bkcolor=GRAY";
+
+//----------------------------------------
+// 파일  리로딩
+//----------------------------------------
+dlgCtrl[5] ="type=button, no=28, mode=bttnMode, enable=1, groupid=0, show=1, x=bttnX+5*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, title=리로드,image=Common_Button.bmp, link=\\Custom_Screen\\File_Reload.code, round=0, color=RED, bkcolor=GRAY";
+
+//----------------------------------------
+// 공구교환(혹은 커스텀 메뉴)
+//----------------------------------------
+dlgCtrl[6] ="type=button,	no=29, mode=bttnMode, enable=1, groupid=0, show=1, x=bttnX+6*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, title=공구교환,image=Common_Button.bmp, color=BLUE, bkcolor=GRAY, link=\\Custom_Screen\\Tool_Change.code";
+
+//----------------------------------------
+// 제품 카운터
+//----------------------------------------
+// 진행 카운터
+dlgCtrl[7] ="type=edit,		no=20, enable=1, readonly=0, show=1, keypad=1, x=bttnX+7*bttnOffsetX+10, y=bttnY,          w=190, h=bttnH, fontsize=50, color=BLUE, format=% 8.0f, readmemory=30113, writememory=30113, link2=\\Custom_Screen\\Auto_Counter_Update.code";
+
+// 설정 카운터
+dlgCtrl[8] ="type=edit,		no=21, enable=1, readonly=0, show=1, keypad=1, x=bttnX+7*bttnOffsetX+10, y=bttnY-bttnH-1,  w=190, h=bttnH, fontsize=50, color=RED, format=% 8.0f, readmemory=30112, writememory=30112, link2=\\Custom_Screen\\Auto_Counter_Update.code";
+
+//----------------------------------------
+// 윈도우에 각 컨트롤 특성을 보낸다.
+//----------------------------------------
+WINC_SET_USER_WINDOW(0, dlgCtrl, 9);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// MDI기능
+//
+//--------------------------------------------------------------------------------------------------------
+// MDI BUTTON
+dlgCtrl[0] ="type=button,	no=60, enable=1, readonly=0, show=1, x=525, y=560, w=67,h=40, fontsize=24, color=BLACK, title=MDI, link=\\Custom_Screen\\MDI_Exe.code";
+
+// MDI EDIT
+dlgCtrl[1] ="type=edit,		no=30, enable=1, readonly=0, show=1, x=593, y=560, w=395,h=40, fontsize=32, color=WHITE, bkcolor=BLUE, format=%s, readmemory=39900, writememory=39900, link2=\\Custom_Screen\\MDI_Exe.code";
+
+WINC_SET_USER_WINDOW(0, dlgCtrl, 2);
+
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 기타 주변장치 기능 (버튼)
+//
+//--------------------------------------------------------------------------------------------------------
+bttnX		= 13;
+bttnY		= 490;
+bttnOffsetX	= 85;
+bttnOffsetY	= 100;
+bttnW		= 80;
+bttnH		= 110;
+bttnR		= 25;
+bttnFontSize= 20;
+
+bttnColor 		= BLACK;
+bttnBkColor 	= 0xa0a0f0;
+bttnHovColor 	= 0xa0a0f0; //YELLOW;
+bttnSelColor 	= YELLOW;
+bttnDisColor 	= GRAY;
+bttnSelTextColor= RED;
+
+bttn2Color 		= BLACK;
+bttn2BkColor 	= 0xa0ffa0;
+bttn2HovColor 	= 0xa0ffa0; //YELLOW;
+bttn2SelColor 	= YELLOW;
+bttn2DisColor 	= GRAY;
+bttn2SelTextColor= RED;
+
+//----------------------------------------
+// 스핀들 버튼만들기
+//----------------------------------------
+dlgCtrl[0] ="type=button, no=30, title=스핀들\nON, 		mode=0, lamp=1, enable=1, show=1, round=bttnR, color =bttnColor,  bkcolor=bttnBkColor,  hovcolor=bttnHovColor,  selcolor=bttnSelColor,  seltextcolor=bttnSelTextColor,  outline=1, outlinecolor=BLACK, x=bttnX+0*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, image=Common_Button.bmp, readmemory=31800, link=\\Custom_Screen\\Spindle_On.code";
+
+dlgCtrl[1] ="type=button, no=31, title=스핀들\nOFF, 	mode=0, lamp=0, enable=1, show=1, round=bttnR, color =bttn2Color, bkcolor=bttn2BkColor, hovcolor=bttn2HovColor, selcolor=bttn2BkColor, seltextcolor=bttn2SelTextColor, outline=1, outlinecolor=BLACK, x=bttnX+1*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, image=Common_Button.bmp, readmemory=31800, link=\\Custom_Screen\\Spindle_Off.code";
+
+//----------------------------------------
+// 절삭유 버튼만들기
+//----------------------------------------
+dlgCtrl[2] ="type=button, no=32, title=절삭유\nON, 	mode=0, lamp=1, enable=1, show=1, round=bttnR, color =bttnColor,  bkcolor=bttnBkColor,  hovcolor=bttnHovColor,  selcolor=bttnSelColor,  seltextcolor=bttnSelTextColor,  outline=1, outlinecolor=BLACK, x=bttnX+2*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, image=Common_Button.bmp, readmemory=31803, link=\\Custom_Screen\\Coolant_On.code";
+
+dlgCtrl[3] ="type=button, no=33, title=절삭유\nOFF, mode=0, lamp=0, enable=1, show=1, round=bttnR, color =bttn2Color, bkcolor=bttn2BkColor, hovcolor=bttn2HovColor, selcolor=bttn2SelColor, seltextcolor=bttn2SelTextColor, outline=1, outlinecolor=BLACK, x=bttnX+3*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, image=Common_Button.bmp, readmemory=31803, link=\\Custom_Screen\\Coolant_Off.code";
+
+//----------------------------------------
+// 클램프 버튼만들기
+//----------------------------------------
+dlgCtrl[4] ="type=button, no=34, title=클램프\nON, 	mode=0, lamp=1, enable=1, show=1, round=bttnR, color =bttnColor,  bkcolor=bttnBkColor,  hovcolor=bttnHovColor,  selcolor=bttnSelColor,  seltextcolor=bttnSelTextColor,  outline=1, outlinecolor=BLACK, x=bttnX+4*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, image=Common_Button.bmp, readmemory=31804, link=\\Custom_Screen\\Clamp_On.code";
+
+dlgCtrl[5] ="type=button, no=35, title=클램프\nOFF, 	mode=0, lamp=0, enable=1, show=1, round=bttnR, color =bttn2Color, bkcolor=bttn2BkColor, hovcolor=bttn2HovColor, selcolor=bttn2BkColor, seltextcolor=bttn2SelTextColor, outline=1, outlinecolor=BLACK, x=bttnX+5*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, fontsize=bttnFontSize, image=Common_Button.bmp, readmemory=31804, link=\\Custom_Screen\\Clamp_Off.code";
+
+WINC_SET_USER_WINDOW(0, dlgCtrl, 6);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 구성설정 및 기타 기능
+//
+//--------------------------------------------------------------------------------------------------------
+bttnColor		= BLACK;
+bttnBkColor		= 0xc0f0f0;
+bttnHovColor	= YELLOW;
+bttnSelColor	= YELLOW;
+bttnDisColor	= YELLOW;
+bttnFontSize = 18;
+
+// 워크테이블
+dlgCtrl[0] ="type=button, no=50, title=워크테이블, mode=0, lamp=0, enable=1, show=1, round=10, color =bttnColor,  bkcolor=bttnBkColor,  hovcolor=bttnHovColor,  selcolor=bttnSelColor,  seltextcolor=bttnSelTextColor,  outline=1, outlinecolor=BLACK, x=800, y=485, w=94, h=35, fontsize=bttnFontSize, image=Common_Button.bmp, link=\\Custom_Screen\\Table_WorkCoord.code";
+
+// 툴테이블
+dlgCtrl[1] ="type=button, no=51, title=툴테이블, mode=0, lamp=0, enable=1, show=1, round=10, color =bttnColor,  bkcolor=bttnBkColor,  hovcolor=bttnHovColor,  selcolor=bttnSelColor,  seltextcolor=bttnSelTextColor,  outline=1, outlinecolor=BLACK, x=800, y=522, w=94, h=35, fontsize=bttnFontSize, image=Common_Button.bmp, link=\\Custom_Screen\\Table_Tool.code";
+
+// 구성저장
+dlgCtrl[2] ="type=button, no=52, title=구성저장, mode=0, lamp=0, enable=1, show=1, round=10, color =bttnColor,  bkcolor=bttnBkColor,  hovcolor=bttnHovColor,  selcolor=bttnSelColor,  seltextcolor=bttnSelTextColor,  outline=1, outlinecolor=BLACK, x=896, y=485, w=94, h=35, fontsize=bttnFontSize, image=Common_Button.bmp, link=\\Custom_Screen\\Config_Save.code";
+
+// 설정화면
+dlgCtrl[3] ="type=button, no=53, title=설정화면, mode=0, lamp=0, enable=1, show=1, round=10, color =bttnColor,  bkcolor=bttnBkColor,  hovcolor=bttnHovColor,  selcolor=bttnSelColor,  seltextcolor=bttnSelTextColor,  outline=1, outlinecolor=BLACK, x=896, y=522, w=94, h=35, fontsize=bttnFontSize, image=Common_Button.bmp, link=\\Custom_Screen\\Config_Enter.code";
+WINC_SET_USER_WINDOW(0, dlgCtrl, 4);
+
+return (0);

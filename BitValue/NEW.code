@@ -1,0 +1,98 @@
+//--------------------------------------------------------------------------------------------------------
+//
+// 칼라코드 변수 선언
+//
+//--------------------------------------------------------------------------------------------------------
+VAR WHITE   (0xffffff);
+VAR RED     (0x0000ff);
+VAR GREEN   (0x00ff00);
+VAR BLUE    (0xff0000);
+VAR CYAN    (0xffff00);
+VAR YELLOW  (0x00ffff);
+VAR BLACK   (0x000000);
+VAR GRAY    (0XE0E0E0);
+
+/*----------------------------------------------------
+	
+		PLC운용 시작 처리부 (항상 필요한 부분)
+	
+----------------------------------------------------*/
+//-----------------------------------------------
+// 화면을 그리는 기본적인 메시지변수 선언
+//-----------------------------------------------
+VAR  maindlg, dlgMssg[100](0);
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 커스텀 화면 전체 클리어
+//
+//--------------------------------------------------------------------------------------------------------
+dlgMssg[0] = "type=all, clear=1";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//-----------------------------------------------
+// 스위치 벨
+//-----------------------------------------------
+VAR bellHz(3000);
+
+//-----------------------------------------------
+//
+// 화면을 위치, 색 지정들을 위한 몇가지 변수지정
+//
+//-----------------------------------------------
+VAR bttnMode(0);        // 버튼모드 : 일반 버튼 = 0, 이미지버튼 = 1
+VAR bttnX;              // 버튼 (초기)위치 X
+VAR bttnY;              // 버튼 (초기)위치 Y
+VAR bttnOffsetX;        // 버튼 배열 X옵셋
+VAR bttnOffsetY;        // 버튼 배열 Y옵셋
+VAR bttnW;              // 버튼 너비 W
+VAR bttnH;              // 버튼 높이 H
+VAR bttnR;              // 버튼 라운드 R
+VAR bttnFontSize(25);   // 버튼 폰트사이즈
+
+// 버튼의 칼라속성
+VAR bttnColor,  bttnBkColor,    bttnHovColor,   bttnSelColor,   bttnSelTextColor,   bttnDisColor;
+VAR bttn2Color, bttn2BkColor,   bttn2HovColor,  bttn2SelColor,  bttn2SelTextColor,  bttn2DisColor;
+
+// 버튼 칼라지정
+bttnColor           = BLACK;    // 텍스트 및 일반칼라
+bttnSelTextColor    = RED;      // 선택되었을 때 텍스트 칼라
+bttnBkColor         = GRAY;     // 기본 배경칼라 (이미지 버튼의 경우 의미없음)
+bttnHovColor        = CYAN;     // 마우스포인터 올려질 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnSelColor        = CYAN;     // 선택되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnDisColor        = GRAY;     // 비활성화 되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+
+
+/*---------------------
+G코드 리치에디터
+---------------------*/
+VAR pathname;
+// 윈도우 생성
+dlgMssg[0] = "type=frame, enable=1, jogkey=1, show=1, redraw=1, mode=0, float=1,\~ // 기본설정
+x=200,y=200,w=400,h=420, \~ // 윈도우 위치 및 크기 설정
+title=리치에디터를 이용한 G코드파일열기 예제, \~ // 윈도우 타이틀 설정
+bkcolor=WHITE, \~
+image=-1, \~
+";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+/*---------------------
+파일열기 버튼
+---------------------*/
+dlgMssg[0] = "type=button, no=0, enable=1, show=1, mode=0, \~
+lamp=0, x=10, y=10, w=80, h=25, \~
+title=파일열기, fontsize=16, color=WHITE, bkcolor=RED, \~
+beep=2000.0, beeptime=0.2, \~
+link=CommonCode\\File_Load.code,";
+WINC_SET_USER_WINDOW(1, dlgMssg,1);
+
+//-----------------------------------------------
+// 커스텀 화면 프레임을 그린다.
+//-----------------------------------------------
+dlgMssg[0] = "type=frame, enable=1, jogkey=1, show=1, redraw=1, float=0, \~
+        x=0, y=0, w=780, h=463, resize = 1,\~
+       image=BitValueImage\\Back2.bmp, \~
+        ";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+return (0);
+

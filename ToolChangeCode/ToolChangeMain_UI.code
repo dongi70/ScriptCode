@@ -1,0 +1,474 @@
+//-----------------------------------------------
+//
+// 칼라코드 변수 선언
+//
+//-----------------------------------------------
+VAR WHITE	(0xffffff);
+VAR RED		(0x0000ff);
+VAR GREEN	(0x00ff00);
+VAR BLUE	(0xff0000);
+VAR CYAN	(0xffff00);
+VAR YELLOW	(0x00ffff);
+VAR BLACK	(0x000000);
+VAR GRAY	(0XE0E0E0);
+
+
+//-----------------------------------------------
+// 화면을 그리는 기본적인 메시지변수 선언
+//-----------------------------------------------
+VAR  dlgMssg[10](0);
+
+//#################################################
+//
+// 공구 리스트
+// 
+//#################################################
+	
+VAR BttnX,BttnY,BttnW,BttnH,BttnOffsetX, BttnOffsetY, BttnRound;
+VAR BttnColor, BttnBkColor, BttnLineColor, BttnSelColor, BttnSelTextColor;
+
+BttnX=42;
+BttnY=76;
+BttnW=50;
+BttnH=45;
+BttnOffsetX=0;
+BttnOffsetY=50;
+BttnRound = 15;
+
+BttnColor = BLACK;
+BttnBkColor = 0XF0F0A0;
+BttnLineColor = BLACK;
+BttnSelColor = WHITE;
+BttnSelTextColor = BLACK;
+
+VAR EditX,EditY,EditW,EditH,EditOffsetX, EditOffsetY, EditRound;
+VAR EditColor, EditBkColor, EditLineColor, EditSelColor, EditSelTextColor;
+
+VAR i;
+VAR ToolMax;
+ToolMax=7;
+i=0;
+while(i<ToolMax)
+{
+	/*------------------------------
+	//
+	// 공구 목록 번호 버튼
+	//
+	//-----------------------------*/
+	VAR mssg[20];
+	mssg[0] = sprintf_int( "type=button, no=%ld, enable=1, show=1, mode=0, groupid=1, radio=1, readonly=0, lamp=1, ", i);
+	mssg[1] = sprintf_int( "x=BttnX + 0*BttnOffsetX, y=%ld, w=BttnW, h=BttnH, round=BttnRound,", BttnY+i*BttnOffsetY);
+	mssg[2] = sprintf_int( "valtype=real, memory=33000, writememory=33000, setvalue=%ld, ", i+1);
+	mssg[3] = sprintf_int( "title=%ld, fontsize=22, autoblink=1, blink=0.25, ", i+1);
+	mssg[5] = "\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, "
+	dlgMssg[0] = mssg[0];
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[1]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[2]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[3]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[5]);
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	/*------------------------------
+	//
+	// 공구 목록 이름
+	//
+	//-----------------------------*/
+	EditX=97;
+	EditY=80;
+	EditW=90;
+	EditH=36;
+	EditOffsetX=0;
+	EditOffsetY=50;
+	EditRound = 15;
+	
+	EditColor = BLACK;
+	EditBkColor = 0X0f0c0f0;
+	EditLineColor = BLACK;
+	EditSelColor = YELLOW;
+	EditSelTextColor = BLACK;
+	
+	mssg[0] = sprintf_int( "type=edit, no=%ld, enable=1, show=1, readonly=1, ", i);
+	mssg[1] = sprintf_int( "x=EditX + 0*EditOffsetX, y=%ld, w=EditW, h=EditH,", EditY+i*EditOffsetY);
+	mssg[2] = sprintf_int( "unicode=1, memory=%ld,  ", (35600+4*i) );
+	mssg[5] = "\~
+		format=%s,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		textselcolor=EditTextColor, fontsize=22 "
+	dlgMssg[0] = mssg[0];
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[1]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[2]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[5]);
+	
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	/*------------------------------
+	//
+	// 공구 목록 길이
+	//
+	//-----------------------------*/
+	EditX=EditX+EditW+5;
+	EditY=80;
+	EditW=100;
+	EditH=36;
+	EditOffsetX=0;
+	EditOffsetY=50;
+	EditRound = 15;
+	
+	EditColor = BLACK;
+	EditBkColor = 0Xe0f0f0;
+	EditLineColor = BLACK;
+	EditSelColor = YELLOW;
+	EditSelTextColor = BLACK;
+	
+	mssg[0] = sprintf_int( "type=edit, no=%ld, enable=1, show=1, readonly=1,", i+ToolMax);
+	mssg[1] = sprintf_int( "x=EditX + 0*EditOffsetX, y=%ld, w=EditW, h=EditH,", EditY+i*EditOffsetY);
+	mssg[2] = sprintf_int( " memory=%ld,", (33300+i) );
+	mssg[5] = "\~
+		format=H:%7.3lf,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		textselcolor=EditTextColor, fontsize=22 "
+	dlgMssg[0] = mssg[0];
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[1]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[2]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[5]);
+	
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	/*------------------------------
+	//
+	// 공구 목록 길이마모
+	//
+	//-----------------------------*/
+	EditX=EditX+EditW+5;
+	EditY=80;
+	EditW=100;
+	EditH=36;
+	EditOffsetX=0;
+	EditOffsetY=50;
+	EditRound = 15;
+	
+	EditColor = BLACK;
+	EditBkColor = 0Xf0f0e0;
+	EditLineColor = BLACK;
+	EditSelColor = YELLOW;
+	EditSelTextColor = BLACK;
+	
+	mssg[0] = sprintf_int( "type=edit, no=%ld, enable=1, show=1, readonly=1,", i+2*ToolMax);
+	mssg[1] = sprintf_int( "x=EditX + 0*EditOffsetX, y=%ld, w=EditW, h=EditH,", EditY+i*EditOffsetY);
+	mssg[2] = sprintf_int( " memory=%ld,", (33400+i) );
+	mssg[5] = "\~
+		format=W:%7.3lf,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		textselcolor=EditTextColor, fontsize=22 "
+	dlgMssg[0] = mssg[0];
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[1]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[2]);
+	dlgMssg[0] = strcat(dlgMssg[0], mssg[5]);
+	
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	i=i+1;
+}
+
+//#################################################
+//
+// 공구 교환 작업
+// 
+//#################################################
+
+/*------------------------------
+//
+// 현재 공구 
+//
+//-----------------------------*/
+{
+	BttnX=450;
+	BttnY=70;
+	BttnW=130;
+	BttnH=56;
+	BttnOffsetX=0;
+	BttnOffsetY=50;
+	BttnRound = 15;
+	
+	BttnColor = BLACK;
+	BttnBkColor = 0xf0f0f0;
+	BttnLineColor = BLACK;
+	BttnSelColor = 0xF0F000;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=30, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=현재공구, fontsize=22, \~
+		valtype=real, memory=39807, autoblink=1, blink=0.25, link=-1";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+	
+	EditX=BttnX+BttnW+5;
+	EditY=BttnY;
+	EditW=73;
+	EditH=BttnH;
+	EditOffsetX=0;
+	EditOffsetY=50;
+	EditRound = 15;
+	
+	EditColor = BLACK;
+	EditBkColor = GREEN;
+	EditLineColor = BLACK;
+	EditSelColor = YELLOW;
+	EditSelTextColor = BLACK;
+	
+	dlgMssg[0] =  "\~
+		type=edit, no=30, enable=1, show=1, keypad=1, readonly=0,\~
+		x=EditX + 0*EditOffsetX, y=EditY, w=EditW, h=EditH,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%2.0lf, memory=33000, writememory=33000,\~
+		textselcolor=EditTextColor, fontsize=42 "
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+	
+}
+
+
+/*------------------------------
+//
+// 교환 공구 
+//
+//-----------------------------*/
+{
+	BttnX=450;
+	BttnY=BttnY+BttnH+5;
+	BttnW=130;
+	BttnH=BttnH;
+	BttnOffsetX=0;
+	BttnOffsetY=50;
+	BttnRound = 15;
+	
+	BttnColor = BLACK;
+	BttnBkColor = 0xf0f0f0;
+	BttnLineColor = BLACK;
+	BttnSelColor = 0xF0F000;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=31, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=교환공구, fontsize=22, \~
+		valtype=real, memory=39808, autoblink=1, blink=0.25, link=-1";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+	
+	EditX=BttnX+BttnW+5;
+	EditY=BttnY;
+	EditW=73;
+	EditH=BttnH;
+	EditOffsetX=0;
+	EditOffsetY=50;
+	EditRound = 15;
+	
+	EditColor = WHITE;
+	EditBkColor = RED;
+	EditLineColor = BLACK;
+	EditSelColor = YELLOW;
+	EditSelTextColor = BLACK;
+	
+	dlgMssg[0] =  "\~
+		type=edit, no=31, enable=1, show=1, keypad=1, readonly=0,\~
+		x=EditX + 0*EditOffsetX, y=EditY, w=EditW, h=EditH,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%2.0lf, memory=39806, writememory=39806,\~
+		textselcolor=EditTextColor, fontsize=42 "
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+	
+}
+
+
+/*------------------------------
+//
+// 공구 측정
+//
+//-----------------------------*/
+{
+	BttnX=450;
+	BttnY=BttnY+BttnH+5;
+	BttnW=207;
+	BttnH=BttnH;
+	BttnOffsetX=0;
+	BttnOffsetY=50;
+	BttnRound = 15;
+	
+	BttnColor = BLACK;
+	BttnBkColor = 0xF0F0F0;
+	BttnLineColor = BLACK;
+	BttnSelColor = 0xF0F000;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=32, enable=1, show=1, mode=0, groupid=0, lamp=1,\~
+		x=BttnX , y=BttnY, w=BttnW-20, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=공구 측정, fontsize=22,\~
+		valtype=real, memory=39954, autoblink=1, blink=0.25, link=\\ToolChangeCode\\Tool_Calibration.code";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	BttnColor = BLACK;
+	BttnBkColor = 0XA0FFA0;
+	BttnLineColor = BLACK;
+	BttnSelColor = 0XFFA0FF;
+	BttnSelTextColor = WHITE;
+
+	dlgMssg[0] = "\~
+		type=button, no=33, enable=1, show=1, mode=0, groupid=0, lamp=1, readonly=1, \~
+		x=BttnX+BttnW-15 , y=BttnY, w=15, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=x, seltitle=O, fontsize=22,\~
+		valtype=real, memory=31900, link=-1";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+/*------------------------------
+//
+// 자동 공구 교환
+//
+//-----------------------------*/
+{
+	BttnX=450;
+	BttnY=BttnY+BttnH+5;
+	BttnW=207;
+	BttnH=BttnH;
+	BttnOffsetX=0;
+	BttnOffsetY=50;
+	BttnRound = 15;
+	
+	BttnColor = BLACK;
+	BttnBkColor = 0xF0F0F0;
+	BttnLineColor = BLACK;
+	BttnSelColor = YELLOW;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=34, enable=1, show=1, mode=0, groupid=0, lamp=1, \~
+		x=BttnX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=자동 공구 교환, fontsize=22,\~
+		valtype=real, memory=39804, autoblink=0, blink=0, link=\\ToolChangeCode\\Tool_Change.code, ";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+/*------------------------------
+//
+// 자동 공구 복귀
+//
+//-----------------------------*/
+{
+	BttnX=450;
+	BttnY=BttnY+BttnH+5;
+	BttnW=207;
+	BttnH=BttnH;
+	BttnOffsetX=0;
+	BttnOffsetY=50;
+	BttnRound = 15;
+	
+	BttnColor = BLACK;
+	BttnBkColor = 0xF0F0F0;
+	BttnLineColor = BLACK;
+	BttnSelColor = YELLOW;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=35, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=자동 공구 복귀, fontsize=22, memory=-1, link=\\ToolChangeCode\\Tool_Return.code, ";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+
+/*------------------------------
+//
+// 수동 공구 탈착
+//
+//-----------------------------*/
+{
+	BttnX=450;
+	BttnY=BttnY+BttnH+5;
+	BttnW=100;
+	BttnH=BttnH;
+	BttnOffsetX=0;
+	BttnOffsetY=50;
+	BttnRound = 15;
+	
+	BttnColor = BLACK;
+	BttnBkColor = 0XC0FFC0;
+	BttnLineColor = BLACK;
+	BttnSelColor = YELLOW;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=36, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=공구고정, fontsize=22, memory=-1, link=\\ToolChangeCode\\Tool_On.code";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	BttnX=450+BttnW+7;
+	BttnY=BttnY;
+	BttnW=100;
+	BttnH=BttnH;
+	BttnOffsetX=0;
+	BttnOffsetY=50;
+	BttnRound = 15;
+	
+	BttnColor = WHITE;
+	BttnBkColor = 0X6080FF;
+	BttnLineColor = BLACK;
+	BttnSelColor = YELLOW;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=37, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=공구해제, fontsize=22, memory=-1, link=\\ToolChangeCode\\Tool_Off.code";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+
+
+//#################################################
+//
+// 커스텀 화면 프레임을 그린다.
+//
+//#################################################
+dlgMssg[0] = \~
+	"type=frame, enable=1, jogkey=1, show=1, redraw=1, mode = 0, float=1,\~
+	x=50, y=50, w=700, h=500, title=공구 관리 위저드,\~
+	resize = 1, image=ToolChange_Main_01.png, imagex=0,imagey=0, imagew=700,imageh=500";
+
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+return(0);
+	
+	

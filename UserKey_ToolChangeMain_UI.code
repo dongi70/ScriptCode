@@ -1,0 +1,16 @@
+
+{
+	/*-----------------------------------------------
+	
+		화면 전체 클리어
+
+	-----------------------------------------------*/
+	VAR  dlgMssg[10](0);
+	dlgMssg[0] = "type=all, clear=1, show=0";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+// 공구교환 화면을 호출한다. 
+call("\\ToolChangeCode\\ToolChangeMain_UI.code");
+
+return(0);

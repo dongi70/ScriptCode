@@ -1,0 +1,3 @@
+
+// 면치기 위저드실행
+call("\\WizardCode\\Wizard_FaceCut\\FaceCut_UI.code");
