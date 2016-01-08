@@ -96,12 +96,41 @@ dlgMssg[1] ="type=button, no=2, mode=1, enable=1, show=1, \~
     color=BLACK, \~
     fontsize=bttnFontSize, title=Load Complete, \~
     image=Common_Button.bmp, \~
+<<<<<<< HEAD
 	memory=38054,writememory=38054, valtype=int, setvalue =1, \~
+=======
+	memory=38052,writememory=38052, valtype=int, setvalue =1, \~
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
     link=\\BitValue\\OpCode\\Proc_Finishing.code, 	\~
 	";
 
 WINC_SET_USER_WINDOW(1, dlgMssg, 2);
 
+<<<<<<< HEAD
+=======
+if(0)
+{
+	VAR Complete;
+	
+	Complete = WINC_GET_DATA_INT(38052);
+	
+	if(Complete == 1)
+	{
+		messagebox(0,1,"  COVER CLOSE \n ","");
+	//	PRINTF "1111";
+		WINC_PUT_DATA_INT(38052,0);
+	}
+}	
+
+if(0)
+{
+	WINC_HOME(1); 		// X 축
+	
+
+}
+
+
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
 //-----------------------------------------------
 // 커스텀 화면 프레임을 그린다.
 //-----------------------------------------------
