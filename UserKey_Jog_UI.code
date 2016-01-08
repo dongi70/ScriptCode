@@ -1,0 +1,252 @@
+
+/*
+ JogMasterOpMode 값에 따라 각각 아래와 같이 반복동작합니다.
+ 
+ 0 모드 : (JOG ALL OFF) -> (JOG and MPG)	
+ 1 모드 : (JOG ALL OFF) -> (JOYSTICK and MPG)	
+ 2 모드 : (JOG ALL OFF) -> (JOG)
+ 3 모드 : (JOG ALL OFF) -> (MPG)
+ 4 모드 : (JOG ALL OFF) -> (JOYSTICK)
+ 5 모드 : (JOG ALL OFF) -> (JOG) 	-> (MPG)
+ 6 모드 : (JOG ALL OFF) -> (JOYSTICK) 	-> (MPG)
+ 7 모드 : (JOG ALL OFF) -> (JOG) 	-> (MPG) -> (JOYSTICK)
+*/
+
+// 조그 UI마스터 디스에이블
+//if( !#30157 ) { return (0); }
+
+// 조그동작 모드
+VAR JogMasterOpMode:#30816;
+
+// 현재 조그주동작 방식 설정
+JogMasterOpMode=0; // 조그, MPG연동모드
+
+// 조그동작 모드 정의
+VAR JOGMODE_JOGMPG(0);
+VAR JOGMODE_JSTMPG(1);
+VAR JOGMODE_JOG(2);
+VAR	JOGMODE_MPG(3);
+VAR	JOGMODE_JST(4);
+VAR JOGMODE_JOG_MPG(5);
+VAR JOGMODE_JST_MPG(6);
+VAR JOGMODE_JOG_MPG_JST(7);
+
+// 다양한 조그관련 시스템 데이터영역을 변수로 맵핑
+VAR JogEnableLamp;
+VAR EnableJog:#30152;
+VAR EnableMpg:#30153;
+VAR EnableJoyStick:#30158;
+
+VAR JogMainSpeed:#30803;
+VAR saveJogMainSpeed:#37920;
+VAR curJogOpMode:#37921;
+
+// 현재 조그동작상태 정의
+VAR JOGSTATE_OFF(0);
+VAR JOGSTATE_JOGMPG(1), JOGSTATE_JSTMPG(2);
+VAR JOGSTATE_JOG(2), JOGSTATE_MPG(3), JOGSTATE_JST(4);
+
+// 조이스틱 #1 ENABLE 
+VAR JOYSTIC1_ENABLE:#31500;
+if( JogMasterOpMode == 1 || JogMasterOpMode == 4 || JogMasterOpMode == 6 )
+{
+	JOYSTIC1_ENABLE = 1;
+}
+else
+{
+	JOYSTIC1_ENABLE = 0;
+}
+
+// 조그동작 ENABE상태얻기
+JogEnableLamp = WINC_GET_DATA_BOOL(30800);
+
+if( JogEnableLamp )
+{
+	if( JogMasterOpMode == JOGMODE_JOGMPG || JogMasterOpMode == JOGMODE_JSTMPG || JogMasterOpMode == JOGMODE_JOG || JogMasterOpMode == JOGMODE_MPG || JogMasterOpMode == JOGMODE_JST)
+	{
+		// 조그 Enable스위치off
+		WINC_PUT_DATA_BOOL(30815, 0);
+		
+		// 조그 스피드 저장
+		saveJogMainSpeed = JogMainSpeed;
+
+		// 모든축은 메인 스피드오버라이딩에 영향받도록 설정
+		WINC_JOG_MAIN_SPEED_AXIS(0xff);	
+
+		// 초기설정
+		WINC_JOG_SPEED(saveJogMainSpeed);
+
+		// 조이스틱 OFF
+		JOYSTIC1_ENABLE = 0;
+
+		curJogOpMode = JOGSTATE_OFF;
+	}
+	else if( JogMasterOpMode == JOGMODE_JOG_MPG )
+	{
+		if( curJogOpMode == JOGSTATE_JOG )
+		{
+			curJogOpMode = JOGSTATE_MPG;
+			EnableJog=0;
+			EnableMpg=1;
+			EnableJoyStick=0;
+			WINC_JOG_MAIN_SPEED_AXIS(0xff);
+			saveJogMainSpeed = JogMainSpeed;
+			WINC_JOG_MODE(0);
+		}
+		else //if( curJogOpMode == JOGSTATE_MPG )
+		{
+			// 조그 Enable스위치off
+			WINC_PUT_DATA_BOOL(30815, 0);
+
+			WINC_JOG_MAIN_SPEED_AXIS(0xff);
+			WINC_JOG_SPEED(saveJogMainSpeed);
+
+			// 조이스틱 OFF
+			JOYSTIC1_ENABLE = 0;
+
+			curJogOpMode = JOGSTATE_OFF;
+		}
+	}
+	else if( JogMasterOpMode == JOGMODE_JST_MPG )
+	{
+		if( curJogOpMode == JOGSTATE_JST )
+		{
+			curJogOpMode = JOGSTATE_MPG;
+			EnableJog=0;
+			EnableMpg=1;
+			EnableJoyStick=0;
+			WINC_JOG_MAIN_SPEED_AXIS(0xff);
+			WINC_JOG_MODE(0);
+		}
+		else
+		{
+			// 조그 Enable스위치off
+			WINC_PUT_DATA_BOOL(30815, 0);
+
+			WINC_JOG_MAIN_SPEED_AXIS(0xff);
+			WINC_JOG_SPEED(saveJogMainSpeed);
+
+			// 조이스틱 OFF
+			JOYSTIC1_ENABLE = 0;
+
+			curJogOpMode = JOGSTATE_OFF;
+		}
+	}
+	else if( JogMasterOpMode == JOGMODE_JOG_MPG_JST )
+	{
+		if( curJogOpMode == JOGSTATE_JOG )
+		{
+			curJogOpMode = JOGSTATE_MPG;
+			EnableJog=0;
+			EnableMpg=1;
+			EnableJoyStick=0;
+			WINC_JOG_MAIN_SPEED_AXIS(0xff);
+			WINC_JOG_MODE(0);
+			saveJogMainSpeed = JogMainSpeed;
+		}
+		else if( curJogOpMode == JOGSTATE_MPG )
+		{
+			curJogOpMode = JOGSTATE_JST;
+			EnableJog=0;
+			EnableMpg=0;
+			EnableJoyStick=1;
+
+			// 조이스틱 ON
+			JOYSTIC1_ENABLE = 1;
+
+			WINC_JOG_MODE(1);
+		}
+		else
+		{
+			// 조그 Enable스위치off
+			WINC_PUT_DATA_BOOL(30815, 0);
+
+			WINC_JOG_MAIN_SPEED_AXIS(0xff);
+			WINC_JOG_SPEED(saveJogMainSpeed);
+
+			// 조이스틱 OFF
+			JOYSTIC1_ENABLE = 0;
+
+			curJogOpMode = JOGSTATE_OFF;
+		}
+	}
+	else
+	{
+		// 조그 Enable스위치off
+		WINC_PUT_DATA_BOOL(30815, 0);
+	
+		WINC_JOG_MAIN_SPEED_AXIS(0xff);
+		WINC_JOG_SPEED(saveJogMainSpeed);
+
+		// 조이스틱 OFF
+		JOYSTIC1_ENABLE = 0;
+
+		curJogOpMode = JOGSTATE_OFF;
+
+	}
+}
+else
+{
+	// 조그 Enable 스위치 on
+	WINC_PUT_DATA_BOOL(30815, 1);
+
+	if( JogMasterOpMode == JOGMODE_JOGMPG )
+	{
+		curJogOpMode = JOGSTATE_JOGMPG;
+		EnableJog=1;
+		EnableMpg=1;
+		EnableJoyStick=0;
+		WINC_JOG_MAIN_SPEED_AXIS(0xff);
+		WINC_JOG_SPEED(saveJogMainSpeed);
+		WINC_JOG_MODE(1);
+	}
+	else if( JogMasterOpMode == JOGMODE_JSTMPG )
+	{
+		curJogOpMode = JOGSTATE_JSTMPG;
+		EnableJog=1;
+		EnableMpg=1;
+		EnableJoyStick=1;
+
+		//조그속도재설정
+		WINC_JOG_SPEED(saveJogMainSpeed);
+
+		// 조이스틱 ON
+		JOYSTIC1_ENABLE = 1;
+
+		WINC_JOG_MODE(0);
+	}
+	else if( JogMasterOpMode == JOGMODE_JOG || JogMasterOpMode == JOGMODE_JOG_MPG || JogMasterOpMode == JOGMODE_JOG_MPG_JST)
+	{
+		curJogOpMode = JOGSTATE_JOG;
+		EnableJog=1;
+		EnableMpg=0;
+		EnableJoyStick=0;
+		WINC_JOG_MAIN_SPEED_AXIS(0xff);
+		WINC_JOG_SPEED(saveJogMainSpeed);
+		WINC_JOG_MODE(1);
+	}
+
+	else if( JogMasterOpMode == JOGMODE_JST  || JogMasterOpMode == JOGMODE_JST_MPG )
+	{
+		curJogOpMode = JOGSTATE_JOG;
+		EnableJog=0;
+		EnableMpg=0;
+		EnableJoyStick=1;
+
+		// 조이스틱 ON
+		JOYSTIC1_ENABLE = 1;
+
+		WINC_JOG_MODE(1);
+	}
+	else 
+	{
+		JogMasterOpMode == JOGMODE_JOGMPG;
+		curJogOpMode = JOGSTATE_JOGMPG;
+		EnableJog=1;
+		EnableMpg=1;
+		EnableJoyStick=0;
+		WINC_JOG_MAIN_SPEED_AXIS(0xff);
+		WINC_JOG_SPEED(saveJogMainSpeed);
+		WINC_JOG_MODE(0);
+	}
+}

@@ -1,0 +1,8 @@
+	
+	// MDI 명령문자열을 얻는다.
+	VAR mdi_cmd;
+	mdi_cmd = WINC_GET_DATA_STR(39900); 
+	
+	// MDI를 실행한다.
+	WINC_RUN_NCSTR(mdi_cmd);
+

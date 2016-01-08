@@ -1,0 +1,2 @@
+WINC_LOAD_FILE_FROM_TABLE(0);
+return (0);

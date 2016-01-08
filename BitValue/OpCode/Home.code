@@ -2,6 +2,10 @@
 // 모터 ON
 call("\\BitValue\\AllMotorOn.code");
 
+WINC_PUT_DATA_REAL(30450,0);
+
+WINC_PUT_DATA_INT(38050,200);
+WINC_PUT_DATA_INT(38052,200);
 WINC_RUN_NCCODE("\\BitValue\\OpCode\\Home.nc");
 //WINC_SET_GIO(6);
 //WINC_ENTER_IMCMD(); // 즉시실행명령 시작

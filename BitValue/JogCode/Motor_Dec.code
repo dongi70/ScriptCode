@@ -6,7 +6,7 @@ if(1)
 	Memory_Dec = Memory_Value - 50;
 	if(Memory_Value == 50)
 	{
-		messagebox(0,0," Minum Value :50ul  \n ","");
+		messagebox(0,0," Minimum Value :50ul  \n ","");
 		WINC_PUT_DATA_INT(38050,Memory_Value);
 	}
 	else

@@ -1,0 +1,11 @@
+
+/*
+	예상시간 조정
+*/
+
+VAR ElaspedTime:#30270;
+VAR EstimatedTime:#30274;
+VAR EndofAuto:#30198; 
+
+// 정상적으로 종료되었을 때만
+if( EndofAuto ) { EstimatedTime = ElaspedTime; }

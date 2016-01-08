@@ -1,0 +1,29 @@
+
+VAR dlgCtrl[10];
+VAR ScreenType:#30165;
+VAR flag_Enter_Config:#30166;
+
+// 설정화면 열기를 위한 화면 확대  스크롤 ON
+if( flag_Enter_Config == 0  )
+{
+	dlgCtrl[0] ="type=frame, redraw=1, resize=0, x=-1, y=-1, w=1205, h=1005";
+	dlgCtrl[1] ="type=view, scroll=1";
+	WINC_SET_MAIN_WINDOW(dlgCtrl,2);
+	flag_Enter_Config = 1;
+}
+// 설정화면 닫기를 위한 화면 축소 스크롤 OFF
+else
+{
+	if( ScreenType == 0 )
+	{
+		dlgCtrl[0] ="type=frame, redraw=1, resize=1, x=-1, y=-1, w=800, h=600 ";
+		dlgCtrl[1] ="type=view, redraw=1, x=0,y=0,w=775,h=570, scroll=0";
+	}
+	else
+	{
+		dlgCtrl[0] ="type=frame, redraw=1, resize=1, x=-1, y=-1, w=1024, h=768 ";
+		dlgCtrl[1] ="type=view, redraw=1, x=0,y=0,w=1000,h=750, scroll=0";
+	}
+	WINC_SET_MAIN_WINDOW(dlgCtrl,2);
+	flag_Enter_Config = 0;
+}

@@ -1,0 +1,11 @@
+
+VAR Proc1;
+//----------------------------------------------
+//   ???? ??
+//----------------------------------------------
+WINC_PUT_DATA_STR(38030,"DRY Proc");
+
+WINC_PUT_DATA_REAL(30450,0);
+WINC_PUT_DATA_REAL(30450,-1);
+//call( "\\BitValue\\OP_Test.code");
+

@@ -1,0 +1,389 @@
+{
+
+	//----------------------------------------------------
+	//
+	// 조이스틱 제어예제
+	//
+	// 조이스틱제품규격: Logitech X3D Extreme TM 3D pro
+	//
+	//----------------------------------------------------
+	VAR JoystickMasterEnable:#30158;
+	VAR Joystick1Enable:#31500;
+	VAR IsXOnHome:#36102;
+	VAR IsYOnHome:#36112;
+	VAR IsZOnHome:#36122;
+	VAR IsAOnHome:#36132;
+	VAR JOGSPEED;
+	VAR JogZeroMargin;
+	JogZeroMargin = 6000;
+	
+	
+	// 조이스틱 마스터 인에이블 상태와 해당조이스틱 ENABLE상태에서 동작하도록 설정한다.
+	// 해당 관련축의 동작이 원점복귀상태이면 동작하지 않는다.
+	if( JoystickMasterEnable && Joystick1Enable && (!IsXOnHome) && (!IsYOnHome) && (!IsZOnHome)  && (!IsAOnHome) )
+	{
+		VAR IsAllJogStop(1); // MPG동작과 경계를 구분하기 위해 사용
+		SVAR preIsAllJogStop(0);
+
+		//----------------------------------------------------
+		//
+		// X축 동작
+		//
+		//----------------------------------------------------
+		VAR ADCX;		// 속도제어를 위한 AD값
+		VAR ADCXC(32768);	// 동작정지 센터값
+		VAR ADCXH(8000);	// 히스테리시스값
+		VAR ADCXMAX(30000);	// 속도최대영역값
+		VAR ADCXD;		// 내부연산 변화값
+		VAR JOGSPEEDX;		// 속도계산값
+		SVAR XDIR(0);		// 동작방향값
+
+		// 중심불감영역
+		ADCXH = JogZeroMargin;
+		
+		// X축 ADC입력
+		ADCX = #31510; // 조이스틱 시스템 데이터
+
+		// X축 속도설정
+		ADCXD = ABS(ADCX - ADCXC);
+		ADCXD = ADCXD-ADCXH;
+		if(ADCXD < 0 ) {ADCXD = 0;}
+		JOGSPEEDX = 100*ADCXD/ADCXMAX;
+
+		// X축 이동동작
+		if( (ADCX > (ADCXC+ADCXH)) )
+		{
+			if( XDIR >= 0 )
+			{
+				WINC_JOG_MOVE( (1<<0), 1);
+				XDIR=1;
+			}
+			else
+			{
+				WINC_JOG_MOVE( (1<<0), 0);
+				if( #36100 == 0 ) 
+				{
+					XDIR=0;
+				}
+			}
+			IsAllJogStop = 0;
+		}
+		else if( (ADCX < (ADCXC-ADCXH)) )
+		{
+			if( XDIR <= 0 )
+			{
+				WINC_JOG_MOVE( (1<<0), -1);
+				XDIR=-1;
+			}
+			else
+			{
+				WINC_JOG_MOVE( (1<<0), 0);
+				if( #36100 == 0 ) 
+				{
+					XDIR=0;
+				}			
+			}
+			IsAllJogStop = 0;
+		}
+		else 
+		{	
+			if( XDIR != 0 )
+			{
+				WINC_JOG_MOVE( (1<<0), 0);	
+			}
+			if( #36100 == 0 )
+			{
+				XDIR = 0;
+			}
+		}
+
+		//----------------------------------------------------
+		//
+		// Y축 동작
+		//
+		//----------------------------------------------------
+		VAR ADCY;		// 속도제어를 위한 AD값
+		VAR ADCYC(32768);	// 동작정지 센터값
+		VAR ADCYH(8000);	// 스테리시스값
+		VAR ADCYMAX(30000);	// 속도최대영역값
+		VAR ADCYD;		// 내부연산 변화값
+		VAR JOGSPEEDY;		// 속도계산값
+		SVAR YDIR(0);		// 동작방향값
+
+		// 중심불감영역
+		ADCYH = JogZeroMargin;
+
+		// Y축 AD입력
+		ADCY = #31511; // 조이스틱 시스템 데이터
+
+		// Y축 속도설정
+		ADCYD = ABS(ADCY - ADCYC);
+		ADCYD = ADCYD-ADCYH;
+		if(ADCYD <0 ) { ADCYD = 0; }
+		JOGSPEEDY = 100*ADCYD/ADCYMAX;
+
+		// Y축 이동동작
+		if( (ADCY < (ADCYC-ADCYH)))
+		{
+			if( YDIR >= 0 )
+			{
+				WINC_JOG_MOVE( (1<<1), 1);
+				YDIR=1;
+			}
+			else
+			{
+				WINC_JOG_MOVE( (1<<1), 0);
+				if( #36110 == 0 ) 
+				{
+					YDIR=0;
+				}
+			}
+			IsAllJogStop = 0;
+		}
+		else if( (ADCY > (ADCYC+ADCYH)))
+		{
+			if( YDIR <= 0 )
+			{
+				WINC_JOG_MOVE( (1<<1), -1);
+				YDIR=-1;
+			}
+			else
+			{
+				WINC_JOG_MOVE( (1<<1), 0);
+				if( #36110 == 0 ) 
+				{
+					YDIR=0;
+				}
+			}
+			IsAllJogStop = 0;
+		}
+		else
+		{	
+			if( YDIR != 0 )
+			{
+				WINC_JOG_MOVE( (1<<1), 0);	
+			}
+			if( #36110 == 0 )
+			{
+				YDIR = 0;
+			}
+		}
+
+
+		//----------------------------------------------------
+		//
+		// Z축 동작
+		//
+		//----------------------------------------------------
+		VAR ADCZ;
+		SVAR ZDIR(0);
+		ADCZ = #31516;
+
+		// Z축 이동동작
+		if( ADCZ == 0 ) 
+		{
+			if( ZDIR >= 0 )
+			{
+				WINC_JOG_MOVE( (1<<2), 1);
+				ZDIR=1;
+			}
+			else
+			{
+				WINC_JOG_MOVE( (1<<2), 0);
+				if( #36120 == 0 ) 
+				{
+					ZDIR=0;
+				}
+			}
+			IsAllJogStop = 0;
+			
+		}
+		else if( ADCZ == 18000 )
+		{
+			if( ZDIR <= 0 )
+			{
+				WINC_JOG_MOVE( (1<<2), -1);
+				ZDIR=-1;
+			}
+			else
+			{
+				WINC_JOG_MOVE( (1<<2), 0);
+				if( #36120 == 0 ) 
+				{
+					ZDIR=0;
+				}
+			}
+			IsAllJogStop = 0;
+		}
+		else
+		{
+			if( ZDIR != 0 )
+			{
+				WINC_JOG_MOVE( (1<<2), 0);	
+			}
+			if( #36120 == 0 )
+			{
+				ZDIR = 0;
+			}
+		}
+
+		//----------------------------------------------------
+		//
+		// A축 동작
+		//
+		//----------------------------------------------------
+		if(0)
+		{
+			VAR ADCA;
+			SVAR ADIR(0);
+			ADCA = #31516;
+	
+			// A축 이동동작
+			if( ADCA == 9000 )
+			{
+				if( ADIR >= 0 )
+				{
+					WINC_JOG_MOVE( (1<<3), 1);
+					ADIR=1;
+				}
+				else
+				{
+					WINC_JOG_MOVE( (1<<3), 0);
+					if( #36130 == 0 ) 
+					{
+						ADIR=0;
+					}
+				}
+				IsAllJogStop = 0;
+			}
+			else if( ADCA == 27000 )
+			{
+				if( ADIR <= 0 )
+				{
+					WINC_JOG_MOVE( (1<<3), -1);
+					ADIR=-1;
+				}
+				else
+				{
+					WINC_JOG_MOVE( (1<<3), 0);
+					if( #36130 == 0 ) 
+					{
+						ADIR=0;
+					}
+				}
+				IsAllJogStop = 0;
+			}
+			else
+			{	
+				if( ADIR != 0 )
+				{
+					WINC_JOG_MOVE( (1<<3), 0);	
+				}
+				if( #36130 == 0 )
+				{
+					ADIR = 0;
+				}
+			}
+		}
+
+		//----------------------------------------------------
+		//
+		//	조이스틱 부가설정 조정
+		//
+		//----------------------------------------------------
+		// 타시스템 동작 가능영역
+		if( IsAllJogStop && preIsAllJogStop )
+		{		
+			// MPG동작 가능
+			WINC_PUT_DATA_BOOL( 30840, 1);
+
+			// 마스터 스피드
+			WINC_JOG_MASTER_SPEED(100.0);
+
+			// 조그 메인속도 적용축 모두 설정
+			WINC_JOG_MAIN_SPEED_AXIS(0xff);
+
+		}
+		// 조이스틱동작 가능영역
+		else
+		{
+			// MPG동작 불가
+			WINC_PUT_DATA_BOOL( 30840, 0);
+
+			// 조그동작 연속모드
+			WINC_JOG_MODE(1);
+
+			// 조그 메인 스피드 축설정, 나머지는 각 축별속도설정으로 사용
+			WINC_JOG_MAIN_SPEED_AXIS( (1<<4)|(1<<5) );
+
+			// 일반적인 조그와 MPG동작은 반드시 아래와 같이 모든 축을 설정
+			// WINC_JOG_MAIN_SPEED_AXIS( 0xff );
+
+			// 마스터 스피드
+			VAR MasterSpeed;
+			MasterSpeed = (65536-#31512)/655;
+			WINC_JOG_MASTER_SPEED(MasterSpeed);	
+
+			// 축별 스피드
+			WINC_JOG_SPEED_AXIS((1<<0), (JOGSPEEDX));
+			WINC_JOG_SPEED_AXIS((1<<1), (JOGSPEEDY));
+			WINC_JOG_SPEED_AXIS((1<<2), 100); 
+			//WINC_JOG_SPEED_AXIS((1<<3), 100); 
+		}
+		preIsAllJogStop = IsAllJogStop;
+
+
+		//----------------------------------------------------
+		//
+		//	조이스틱 스위치 동작 예제
+		//
+		//----------------------------------------------------
+		if(0)
+		{
+			VAR JOY_SWITCH;
+			JOY_SWITCH = WINC_GET_DATA_HEX(31506);
+	
+			// 포트출력
+			if( JOY_SWITCH & 0x0001 )
+			{
+				setY(4);
+			}
+			else
+			{
+				clrY(4);
+			}
+	
+			// XYZA축만 워크좌표 원점설정
+			if( JOY_SWITCH & 0x0400 )
+			{
+				VAR SetPos[8](0);
+				WINC_SET_WORKCOORD( 0x0f, SetPos );
+			}
+	
+			// 3d프린터 노즐 응용제어 테스트 예
+			if(0)
+			{
+				// M 메모리에 저장
+				if( JOY_SWITCH & 0x0001 ) { setM(100);}
+				else {clrM(100);}
+		
+				// 필라멘트 압출비율설정
+				VAR AFEEDRATE;
+				AFEEDRATE=0.5;
+	
+				// 조이스틱스위치 제어
+				if( nM(100) )
+				{
+					WINC_JOG_MOVE(1<<3, 0);	
+				}
+				if( pM(100) )
+				{
+					WINC_JOG_MOVE(1<<3, 1);
+				}
+	
+				// 필라멘트 압출속도
+				WINC_JOG_SPEED_AXIS( 1<<3, AFEEDRATE*JOGSPEED);
+			}
+		}		
+	}
+}

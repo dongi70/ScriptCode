@@ -1,0 +1,354 @@
+
+	/*----------------------------------------------------
+	
+		PLC운용 시작 처리부 (항상 필요한 부분)
+	
+	----------------------------------------------------*/
+	read_port();	// 입력버퍼링
+	looptime(0.02); // 0.02초마다 실행
+	
+	/*----------------------------------------------------
+
+		사용자 프로그램 영역 시작 ~ 
+	
+	----------------------------------------------------*/
+
+	
+
+	/*----------------------------------------------------
+	
+		시리얼 통신 및 이더넷 통신테스트 예제
+	
+	----------------------------------------------------*/
+	if(0)
+	{
+		SVAR stateCom(0);
+		SVAR ComNo(0);
+		
+		// 포트열기
+		if( stateCom == 0 )
+		{
+			ComNo = open_com(1, 115200);
+			// 아래는 이더넷 통신일 때
+			//ComNo = open_com( 10000, "ip=192.168.0.52, port=2000, time=10000, reconnect=0");
+			stateCom = 10;
+		}
+		// 포트 확인
+		else if( stateCom == 10 )
+		{
+			if( ComNo >= 0 )
+			{
+				stateCom = 20;
+			}
+			else
+			{
+				stateCom = 900;
+			}
+			
+			// 연결알림
+			{
+				VAR msgstr;
+				msgstr = sprintf_int("Open Port No= %ld", ComNo);
+				messagebox(0,0, msgstr, "");
+			}
+		}
+		// 데이터 스트링 전송
+		else if( stateCom == 20 )
+		{
+			VAR i;
+			i=0;
+			putch_com(ComNo, '\r');
+			putstr_com(ComNo, "Hellow! 0123456789 ");
+		
+			//messagebox(0,0, "send ethernet!", "...");
+			stateCom = 40;
+		}
+		// 데이터 수신확인
+		else if( stateCom == 40 )
+		{
+			VAR ch;
+			
+			while( !isempty_com(ComNo) )
+			{
+				// 수신데이터 메세지출력
+				ch = getch_com(ComNo);		
+				putch_com(ComNo, ch);
+
+				// 수신데이터 메시지
+				{
+					VAR mssgch;
+					mssgch = sprintf_int("\r\n char=%ld", ch);
+					//messagebox(0,0,mssgch, "");
+				}
+																		
+				// 수신데이터의 의한 메뉴처리			
+				if( ch == 'x' ) 		{ stateCom = 50; } 			// 통신 종료
+				else if( ch == 'r' ) 	{ stateCom = 20; } 			// 스트링 전송으로 전이
+				else if( ch == ' ' )	{ messagebox(0,3,"",""); }	// 메시지박스클리어
+			}
+		}
+		// 포트 닫기
+		else if( stateCom == 50 )
+		{
+			// 포트 다음 알림
+			{
+				messagebox(0,0,"Close Port!",""); 
+				close_com(ComNo);
+				stateCom = 900;
+			}
+		}
+		// 종료
+		else if( stateCom == 900 )
+		{			
+		}
+	}
+
+	/*----------------------------------------------------
+	
+		ADC 입력을 이용한 속도 오버라이드 테스트 예제
+	
+	----------------------------------------------------*/
+	if(0)
+	{
+		VAR OVERRIDE, G01FEED, G00FEED, JOGFEED;
+		VAR ADC;
+		SVAR preADC(0);
+		
+		ADC = INT( WINC_GET_ADC(1) / 500 );
+
+		// ADC변화될때만 명령을 처리한다. 
+		if( preADC != ADC )
+		{
+			preADC = ADC;
+			G01FEED = 200 * ADC / 65535 * 500;
+		
+			if( G01FEED < 5 ) { G01FEED = 5; }
+			WINC_FEED_OVERRIDE(G01FEED);
+
+			//WINC_FEED_OVERRIDE();
+			//WINC_G00_OVERRIDE();
+			//WINC_SPINDLE_OVERRIDE();
+			//WINC_JOG_SPEED();
+		}
+	}
+
+	/*----------------------------------------------------
+
+	     바이너리 스위치 입력에 의한 스핀들 오버라이딩
+
+   	     입력포트 (1=P0, 2=P1, 4=P2, 8=P3) 으로 지정
+
+	----------------------------------------------------*/
+	if(0)
+	{
+		VAR SpindleOverrideSw;
+		VAR SpindleOverride;
+
+		// 입력포트에서 스위치를 입력받는다.
+		SpindleOverrideSw = WINC_GET_GIO(0x01);
+
+		// 스위치 입력을 반전시킨다.
+		SpindleOverrideSw = (~SpindleOverrideSw) & 0x0f;
+
+		// 스핀들 오버라이딩 비율을 계산한다.
+		SpindleOverride = 100 * SpindleOverrideSw / 10;
+
+		// 스핀들 속도를 오버라이딩 한다.
+		WINC_SPINDLE_OVERRIDE(SpindleOverride);
+	}
+
+	/*----------------------------------------------------
+	
+		조이스틱 구동 예제
+	
+		조이스틱 테스트 제품명: 
+			- Logitech X3D Extreme TM 3D pro
+	
+	----------------------------------------------------*/
+
+	// 조이스틱 마스터인에이블에서 허가하고 All Home 동작이 아닐때
+	VAR MasterEnable_Joystick1:#30158;
+	VAR IsAllHoming:#30190;
+	VAR IsAnyHoming:#30195;
+	VAR IsActMPGWheel:#30842;
+	
+	if( MasterEnable_Joystick1 && (!IsAllHoming) && (!IsAnyHoming) && (!IsActMPGWheel) )
+	{
+		/*
+			조이스틱 드라이브를 포함시킨다. 
+			이때 call("..."); 함수를 사용해서 결합하지 않습니다.(내부에 정적변수 사용하기때문)
+			call() 함수는 독립으로 실행되며 실행 초기에 지역변수와 정적변수 모두를 초기화 하게 됩니다.
+			include() 함수로 결합하게 되면 내부에 선언된 변수 모두가 부모코드에서 유효합니다.
+			이때 변수중복에 주의하셔야 합니다.
+			만약 내부적으로 정적변수를 시스템 메모리로 이용한다면
+			call() 함수를 이용해서 호출할 수 있습니다.
+		*/
+
+		include("\\DriverCode\\Driver_Joystick1_mode_0.code");
+	}
+
+	/*----------------------------------------------------
+	
+		조그동작 예제
+	
+	----------------------------------------------------*/
+	if(0)
+	{
+		if(1)
+		{
+			// 입력포트 정의
+			VAR Pin_XDec(2), Pin_XInc(3);
+			VAR Pin_YDec(1), Pin_YInc(0);
+			VAR Pin_ZDec(6), Pin_ZInc(7);
+			
+			// 조그입력이 발생하면 MPG를 자동 OFF합니다.
+			// X축 JOG 감소이동
+			if( nX(Pin_XDec) ) { WINC_PUT_DATA_BOOL(30840, 0); WINC_JOG_MODE(1); WINC_JOG_MOVE(1,-1);	}
+			// X축 JOG 증가이동
+			if( nX(Pin_XInc) ) { WINC_PUT_DATA_BOOL(30840, 0); WINC_JOG_MODE(1); WINC_JOG_MOVE(1,1);	}
+			// X축 JOG 정지
+			if( pX(Pin_XDec) ||  pX(Pin_XInc) ) { WINC_PUT_DATA_BOOL(30840, 1); WINC_JOG_MODE(1); WINC_JOG_MOVE(1,0);	}
+	
+			// Y축 JOG 감소이동
+			if( nX(Pin_YDec) ) { WINC_PUT_DATA_BOOL(30840, 0); WINC_JOG_MODE(1); WINC_JOG_MOVE(2,-1);	}
+			// Y축 JOG 증가이동
+			if( nX(Pin_YInc) ) { WINC_PUT_DATA_BOOL(30840, 0); WINC_JOG_MODE(1); WINC_JOG_MOVE(2,1);	}
+			// Y축 JOG 정지
+			if( pX(Pin_YDec) || pX(Pin_YInc) ) { WINC_PUT_DATA_BOOL(30840, 1); WINC_JOG_MODE(1); WINC_JOG_MOVE(2,0);	}
+		
+			// Z축 JOG 감소이동
+			if( nX(Pin_ZDec) ) { WINC_PUT_DATA_BOOL(30840, 0); WINC_JOG_MODE(1); WINC_JOG_MOVE(4,-1);	}
+			// Y축 JOG 증가이동
+			if( nX(Pin_ZInc) ) { WINC_PUT_DATA_BOOL(30840, 0); WINC_JOG_MODE(1); WINC_JOG_MOVE(4,1);	}
+			// Y축 JOG 정지
+			if( pX(Pin_ZDec) || pX(Pin_ZInc) ) { WINC_PUT_DATA_BOOL(30840, 1); WINC_JOG_MODE(1); WINC_JOG_MOVE(4,0);	}
+		}
+				
+		// ADC 채널3에 2K볼륨으로 조그속도오버라이딩
+		if(1)
+		{
+			VAR JogFeedOverride;
+			VAR ADC;
+			SVAR preJog_Speed_ADC(0);
+
+			ADC = INT(WINC_GET_ADC(3)/500)*2;
+	
+			// ADC가 변화될때만 명령을 처리한다. 단 MPG휠 반응없을것
+			if( preJog_Speed_ADC != ADC  && !#30842)
+			{
+				preJog_Speed_ADC = ADC;
+				JogFeedOverride= 100 * ADC / 65535 * 500;	
+				WINC_JOG_SPEED(JogFeedOverride);
+			}
+		}
+	}
+	
+	/*----------------------------------------------------
+	
+		사용하지 않는 축의 리미트, 홈센서 신호를 이용한 
+		동작 스위치 입력 예제
+	
+	----------------------------------------------------*/
+	//C축의 홈센서 신호를 시작/정지  스위치로, 리미트를 소프트리셋스위치로 사용하기
+ 	//(먼저 C축을 모션보드에서 사용하지 않는 축에 할당합니다. 예> 모션보드 S1축에 할당)
+	if(0)
+	{	
+		/*---------------------------------
+		
+			시작/정지 토글 스위치
+			
+		---------------------------------*/
+		VAR startSwitch;
+		SVAR preStartSwitch(0);
+	
+		// C축 홈스위치 상태를 얻는다.	
+		startSwitch = #36153;
+		
+		// 홈스위치가 눌러지면
+		if( startSwitch && !preStartSwitch) 
+		{ 	
+			VAR OnAuto:#30194;
+			VAR OnPause:#30196;
+			
+			// 현재 시작스위치로 작동할 것인가?
+			if( (!OnAuto) || OnPause )
+			{
+				WINC_START(); 
+			}
+			// 현재 정지스위치로 작동할 것인가?
+			else
+			{
+				WINC_PAUSE();
+			}			
+		}
+		preStartSwitch = startSwitch;
+		
+		/*---------------------------------
+			
+			소프트 리셋 스위치
+		
+		---------------------------------*/
+		VAR resetSwitch;
+		SVAR preResetSwitch;
+
+		// C축 리미트상태를 얻는다.
+		resetSwitch = #36154;
+		
+		// 리미트스위치가 눌러지면
+		if( resetSwitch && !preResetSwitch ) 
+		{ 
+			// 소프트 리셋한다.
+			WINC_RESET(); 
+		}
+		preResetSwitch = resetSwitch;
+	}
+	
+	/*----------------------------------------------------
+	
+		PLC 입출력 프로그램 예제
+	
+	----------------------------------------------------*/
+	if(0)
+	{
+		/*---------------------------------
+		
+			입력처리
+		
+		---------------------------------*/
+		// 0번 입력핀이 눌러지고,  2번 출력이 없을때만 3번 출력
+		if( nX(0) & !Y(2) ) { setY(3); }
+	
+		// 2번 입력핀이 눌러지고,  3번 출력이 없을때만 2번 출력
+		if( nX(2) & !Y(3) ) { setY(2); }
+	
+		/*---------------------------------
+		
+			출력처리
+		
+		---------------------------------*/
+		// 4번 출력은 1번입력이 들어오면 정지
+		if( Y(3) & !X(1) ) { clrY(3); }
+			
+		// 2번 출력은 3번입력이 들어오면 정지
+		if( Y(2) & !X(3) ) { clrY(2); }
+	}
+
+
+	/*----------------------------------------------------
+	
+		 ~ 사용자 프로그램 영역 종료
+	
+	----------------------------------------------------*/
+
+
+	/*----------------------------------------------------
+	
+		PLC운영 종료처리부 (항상 필요한 부분)
+	
+	----------------------------------------------------*/
+	run_M(); 		// M메모리 운영
+	run_T(); 		// PLC타이머 운영	
+	write_port();	// 출력버퍼링
+
+	return (0);
+	

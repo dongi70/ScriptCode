@@ -1,0 +1,8 @@
+// 자동동작중에는 작동안하기
+VAR OnAuto:#30194;
+if( OnAuto ) { return (0); }
+
+WINC_LOAD_FILE_FROM_TABLE(2);
+
+return(0);
+

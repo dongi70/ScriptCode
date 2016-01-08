@@ -96,52 +96,11 @@ dlgMssg[1] ="type=button, no=2, mode=1, enable=1, show=1, \~
     color=BLACK, \~
     fontsize=bttnFontSize, title=Load Complete, \~
     image=Common_Button.bmp, \~
-	memory=38052,writememory=38052, valtype=int, setvalue =1, \~
-//    link=\\BitValue\\OpCode\\Proc_Finishing.code, 	\~
+	memory=38054,writememory=38054, valtype=int, setvalue =1, \~
+    link=\\BitValue\\OpCode\\Proc_Finishing.code, 	\~
 	";
 
-	
- /*   
-dlgMssg[2] ="type=button, no=3, mode=1, enable=1, show=1, \~
-	beep=bellHz, beeptime=0.1, \~
-    x=bttnX, y=bttnY + 2*bttnOffsetY, w=bttnW, h=bttnH, round=0, \~
-    color=BLACK, \~
-    fontsize=bttnFontSize, title=Z, \~
-    image=Common_Button.bmp, \~
-    link2=\\BitValue\\OpCode\\WorkCoord_Bttn_Z.code";
-
-dlgMssg[3] ="type=button, no=4, mode=1, enable=1, show=1, \~
-	beep=bellHz, beeptime=0.1, \~
-    x=bttnX, y=bttnY + 3*bttnOffsetY, w=bttnW, h=bttnH, round=0, \~
-    color=BLACK, \~
-    fontsize=bttnFontSize, title=A, \~
-    image=Common_Button.bmp, \~
-    link2=\\BitValue\\OpCode\\WorkCoord_Bttn_A.code";
-*/
-
 WINC_SET_USER_WINDOW(1, dlgMssg, 2);
-
-if(1)
-{
-	VAR Complete;
-	
-	Complete = WINC_GET_DATA_INT(38052);
-	
-	if(Complete == 1)
-	{
-		messagebox(0,0,"  COVER CLOSE \n ","");
-	//	PRINTF "1111";
-		WINC_PUT_DATA_INT(38052,0);
-	}
-}	
-
-if(0)
-{
-	WINC_HOME(1); 		// X 축
-	
-
-}
-
 
 //-----------------------------------------------
 // 커스텀 화면 프레임을 그린다.

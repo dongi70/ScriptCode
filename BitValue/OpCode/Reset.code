@@ -1,4 +1,9 @@
 
+WINC_PUT_DATA_REAL(30450,0);
+
+WINC_PUT_DATA_INT(38050,200);
+WINC_PUT_DATA_INT(38052,200);
+
 WINC_RESET();
 
 // 리셋 이후로는 어떤 동작코드도 기록하지 않습니다.

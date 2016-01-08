@@ -1,0 +1,8 @@
+
+
+// 자동모드에서만 자동동작을 시작합니다.
+VAR AutoMode:#30162;
+if( !AutoMode ) { return (0); }
+WINC_START();
+
+// 이후로 어떤코드도 기입하지 않습니다.
