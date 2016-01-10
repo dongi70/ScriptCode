@@ -224,7 +224,7 @@ if(1)
 		WINC_PUT_DATA_INT(38052,Set_Value2);
 	}
 }
-<<<<<<< HEAD
+
 if(1)
 {
 	bttnX       = 30;
@@ -245,8 +245,7 @@ if(1)
 				fontsize=bttnFontSize,  title=Blood ul/M, \~
 				";
 	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-=======
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 
 	dlgMssg[0] = "type=edit, no=16, enable=1, show=1, readonly=1, \~
 				x=bttnX+300, y=bttnY, w=bttnW, h=bttnH, border=0, \~

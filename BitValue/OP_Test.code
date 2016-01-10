@@ -210,11 +210,9 @@ WINC_SET_USER_WINDOW(1, dlgMssg, 3);
 
 dlgMssg[0] = "type=button, no=1, show=1, enable=0, mode=bttnMode, lamp=1, \~
 			x=10, y=220, w=300, h=45, round=bttnR, \~
-<<<<<<< HEAD
+
             color=GREEN, bkcolor=bttnBkColor, \~
-=======
             color=BLACK, bkcolor=bttnBkColor, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
             fontsize=30,  title= Progress Process : , \~
             ";
 			
@@ -228,7 +226,7 @@ dlgMssg[0] = "type=edit, no=25, enable=1, show=1, readonly=1, \~
     memory=38030, readmemory=38030, \~
 	";
 WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-<<<<<<< HEAD
+
 
 //------------------------------------------
 //                진행 시간
@@ -286,7 +284,7 @@ dlgMssg[2] = "type=button, no=32, show=1, enable=0, mode=bttnMode, lamp=1, \~
             fontsize=40,  title=S, \~
             ";			
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
-=======
+
 
 //------------------------------------------
 //                진행 시간
@@ -320,7 +318,6 @@ dlgMssg[2] = "type=edit, no=29, enable=1, show=1, readonly=1, \~9
 	";	
 		
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
 
 //-----------------------------------------------
 // 커스텀 화면 프레임을 그린다.

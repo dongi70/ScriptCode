@@ -62,8 +62,6 @@ bttnHovColor        = CYAN;     // 마우스포인터 올려질 때 칼라 (이미지 버튼의 경
 bttnSelColor        = CYAN;     // 선택되었을 때 칼라 (이미지 버튼의 경우 의미없음)
 bttnDisColor        = GRAY;     // 비활성화 되었을 때 칼라 (이미지 버튼의 경우 의미없음)
 
-<<<<<<< HEAD
-
 //-------------------------------------------------
 //			축별 모터 위치 
 //--------------------------------------------------
@@ -176,7 +174,6 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
-=======
 //--------------------------------------------------------------------------------------------------------
 // 위치 좌표 정보 
 //--------------------------------------------------------------------------------------------------------
@@ -307,7 +304,7 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 6);
 	
 }
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 //--------------------------------------------
 //     축별 센서 동작 확인
 //--------------------------------------------
@@ -318,22 +315,18 @@ if(1)
 // 위치 좌표 정보 
 //--------------------------------------------------------------------------------------------------------
 	bttnX       = 80;
-<<<<<<< HEAD
 	bttnY       = 330;  
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 220;
-=======
 	bttnY       = 300;  
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 260;
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
 	bttnH       = 30;
 	bttnR       = 5;
 	bttnFontSize= 24;
 	
-<<<<<<< HEAD
 	dlgMssg[0] = "type=button, no=10, enable=0, show=1, \~
 				mode=0, \~
 				x=60, y= 285, w=260, h=40, \~
@@ -345,12 +338,11 @@ if(1)
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
-=======
 	GOUT = WINC_GET_DATA_REAL(36103);
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -358,11 +350,11 @@ if(1)
 	}
 	else
 	{
-<<<<<<< HEAD
+
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
-=======
+
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -372,11 +364,11 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36113);
 	if(GOUT == 1)
 	{
-<<<<<<< HEAD
+
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
-=======
+
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -384,11 +376,11 @@ if(1)
 	}
 	else
 	{
-<<<<<<< HEAD
+
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
-=======
+
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -398,11 +390,11 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36123);
 	if(GOUT == 1)
 	{
-<<<<<<< HEAD
+
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
-=======
+
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -410,11 +402,11 @@ if(1)
 	}
 	else
 	{
-<<<<<<< HEAD
+
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
-=======
+
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -424,11 +416,11 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36133);
 	if(GOUT == 1)
 	{
-<<<<<<< HEAD
+
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
-=======
+
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -436,11 +428,11 @@ if(1)
 	}
 	else
 	{
-<<<<<<< HEAD
+
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
-=======
+
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -450,7 +442,7 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
-<<<<<<< HEAD
+
 //-------------------------------------------- 
 //     입력 센서 동작 확인
 //--------------------------------------------
@@ -598,7 +590,7 @@ if(1)
 	
 }
 
-=======
+
 //-------------------------------------------------
 //			축별 모터 위치 
 //--------------------------------------------------
@@ -702,8 +694,6 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
-
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
 //-----------------------------------------------
 // 커스텀 화면 프레임을 그린다.
 //-----------------------------------------------
