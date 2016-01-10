@@ -1,25 +1,9 @@
 
 WINC_PUT_DATA_REAL(30450,0);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 WINC_PUT_DATA_INT(38050,200);
 WINC_PUT_DATA_INT(38052,200);
 
-=======
->>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
-=======
-=======
->>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
-
-WINC_PUT_DATA_INT(38050,200);
-WINC_PUT_DATA_INT(38052,200);
-
-<<<<<<< HEAD
->>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
-=======
->>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 WINC_RESET();
 
 // ¸®¼Â ÀÌÈÄ·Î´Â ¾î¶² µ¿ÀÛÄÚµåµµ ±â·ÏÇÏÁö ¾Ê½À´Ï´Ù.
