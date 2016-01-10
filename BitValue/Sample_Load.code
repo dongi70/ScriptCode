@@ -98,6 +98,7 @@ dlgMssg[1] ="type=button, no=2, mode=1, enable=1, show=1, \~
     image=Common_Button.bmp, \~
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	memory=38054,writememory=38054, valtype=int, setvalue =1, \~
 =======
 	memory=38052,writememory=38052, valtype=int, setvalue =1, \~
@@ -106,6 +107,10 @@ dlgMssg[1] ="type=button, no=2, mode=1, enable=1, show=1, \~
 	memory=38054,writememory=38054, valtype=int, setvalue =1, \~
 //	memory=38052,writememory=38052, valtype=int, setvalue =1, \~
 >>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+	memory=38054,writememory=38054, valtype=int, setvalue =1, \~
+//	memory=38052,writememory=38052, valtype=int, setvalue =1, \~
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
     link=\\BitValue\\OpCode\\Proc_Finishing.code, 	\~
 	";
 
@@ -113,9 +118,12 @@ WINC_SET_USER_WINDOW(1, dlgMssg, 2);
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 if(0)
 {
 	VAR Complete;
@@ -139,9 +147,12 @@ if(0)
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
 =======
 >>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 //-----------------------------------------------
 // Ä¿½ºÅÒ È­¸é ÇÁ·¹ÀÓÀ» ±×¸°´Ù.
 //-----------------------------------------------
