@@ -63,7 +63,10 @@ bttnSelColor        = CYAN;     // ¼±ÅÃµÇ¾úÀ» ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ¿ì ÀÇ¹Ì¾ø
 bttnDisColor        = GRAY;     // ºñÈ°¼ºÈ­ µÇ¾úÀ» ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ¿ì ÀÇ¹Ì¾øÀ½)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 //-------------------------------------------------
 //			Ãàº° ¸ðÅÍ À§Ä¡ 
 //--------------------------------------------------
@@ -176,7 +179,10 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 //--------------------------------------------------------------------------------------------------------
 // À§Ä¡ ÁÂÇ¥ Á¤º¸ 
 //--------------------------------------------------------------------------------------------------------
@@ -307,7 +313,11 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 6);
 	
 }
+<<<<<<< HEAD
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 //--------------------------------------------
 //     Ãàº° ¼¾¼­ µ¿ÀÛ È®ÀÎ
 //--------------------------------------------
@@ -319,21 +329,33 @@ if(1)
 //--------------------------------------------------------------------------------------------------------
 	bttnX       = 80;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 	bttnY       = 330;  
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 220;
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 	bttnY       = 300;  
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 260;
+<<<<<<< HEAD
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 	bttnH       = 30;
 	bttnR       = 5;
 	bttnFontSize= 24;
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 	dlgMssg[0] = "type=button, no=10, enable=0, show=1, \~
 				mode=0, \~
 				x=60, y= 285, w=260, h=40, \~
@@ -345,12 +367,19 @@ if(1)
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 	GOUT = WINC_GET_DATA_REAL(36103);
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
+<<<<<<< HEAD
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -359,10 +388,18 @@ if(1)
 	else
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
 =======
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
+
+		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -373,10 +410,18 @@ if(1)
 	if(GOUT == 1)
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
 =======
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
+
+		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -385,10 +430,18 @@ if(1)
 	else
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
 =======
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
+
+		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -399,10 +452,18 @@ if(1)
 	if(GOUT == 1)
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
 =======
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
+
+		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -411,10 +472,18 @@ if(1)
 	else
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
 =======
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
+
+		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -425,10 +494,18 @@ if(1)
 	if(GOUT == 1)
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
 =======
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
+
+		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -437,10 +514,18 @@ if(1)
 	else
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
 =======
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+
+		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
+
+		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -451,6 +536,10 @@ if(1)
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 //-------------------------------------------- 
 //     ÀÔ·Â ¼¾¼­ µ¿ÀÛ È®ÀÎ
 //--------------------------------------------
@@ -598,7 +687,11 @@ if(1)
 	
 }
 
+<<<<<<< HEAD
 =======
+=======
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 //-------------------------------------------------
 //			Ãàº° ¸ðÅÍ À§Ä¡ 
 //--------------------------------------------------
@@ -702,8 +795,11 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
+<<<<<<< HEAD
 
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 //-----------------------------------------------
 // Ä¿½ºÅÒ È­¸é ÇÁ·¹ÀÓÀ» ±×¸°´Ù.
 //-----------------------------------------------

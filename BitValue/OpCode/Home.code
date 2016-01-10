@@ -5,10 +5,16 @@ call("\\BitValue\\AllMotorOn.code");
 WINC_PUT_DATA_REAL(30450,0);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 WINC_PUT_DATA_INT(38050,200);
 WINC_PUT_DATA_INT(38052,200);
 =======
 >>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+WINC_PUT_DATA_INT(38050,200);
+WINC_PUT_DATA_INT(38052,200);
+
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
 WINC_RUN_NCCODE("\\BitValue\\OpCode\\Home.nc");
 //WINC_SET_GIO(6);
 //WINC_ENTER_IMCMD(); // Áï½Ã½ÇÇà¸í·É ½ÃÀÛ
