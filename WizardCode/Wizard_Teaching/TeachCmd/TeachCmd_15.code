@@ -1,0 +1,7 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 명령기록
+TeachCurCmdNo = 15;
+if( call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd.code") < 0 ) { return (0) };
+call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd_Post.code");

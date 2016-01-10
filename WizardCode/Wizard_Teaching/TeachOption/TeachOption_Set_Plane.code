@@ -1,0 +1,28 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+VAR dlgMssg[10];
+VAR bkColor;
+
+if( TeachCmdPlane == 0 )
+{
+	TeachCmdPlane = 1;
+	bkColor=RGB(0,0,255);
+	dlgMssg[0] ="type=button, no=90, title=Y-Z, color=WHITE, bkcolor=bkColor, outlinecolor=BLACK, ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+else if( TeachCmdPlane == 1 )
+{
+	TeachCmdPlane = 2;
+	bkColor=RGB(255,0,0);
+	dlgMssg[0] ="type=button, no=90, title=Z-X, color=WHITE, bkcolor=bkColor, outlinecolor=BLACK, ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+else
+{
+	TeachCmdPlane = 0;
+	bkColor=RGB(0,255,0);
+	dlgMssg[0] ="type=button, no=90, title=X-Y, color=BLACK, bkcolor=bkColor, outlinecolor=BLACK, ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+beep(3000,0.05);

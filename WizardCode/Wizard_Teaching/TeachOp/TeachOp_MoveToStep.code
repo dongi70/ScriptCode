@@ -1,0 +1,149 @@
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 티칭동작가능여부확인
+if( !TeachOpEnable ) 
+{ 
+	messagebox(0,0,"티칭동작이 활성화(티칭ON)되어 있지 않습니다. 티칭동작을 활성화해 주십시오", "");
+	return(0); 
+}
+
+// 현재 이동이 없을때만 가능
+if(#30199) { return(0); }
+
+VAR i;
+VAR argToStep;
+VAR curMachPos[8]:#30000;
+VAR curWorkPos[8]:#30010;
+VAR axis, curPos[8], toLiftPos[8],  toPos[8], toTravelPos[8], toMachPos[8], deltaPos[8], isMove, stepNo, stepDataMem ;
+axis = TeachAxis;
+	
+// 인자전달받기
+argToStep = pop_arg();
+
+// 이전 스텝메모리
+stepNo = argToStep-1;
+
+if( stepNo < 0 ) {stepNo = 0; }
+stepDataMem = TeachDataTableMem + stepNo * TeachDataTableSize;
+
+// 이전 스텝메모리가 위치를 요구하는 명령일때만 이동한다.
+VAR curCmdNo;
+curCmdNo = TeachDataTable[stepNo][1];
+curCmdNo = curCmdNo-1;
+if(curCmdNo >= 0 && TeachCmdTable[curCmdNo][TeachCmdTableOffset_ViaNo]>0 )
+{
+	// 현재 위치
+	copy_array( curPos, curMachPos, 6);
+	copy_array( toLiftPos, curPos, 6);
+	
+	// 리프트 옵셋
+	i=0; while(i<6)
+	{
+		toLiftPos[i] = toLiftPos[i] + TeachOpMoveOffset[i];
+		i=i+1;
+	}
+
+	// 스텝 위치
+	toPos[0] = WINC_GET_DATA_REAL( stepDataMem + 2);
+	toPos[1] = WINC_GET_DATA_REAL( stepDataMem + 3);
+	toPos[2] = WINC_GET_DATA_REAL( stepDataMem + 4);
+	toPos[3] = WINC_GET_DATA_REAL( stepDataMem + 5);
+	toPos[4] = WINC_GET_DATA_REAL( stepDataMem + 6);
+	toPos[5] = WINC_GET_DATA_REAL( stepDataMem + 7);
+	
+	// 이전위치와 스텝위치가 동일하면 동작하지 않는다.
+	isMove = FALSE;
+	i=0; while(i<6)
+	{
+		if( (1<<i) & axis ) {	deltaPos[i] = toPos[i] - curWorkPos[i]; }
+		else { deltaPos[i] = 0.0; }
+		if( deltaPos[i] != 0.0 ) { isMove = TRUE; }
+		i = i+1;
+	}
+
+	// 이동위치
+	i=0; while(i<6)
+	{
+		toTravelPos[i] = toPos[i] + TeachOpMoveOffset[i];
+		i=i+1;
+	}
+
+	// 기계 위치로 변경
+	WINC_TO_MACHPOS(toPos, toMachPos);
+	
+
+	if( isMove )
+	{
+	
+		VAR ncCodeStr;
+		
+		// 속도설정
+		ncCodeStr = sprintf_real("F%-8.2lf\n", TeachOpMoveSpeed);
+
+		// 리프트
+		ncCodeStr = strcat(ncCodeStr, "G01 ");
+		if( axis & AXIS_X ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "X%8.3lf", toLiftPos[0]) ); }
+		if( axis & AXIS_Y ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "Y%8.3lf", toLiftPos[1]) ); }
+		if( axis & AXIS_Z ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "Z%8.3lf", toLiftPos[2]) ); }
+		if( axis & AXIS_A ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "A%8.3lf", toLiftPos[3]) ); }
+		if( axis & AXIS_B ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "B%8.3lf", toLiftPos[4]) ); }
+		if( axis & AXIS_C ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "C%8.3lf", toLiftPos[5]) ); }
+		ncCodeStr = strcat(ncCodeStr, "\n");
+
+		// 이동
+		ncCodeStr = strcat(ncCodeStr, "G01 ");
+		if( axis & AXIS_X ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "X%8.3lf", toTravelPos[0]) ); }
+		if( axis & AXIS_Y ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "Y%8.3lf", toTravelPos[1]) ); }
+		if( axis & AXIS_Z ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "Z%8.3lf", toTravelPos[2]) ); }
+		if( axis & AXIS_A ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "A%8.3lf", toTravelPos[3]) ); }
+		if( axis & AXIS_B ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "B%8.3lf", toTravelPos[4]) ); }
+		if( axis & AXIS_C ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "C%8.3lf", toTravelPos[5]) ); }
+		ncCodeStr = strcat(ncCodeStr, "\n");
+
+		// 다운
+		ncCodeStr = strcat(ncCodeStr, "G01 ");
+		if( axis & AXIS_X ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "X%8.3lf", toPos[0]) ); }
+		if( axis & AXIS_Y ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "Y%8.3lf", toPos[1]) ); }
+		if( axis & AXIS_Z ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "Z%8.3lf", toPos[2]) ); }
+		if( axis & AXIS_A ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "A%8.3lf", toPos[3]) ); }
+		if( axis & AXIS_B ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "B%8.3lf", toPos[4]) ); }
+		if( axis & AXIS_C ) { ncCodeStr = strcat( ncCodeStr, sprintf_real( "C%8.3lf", toPos[5]) ); }
+		ncCodeStr = strcat(ncCodeStr, "\n");
+				
+			
+		WINC_RUN_NCSTR(ncCodeStr);
+
+		/*
+		WINC_ENTER_QUEUECMD();
+		WINC_UPDATE_LASTPOS(0);
+
+		// 리프트 위치
+		WINC_DRIVEVEL(0,0,TeachOpMoveSpeedZ/60.0);
+		WINC_LINE( axis, 0, toLiftPos);
+		WINC_CMD_SYNC(); // 한스텝씩 끊어서동작한다.
+		
+		// 이동위치
+		WINC_DRIVEVEL(0,0,TeachOpMoveSpeed/60.0);
+		WINC_LINE( axis, 0, toMachPos);
+		WINC_CMD_SYNC(); // 한스텝씩 끊어서동작한다.
+		
+		// 다운위치
+		WINC_DRIVEVEL(0,0,TeachOpMoveSpeedZ/60.0);
+		WINC_LINE( axis, 0, toDownPos);
+		WINC_CMD_SYNC(); // 한스텝씩 끊어서동작한다.
+
+		WINC_LEAVE_QUEUECMD();
+		*/
+				
+	}
+}
+
+// 커서이동
+TeachCurStep = stepNo + 1;
+if( TeachCurStep > TeachStepMax ) { TeachCurStep = TeachStepMax; }
+call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+
+// 비프
+beep(TeachBeep2Freq, 0.1);//TeachBeep2Time);

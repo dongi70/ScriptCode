@@ -1,0 +1,51 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+if( !TeachOpEnable ) { return(0); }
+
+// 현재 이동이 없을때만 가능
+if(#30199) { return(0); }
+
+// 현재명령
+VAR cmdStep, cmdNo;
+cmdStep = TeachCurStep;
+if( cmdStep < 1 ) {return (0); }
+cmdStep = cmdStep-1;
+cmdNo = TeachDataTable[cmdStep][1]-1;
+if(cmdNo <0 ) { return (0); }
+
+// 스텝실행을 알린다.
+TeachStepExeOn = 1;
+TeachAllExeOn = 0;
+TeachGTransOn = 0;
+
+// G코드 파일오픈
+VAR fp, savefp, filename, str;
+savefp = TeachCurGFile_FP;
+filename = get_programpath();
+filename = strcat( filename, "\\ScriptCode\\WizardCode\\Wizard_Teaching\\teach_stepexe.nc");
+fp = fopen( filename, "w+");
+if( fp == NULL ) { return (0); }
+TeachCurGFile_FP = fp;
+
+// G코드생성
+VAR callFilename;
+callFilename = sprintf_int("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_%02ld.code", cmdNo+1);
+
+call(callFilename);
+
+// 파일닫기
+fclose(TeachCurGFile_FP);
+TeachCurGFile_FP = savefp;
+
+// 파일 실행
+WINC_RUN_NCCODE(filename);
+
+// 비프
+beep(TeachBeep1Freq, TeachBeep1Time);
+
+// 스텝실행종료를 알린다.
+TeachStepExeOn = 0;
+
+// 종료
+return (0);

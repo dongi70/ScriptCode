@@ -1,0 +1,309 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+if( !TeachOpEnable ) { return(0); }
+VAR curTeachDataTableMem, curStepNo, curCmd, curCmdNo;
+
+
+
+// 현재 티칭 스텝
+curStepNo = TeachCurStep - 1;
+if( curStepNo < 0 ) { return (0); }
+
+curTeachDataTableMem = TeachDataTableMem + curStepNo * TeachDataTableSize;
+curCmd = WINC_GET_DATA_STR(curTeachDataTableMem);
+curCmdNo = TeachDataTable[curStepNo][1]-1;
+
+/*----------------------------------------------------------
+
+	현재명령이 아무런 명령이 없으면 아래의 규칙에 따른다
+
+	(1) 이전 유효명령을 찾는다. (경유점과 같은 파라메터형 명령이 아닌 주명령)
+	(2) 이전 유효명령이 없거나 모달명령이 아니면 아무런 명령기록을 하지 않는다.
+	(3) 이전 유효명령이 발견되면 아래의 조건에 의해 처리된다.
+		(3.1) 이전 유효명령의 경유점수보다 검출된 위치기록수가 작으며 경유점명령을 추가한다.
+		(3.2) 이전 유효명령의 경유점수보다 검출된 위치기록수가 만족되면 이전명령을 가져온다.
+	(4) 현재 기록명령이 위치를 필요로 하는 명령이지만 이전위치와 비교해서 이동변위가 없다면 아무런동작을 하지 않는다.
+	
+----------------------------------------------------------*/
+// 현재명령 존재유무
+VAR isExistCurCmd; 
+
+// 현재명령 기록유무
+VAR isRecCmd;
+
+// 기록명령과 명령번호
+VAR recCmd, recCmdNo;
+
+isRecCmd = FALSE;
+recCmd = 0;
+recCmdNo = 0;
+
+// 위치요구 플래그
+VAR reqPos;
+reqPos = FALSE;
+
+// 이전의 유효한 명령
+VAR validPreCmdNo, validPreStepNo;
+// 유효한 경유점카운터
+VAR validPreViaCnt;
+
+// 커서 다음스텝 플래그
+VAR toNextStep;
+toNextStep = TeachCurStep+1; // 0이면 이동없음.
+if( toNextStep > TeachStepMax ) { toNextStep = TeachStepMax; }
+
+// 행 삽입 유무 플래그
+VAR insertRow;
+insertRow=0;
+
+// 현재 명령이 있으면 기록명령은 현재명령이다.
+// 현재 명령이 end명령이면 1행 추가하고 현재 명령을 공백명령으로 바꾼 후 다시 시작된다.
+if( strcmp( curCmd, "") != 0 )
+{
+	isExistCurCmd = TRUE;
+	recCmdNo = curCmdNo;
+	if(recCmdNo < 0) { return (0); }
+	validPreCmdNo = recCmdNo;
+	validPreStepNo = curStepNo;
+	validPreViaCnt = 1;
+	isRecCmd = TRUE;
+
+	/*
+	if( recCmdNo+1 == 20 )
+	{
+		{
+			VAR i, j;
+			VAR memAddr;
+			
+			// 마지막 행에 명령이 존재하면 안됨.
+			VAR cmd;
+			memAddr = TeachDataTableMem + (TeachStepMax-1) * TeachDataTableSize;
+			if( memAddr < TeachDataTableMem ) { return (0); }
+			
+			cmd = WINC_GET_DATA_STR(memAddr);
+			
+			// 명령이 존재하면
+			if( strcmp( cmd, "") != 0 ) 
+			{
+				messagebox(1, 1, "알림", "명령초과");
+				return(0);
+			}
+			
+			i = TeachStepMax -1; 
+			if( i<0){ return (0); }
+			
+			VAR data, desMem, srcMem, dataSize;
+			dataSize = TeachDataTableSize;
+			
+			while (i >= TeachCurStep )
+			{
+				copy_array(TeachDataTable[i], TeachDataTable[i-1], TeachDataTableSize );
+				i=i-1;
+			}
+			// 현재 위치명령 클리어
+			set_array(TeachDataTable[TeachCurStep-1], TeachDataTableSize, 0);
+		}
+		
+		curCmd = WINC_GET_DATA_STR(curTeachDataTableMem);
+		curCmdNo = TeachDataTable[curStepNo][1]-1;
+		
+	}
+	*/
+	
+	//PRINT isExistCurCmd;
+	
+}
+// 현재 명령이 있으면 기록유효명령을 찾는다.
+if( strcmp( curCmd, "") == 0 )
+{
+	VAR findValidCmd;
+	VAR i;
+
+	isExistCurCmd = FALSE;
+	isRecCmd = FALSE;
+	findValidCmd = FALSE;
+	validPreCmdNo = -1;
+	validPreStepNo = -1;
+	validPreViaCnt = 0;
+
+	// 유효명령 찾기
+	{
+		VAR cmdNo;
+		
+		i = curStepNo-1;
+		
+		// 가장 처음이라서 유효명령이 없다.
+		if( i < 0 )
+		{
+			findValidCmd = FALSE;
+		}
+		else		
+		{
+			while( i >= 0 )
+			{
+				cmdNo = TeachDataTable[i][1];
+				cmdNo = cmdNo-1;
+	
+				// 유효명령이 없다.
+				if( cmdNo < 0 ) 
+				{ 
+					findValidCmd = FALSE;
+					break; 
+				}
+				if( TeachCmdTable[cmdNo][TeachCmdTableOffset_IsPara] == 0 ) 
+				{
+					findValidCmd = TRUE;
+					break;
+				}
+				i = i - 1;
+			}
+		}
+		
+		// 유효명령이 발견되었다.
+		if( findValidCmd )
+		{
+			recCmdNo = cmdNo;	
+			validPreCmdNo = cmdNo;
+			validPreStepNo = i;
+			validPreViaCnt = curStepNo - i;
+			isRecCmd = TRUE;
+				
+			//PRINT recCmdNo, validPreStepNo, validPreViaCnt;
+		}				
+	}
+	
+	// 유효명령이 없다 아무런명령을 지정하지 않는다.
+	if( !findValidCmd ) 
+	{ 
+		recCmdNo = -1;
+		isRecCmd = FALSE;
+		reqPos = FALSE;
+		//PRINT recCmdNo;
+	}
+	// 유효명령이 있지만 경유점이 부족하면 경유점명령을 기록한다.
+	else if( validPreViaCnt < TeachCmdTable[validPreCmdNo][TeachCmdTableOffset_ViaNo] )
+	{
+		recCmdNo = 10;
+		isRecCmd = TRUE;
+		reqPos = TRUE;
+	}
+}
+
+// 경로기록 유무
+
+// 기록명령을 모달명령으로 바꾼다.
+// 모달명령이 0이면 새로운 기록은 없다.
+recCmdNo = TeachCmdTable[recCmdNo][TeachCmdTableOffset_Modal]-1;
+
+// 현재 명령을 기록한다.
+if(isRecCmd)
+{
+	//PRINT isRecCmd;
+
+	// 모달 명령이 있으면 현재 커서에 명령을 새롭게 기록한다.
+	if( recCmdNo >= 0 )
+	{
+		// 모달명령기록
+		recCmd = WINC_GET_DATA_STR( TeachCmdTableMem + (recCmdNo) * TeachCmdTableSize + TeachCmdTableOffset_Name );
+		WINC_PUT_DATA_STR( curTeachDataTableMem, recCmd);
+		TeachDataTable[curStepNo][1] = recCmdNo+1;
+		if( TeachCmdTable[recCmdNo][TeachCmdTableOffset_ViaNo] > 0 ) { reqPos = TRUE; }		
+	}	
+
+	// 모달 명령이 없으면 새로운명령은 기록되지 않는다.
+	// 단 현재 end명령이면 1행 추가한다.
+	else
+	{
+		//PRINT isExistCurCmd;
+		
+		if( TeachCmdTable[recCmdNo][TeachCmdTableOffset_ViaNo] > 0 ) 
+		{ 
+			reqPos = TRUE; 
+		}
+		if( !isExistCurCmd )
+		{
+			toNextStep = 0;
+		}
+		
+		if( (curCmdNo+1) == 20 )
+		{
+			insertRow = 1;
+			toNextStep = 0;
+		}
+	}
+}
+else
+{
+	reqPos = FALSE;
+	toNextStep = 0;
+}
+
+// 경로를 요구하는 명령이면 현재위치를 기록시킨다.
+if( reqPos )
+{
+	if( TeachOpHoldPosXOn ) { TeachDataTable[curStepNo][2] = TeachOpHoldPosX; }
+	else { TeachDataTable[curStepNo][2] = #30010; }
+
+	if( TeachOpHoldPosYOn ) { TeachDataTable[curStepNo][3] = TeachOpHoldPosY; }
+	else { TeachDataTable[curStepNo][3] = #30011; }
+
+	if( TeachOpHoldPosZOn ) { TeachDataTable[curStepNo][4] = TeachOpHoldPosZ; }
+	else { TeachDataTable[curStepNo][4] = #30012; }
+
+	if( TeachOpHoldPosAOn ) { TeachDataTable[curStepNo][5] = TeachOpHoldPosA; }
+	else { TeachDataTable[curStepNo][5] = #30013; }
+
+	if( TeachOpHoldPosBOn ) { TeachDataTable[curStepNo][6] = TeachOpHoldPosB; }
+	else { TeachDataTable[curStepNo][6] = #30014; }
+
+	if( TeachOpHoldPosCOn ) { TeachDataTable[curStepNo][7] = TeachOpHoldPosC; }
+	else { TeachDataTable[curStepNo][7] = #30015; }
+}
+
+// 1행을 삽입
+if( insertRow != 0 )
+{
+	VAR i, j;
+	VAR memAddr;
+	
+	// 마지막 행에 명령이 존재하면 안됨.
+	VAR cmd;
+	memAddr = TeachDataTableMem + (TeachStepMax-1) * TeachDataTableSize;
+	if( memAddr < TeachDataTableMem ) { return (0); }
+	
+	cmd = WINC_GET_DATA_STR(memAddr);
+	
+	// 명령이 존재하면
+	if( strcmp( cmd, "") != 0 ) 
+	{
+		messagebox(1, 1, "알림", "명령초과");
+		return(0);
+	}
+	
+	i = TeachStepMax -1; 
+	if( i<0){ return (0); }
+	
+	VAR data, desMem, srcMem, dataSize;
+	dataSize = TeachDataTableSize;
+	
+	while (i >= TeachCurStep )
+	{
+		copy_array(TeachDataTable[i], TeachDataTable[i-1], TeachDataTableSize );
+		i=i-1;
+	}
+	// 현재 위치명령 클리어
+	set_array(TeachDataTable[TeachCurStep-1], TeachDataTableSize, 0);
+
+}
+
+// 다음 스텝으로 이동한다.
+if( toNextStep > 0 ) 
+{
+	TeachCurStep = toNextStep;
+	if( TeachCurStep > TeachStepMax ) { TeachCurStep = TeachStepMax; }
+	call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+}
+
+// 비프
+beep(TeachBeep1Freq, TeachBeep1Time);

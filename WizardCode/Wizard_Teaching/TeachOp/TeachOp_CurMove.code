@@ -1,0 +1,8 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 스텝이동 함수호출
+push_arg(TeachCurStep);
+call("\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_MoveToStep.code");
+return (0);
+

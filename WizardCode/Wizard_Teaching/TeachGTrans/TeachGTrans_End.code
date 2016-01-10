@@ -1,0 +1,82 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR fp;
+
+// G코드 파일
+fp = TeachCurGFile_FP;
+
+// 자동 워크종료코드를 생성한다. 
+// 단 이전에 TeachWork가 시작되었고
+// 다음 명령이 작업명령이 아닐때만
+// 단 스텝실행일 경우 항상 주작업을 종료시킨다.
+if( TeachAutoWorkOn )
+{
+	if( TeachStepExeOn )
+	{
+		if( TeachWorkStart )
+		{
+			TeachWorkStart = 0;
+
+			// 주작업 종료지연시간
+			if( TeachDelayMainWork > 0 )
+			{
+				fprintf_real(fp, "G04 x%-8.3lf \x3b 작업종료지연\n", TeachDelayMainWork);
+			}
+
+		 	// 작업종료코드 생성
+			TeachWorkStart = 0;
+			fputs(fp, "M510 \x3b 동작완료대기\n");
+			fprintf_int(fp, "M%ld \x3b 작업종료\n", TeachWorkOffMacroNo);			
+		}
+	}
+	else if( TeachWorkStart )
+	{
+		VAR stepNo, stepInc;
+		VAR cmdNo;
+		cmdNo =  TeachDataTable[TeachCurStepNo-1][1];
+		
+		// 현재명령이 존재하면
+		if( cmdNo >= 1) 
+		{
+			stepInc = TeachCmdTable[cmdNo-1][TeachCmdTableOffset_ViaNo];
+			if( stepInc < 1) { stepInc = stepInc + 1; }
+			
+			stepNo = TeachCurStepNo + stepInc;
+									
+			// 다음명령이 존재하면
+			cmdNo = TeachDataTable[stepNo-1][1];
+			if( cmdNo >= 1 )
+			{
+				// 다음명령이 주작업명령이 아니면
+				if( !TeachCmdTable[cmdNo-1][TeachCmdTableOffset_MainWork] )
+				{
+					// 주작업 종료지연시간
+					if( TeachDelayMainWork > 0 )
+					{
+						fputs(fp, "M510 \x3b 동작완료대기\n");
+						fprintf_real(fp, "G04 x%-8.3lf \x3b 작업종료지연\n", TeachDelayMainWork);
+					}
+
+				 	// 작업종료코드 생성
+					TeachWorkStart = 0;
+					fprintf_int(fp, "M%ld \x3b 작업종료\n", TeachWorkOffMacroNo);					
+				}
+			}
+			// 다음명령이 존재하지 않으면
+			else
+			{
+				// 주작업 종료지연시간
+				if( TeachDelayMainWork > 0 )
+				{
+					fputs(fp, "M510 \x3b 동작완료대기\n");
+					fprintf_real(fp, "G04 x%-8.3lf \x3b 작업종료지연\n", TeachDelayMainWork);
+				}
+
+			 	// 작업종료코드 생성
+				TeachWorkStart = 0;
+				fprintf_int(fp, "M%ld \x3b 작업종료\n", TeachWorkOffMacroNo);
+			}
+		}
+	}
+}

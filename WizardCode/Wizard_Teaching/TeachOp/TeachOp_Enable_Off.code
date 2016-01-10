@@ -1,0 +1,23 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR AutoMode:#30162;
+VAR OpMode:#30170;
+
+if( OpMode < 120 )
+{
+	AutoMode = 1;
+	
+	// JOG 화면소멸
+	WINC_PUT_DATA_BOOL(30815,0);
+	#37002 = 1; // 설정탭으로 전환
+		
+	// 티칭동작 off
+	TeachOpEnable = 0;
+
+	// 커서뷰 자유
+	VAR dlgMssg[10];
+	dlgMssg[0] ="type=grid, no=0, fixedrow=0, write=1, ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+

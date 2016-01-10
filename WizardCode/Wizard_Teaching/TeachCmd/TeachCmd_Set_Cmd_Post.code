@@ -1,0 +1,57 @@
+/*
+
+	명령기록 후처리
+
+*/
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR curStepNo, curCmdNo, setCmdMem, cmdName;
+
+curStepNo = TeachCurStep-1;
+if(curStepNo < 0 ) { return (0); }
+
+curCmdNo = TeachCurCmdNo-1;
+if( curCmdNo < 0 ) { return (0); }
+
+// 티칭동작상태에서 명령설정일때
+if( TeachOpEnable )
+{
+	// 즉시 위치기록
+	if( TeachCmdTable[curCmdNo][TeachCmdTableOffset_ImPos] )
+	{
+		if( TeachCmdTable[curCmdNo][TeachCmdTableOffset_ViaNo] > 0  )
+		{
+			if( TeachOpHoldPosXOn ) { TeachDataTable[curStepNo][2] = TeachOpHoldPosX; }
+			else { TeachDataTable[curStepNo][2] = #30010; }
+
+			if( TeachOpHoldPosYOn ) { TeachDataTable[curStepNo][3] = TeachOpHoldPosY; }
+			else { TeachDataTable[curStepNo][3] = #30011; }
+
+			if( TeachOpHoldPosZOn ) { TeachDataTable[curStepNo][4] = TeachOpHoldPosZ; }
+			else { TeachDataTable[curStepNo][4] = #30012; }
+
+			if( TeachOpHoldPosAOn ) { TeachDataTable[curStepNo][5] = TeachOpHoldPosA; }
+			else { TeachDataTable[curStepNo][5] = #30013; }
+
+			if( TeachOpHoldPosBOn ) { TeachDataTable[curStepNo][6] = TeachOpHoldPosB; }
+			else { TeachDataTable[curStepNo][6] = #30014; }
+
+			if( TeachOpHoldPosCOn ) { TeachDataTable[curStepNo][7] = TeachOpHoldPosC; }
+			else { TeachDataTable[curStepNo][7] = #30015; }			
+		}
+	}
+	
+	if( TeachCmdTable[curCmdNo][TeachCmdTableOffset_ImNext] )
+	{
+		// 다음스텝
+		TeachCurStep = TeachCurStep + 1;
+		
+		if( TeachCurStep > TeachStepMax ) { TeachCurStep = TeachStepMax; }
+		call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+	}
+}
+
+// 비프
+beep(TeachBeep1Freq, TeachBeep1Time);

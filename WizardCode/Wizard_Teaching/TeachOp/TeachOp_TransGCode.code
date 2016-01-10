@@ -1,0 +1,64 @@
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 현재 이동이 없을때 실행
+if(#30199) 
+{ 
+	messagebox(0,0,"동작상태에서는 변환동작을 실행할 수 없습니다. 현재 동작이 완전히 정지된 후 다시 실행해 주십시오.", "");
+	return(0); 
+}
+
+// 파일명 얻기
+VAR gCodeFilename;
+gCodeFilename = file_dialog( "*.nc", 0);
+if( gCodeFilename < 0) { return (0); }
+WINC_PUT_DATA_STR( get_varindex("TeachGFilePath"), gCodeFilename);
+
+// 파일 쓰기열기
+VAR fp;
+fp = fopen( gCodeFilename, "w+");
+if(fp == NULL)
+{
+	messagebox(0,0,"파일을 열 수 없습니다!", "");
+	return (0);
+}
+TeachCurGFile_FP = fp;
+
+//g코드변역시작알림
+TeachStepExeOn = 0;
+TeachAllExeOn = 0;
+TeachGTransOn = 1;
+
+// 전방 코드 붙이기
+fattach(fp, "\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_All_Start.nc");
+
+
+// 선행처리 코드 추가
+// 1. 피드설정
+fprintf_real(fp, "\n\x3b 작업속도설정 \nF%-10.2lf\n", TeachCmdSpeed);
+// 2. RPM설정
+fprintf_real(fp, "\n\x3b 주축속도설정 \nS%-10.2lf\n", TeachCmdRpm);
+
+// 본체 코드 붙이기
+call("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_All.code");
+
+// 후방 코드 붙이기
+fattach(fp, "\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_All_End.nc");
+
+// 파일닫기
+fclose(fp);
+
+messagebox(0,0,"변환완료!","");
+beep(2000,0.3);
+
+//g코드종료알림
+TeachGTransOn = 0;
+
+// 로딩
+VAR loadfilename;
+loadfilename = WINC_GET_DATA_STR(get_varindex("TeachGFilePath"));
+WINC_LOAD_FILE( loadfilename );
+
+return(0);
+

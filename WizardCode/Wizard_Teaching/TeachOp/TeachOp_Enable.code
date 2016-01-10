@@ -1,0 +1,12 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+if( TeachOpEnable ) 
+{
+	call("\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Enable_Off.code");
+}
+else
+{
+	call("\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Enable_On.code");
+}
+

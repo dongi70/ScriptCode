@@ -1,0 +1,15 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 동작가능여부확인
+if( !TeachEditEnable ) 
+{ 
+	messagebox(0,0,"펀집모드에서만 동작 가능합니다. 편집모드로 전환해 주세요.", "");
+	return(0); 
+}
+
+TeachCurStep = TeachCurStep + 1;
+if(TeachCurStep > TeachStepMax ) { TeachCurStep = TeachStepMax; }
+
+call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Set_Step.code");
+

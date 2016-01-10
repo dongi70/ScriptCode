@@ -1,0 +1,30 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 동작가능여부확인
+if( !TeachEditEnable ) 
+{ 
+	messagebox(0,0,"펀집모드에서만 동작 가능합니다. 편집모드로 전환해 주세요.", "");
+	return(0); 
+}
+
+// 명령의 끝을 찾는다.
+VAR cmd, i, memaddr;
+i = TeachStepMax;
+
+while( i >= 1 )
+{
+	// 문자열테이블이 넘치치 않도록 코드블록으로 감싼다.
+	{
+		memaddr = TeachDataTableMem + (i-1) * TeachDataTableSize;
+		if( memaddr < TeachDataTableMem ) { return (0); }
+		
+		cmd = WINC_GET_DATA_STR( memaddr );
+		if( strcmp(cmd, "") != 0 ) { break; }
+	}
+	i = i-1;
+}
+if( i >= TeachStepMax ) { i=TeachStepMax-1; }
+TeachCurStep = i+1;
+
+call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Set_Step.code");
