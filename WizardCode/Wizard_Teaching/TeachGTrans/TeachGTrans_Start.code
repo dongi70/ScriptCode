@@ -1,0 +1,36 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR fp;
+
+// G코드 파일
+fp = TeachCurGFile_FP;
+if( fp == NULL ) { return (-1); }
+
+// 스텝 주석문 기록
+fprintf_int(fp, "\n\x3b <스텝 %ld>\n", TeachCurStepNo );
+
+// 자동 워크시작코드를 생성한다.
+// 단 현재명령이 주작업명령이고 이전에 작업시작이 되지 않았다면
+if( TeachAutoWorkOn )
+{
+	if( !TeachWorkStart )
+	{
+		VAR cmdNo;
+		cmdNo =  TeachDataTable[TeachCurStepNo-1][1];
+		if( cmdNo >= 1 ) 
+		{
+			if( TeachCmdTable[cmdNo-1][TeachCmdTableOffset_MainWork] )
+			{
+				TeachWorkStart = 1;
+				fprintf_int(fp,"M%ld \x3b 작업시작\n", TeachWorkOnMacroNo);
+
+				// 주작업 시작지연시간
+				if( TeachDelayMainWork > 0 )
+				{
+					fprintf_real(fp, "G04 x%-8.3lf \x3b 작업시작지연\n", TeachDelayMainWork);
+				}
+			}
+		}
+	}
+}

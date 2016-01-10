@@ -1,0 +1,17 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+
+// SPEED 명령 G코드변환
+VAR fp;
+VAR axis;
+
+// G코드 파일
+fp = TeachCurGFile_FP;
+if( fp == NULL ) { return (0); }
+
+// 스텝 주석문 기록
+fputs(fp, sprintf_int("\n\x3b <스텝 %ld>\n", TeachCurStepNo) );
+
+fprintf_real(fp, "G04 X%-5.0lf \x3b 시간지연 \n", TeachDataTable[TeachCurStepNo-1][2]);
+

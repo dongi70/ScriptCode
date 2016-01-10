@@ -1,0 +1,29 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR savefilename;
+savefilename = file_dialog( "*.msp", 0);
+if( savefilename < 0) { return (0); }
+
+WINC_PUT_DATA_STR( get_varindex("TeachFilePath"), savefilename);
+save_datafile( savefilename, TeachDataTable, TeachStepMax * TeachDataTableSize);
+
+// 티칭파일경로명 저장
+WINC_PUT_DATA_STR( get_varindex("TeachFilePath"), savefilename);
+
+// 타이들에 파일이름 표기
+{
+	VAR dlgMssg[10];
+	VAR filename;
+	dlgMssg[0] = "type=frame, enable=1, jogkey=1, show=1, mode = 0, float=1,\~
+				title=티칭 위저드 <";\~
+
+	filename = WINC_GET_DATA_STR(get_varindex("TeachFilePath"));
+	dlgMssg[0] = strcat(dlgMssg[0], filename);
+	dlgMssg[0] = strcat(dlgMssg[0], ">");
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+// 비프
+beep(2000,0.3);

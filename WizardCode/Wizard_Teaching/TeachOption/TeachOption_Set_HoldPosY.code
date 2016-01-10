@@ -1,0 +1,25 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR CurWorkPos[8]:#30010;
+VAR dlgMssg[10];
+
+if( TeachOpHoldPosYOn )
+{
+	TeachOpHoldPosY = CurWorkPos[1];
+
+	VAR memIndex;
+	memIndex = get_varindex("TeachOpHoldPosY");
+	dlgMssg[0] =	"type=edit, no=1, memory=memIndex, writememory=memIndex,";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+else
+{
+	dlgMssg[0] =	"type=edit, no=1, memory=30011, writememory=37901,";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+beep(2500, 0.2);
+
+
+

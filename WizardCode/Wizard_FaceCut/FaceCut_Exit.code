@@ -1,0 +1,5 @@
+
+// 화면감추기
+VAR dlgMssg[2];
+dlgMssg[0] = "type=frame, enable=0, jogkey=1, show=0";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);

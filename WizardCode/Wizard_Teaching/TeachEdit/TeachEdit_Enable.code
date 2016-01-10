@@ -1,0 +1,24 @@
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR dlgMssg[10];
+
+if( !TeachEditEnable ) 
+{
+	call("\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Enable_Off.code");
+	if( !TeachOpEnable )
+	{
+		TeachEditEnable = 1;
+		dlgMssg[0] ="type=grid, no=0, fixedrow=0,";
+		WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+	}
+}
+else
+{
+	TeachEditEnable = 0;
+	dlgMssg[0] = "type=grid, no=0, fixedrow=1,";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+	call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+}
+

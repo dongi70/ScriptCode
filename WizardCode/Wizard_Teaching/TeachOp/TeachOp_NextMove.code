@@ -1,0 +1,13 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 현재명령이 없다면 다음으로 이동하지 않는다.
+if( TeachDataTable[TeachCurStep-1][1] <= 0 ) 
+{
+	beep(5000,0.2);
+	return (0);
+}
+// 스텝이동 함수호출
+push_arg(TeachCurStep+1);
+call("\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_MoveToStep.code");
+return (0);

@@ -1,0 +1,42 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 동작가능여부확인
+if( !TeachEditEnable ) 
+{ 
+	messagebox(0,0,"펀집모드에서만 동작 가능합니다. 편집모드로 전환해 주세요.", "");
+	return(0); 
+}
+
+VAR i, j;
+VAR memAddr;
+
+// 마지막 행에 명령이 존재하면 안됨.
+VAR cmd;
+memAddr = TeachDataTableMem + (TeachStepMax-1) * TeachDataTableSize;
+if( memAddr < TeachDataTableMem ) { return (0); }
+
+cmd = WINC_GET_DATA_STR(memAddr);
+
+// 명령이 존재하면
+if( strcmp( cmd, "") != 0 ) 
+{
+	messagebox(1, 1, "알림", "명령초과");
+	return(0);
+}
+
+i = TeachStepMax -1; 
+if( i<0){ return (0); }
+
+VAR data, desMem, srcMem, dataSize;
+dataSize = TeachDataTableSize;
+
+while (i >= TeachCurStep )
+{
+	copy_array(TeachDataTable[i], TeachDataTable[i-1], TeachDataTableSize );
+	i=i-1;
+}
+// 현재 위치명령 클리어
+set_array(TeachDataTable[TeachCurStep-1], TeachDataTableSize, 0);
+
+

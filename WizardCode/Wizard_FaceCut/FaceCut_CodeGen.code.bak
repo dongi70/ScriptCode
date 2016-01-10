@@ -1,0 +1,283 @@
+/*
+
+	코드생성 변수선언
+*/
+
+VAR MetH:#20001;
+VAR MetW:#20002;
+VAR MetC:#20003;
+VAR ZStart:#20005;
+VAR ZCut:#20006;
+VAR ZEnd:#20007;
+VAR ZSafe:#20008;
+VAR FeedXY:#20009;
+VAR FeedZ:#20010;
+VAR FilenameAddr(20100);
+VAR OpenFilename;
+VAR Pathname;
+VAR fp;
+
+
+/*------------------------------
+
+	코드 기록 파일명
+	
+-------------------------------*/
+// 시스템메모리에서 파일명 얻기.
+OpenFilename = WINC_GET_DATA_STR(FilenameAddr);
+
+// 파일이 없다면 디폴트파일명을 선택
+fp = fopen(OpenFilename, "r");
+if(fp == NULL)
+{
+	messagebox(1,1,"알림창", "지정된 파일이 존재하지 않아서 \n FaceCut_Temp.nc 파일이 자동으로 지정됩니다!");
+	Pathname = get_programpath();
+	OpenFilename = strcat(Pathname, "\\ScriptCode\\WizardCode\\Wizard_FaceCut\\FaceCut_Temp.nc");
+}
+else 
+{
+	fclose(fp);
+}
+
+// 파일명을 시스템메모리에 저장.
+WINC_PUT_DATA_STR(20100, OpenFilename);
+
+/*------------------------------
+
+	파라메터 검사
+	
+------------------------------*/
+/* 
+	테스트 입력용
+	ZCut = 3.0;
+	ZStart = 0.0;
+	ZEnd = -10.0;
+	ZSafe = 10.0;
+	MetW = 100;
+	MetH = 50;
+	MetC = 14;
+	FeedXY = 1000;
+	FeedZ = 300;
+*/
+
+if( ZCut <= 0.0 )
+{
+	messagebox(1,1,"알림창", "Z절삭량이 적절하지 않습니다!");
+	return(0);
+}
+
+if( ZStart <= ZEnd ) 
+{
+	messagebox(1,1,"알림창", "Z절삭 시작/종료 위치값이 적절하지 않습니다!");
+	return(0);
+}
+if( ZSafe <= ZStart )
+{
+	messagebox(1,1,"알림창", "Z안전대기위치가 적절하지 않습니다.!");
+	return(0);
+}
+
+if( MetW <= 0 || MetH <= 0 )
+{
+	messagebox(1,1,"알림창", "모재크기가 적절하지 않습니다.!");
+	return(0);
+}
+
+if( MetC <= 0)
+{
+	messagebox(1,1,"알림창", "XY절삭량이 적절하지 않습니다!");
+	return(0);
+}
+
+if( FeedXY <= 0 || FeedZ <= 0 )
+{
+	messagebox(1,1,"알림창", "절삭피드가 적절하지 않습니다!");
+	return(0);
+}
+
+
+/*------------------------------
+
+	코드 기록
+	
+------------------------------*/
+// 파일 오픈.
+fp = fopen(OpenFilename, "w");
+if( fp == NULL )
+{
+	VAR mssgstr;
+	mssgstr = sprintf_str("\"%s\"파일을 열수없습니다.", OpenFilename);
+	messagebox(1, 1, "알림창", mssgstr);
+	return(0);
+}
+
+// 변수값 기록코드
+if(1)
+{
+	fputs(fp,"\x3b-----------------------------------\n"); 
+	fputs(fp,"\x3b 파라메터 값 기록코드\n"); 
+	fputs(fp,"\x3b-----------------------------------\n"); 
+	fputs(fp,"(모재깊이)\n"); 
+	fprintf_real(fp, "#20001= %8.3lf \n", MetH);
+	fputs(fp,"(모재너비)\n"); 
+	fprintf_real(fp, "#20002= %8.3lf \n", MetW);
+	fputs(fp,"(XY절삭량)\n"); 
+	fprintf_real(fp, "#20003= %8.3lf \n", MetC);
+	fputs(fp,"(Z절삭시작)\n"); 
+	fprintf_real(fp, "#20005= %8.3lf \n", ZStart);
+	fputs(fp,"(Z절삭량)\n"); 
+	fprintf_real(fp, "#20006= %8.3lf \n", ZCut);
+	fputs(fp,"(Z절삭종료)\n"); 
+	fprintf_real(fp, "#20007= %8.3lf \n", ZEnd);
+	fputs(fp,"(Z안전위치)\n"); 
+	fprintf_real(fp, "#20008= %8.3lf \n", ZSafe);
+	fputs(fp,"(XY피드)\n"); 
+	fprintf_real(fp, "#20009= %8.3lf \n", FeedXY);
+	fputs(fp,"(Z피드)\n"); 
+	fprintf_real(fp, "#20010= %8.3lf \n", FeedZ);
+}
+
+// 초기화 코드 생성
+if(1)
+{
+	fputs(fp,"\x3b-----------------------------------\n"); 
+	fputs(fp,"\x3b 초기화 코드 \n"); 
+	fputs(fp,"\x3b-----------------------------------\n"); 
+}
+fputs(fp, "G90G40G49\n");
+	
+// 동작코드생성
+if(1)
+{
+	fputs(fp,"\x3b-----------------------------------\n"); 
+	fputs(fp,"\x3b 동작코드 \n"); 
+	fputs(fp,"\x3b-----------------------------------\n"); 
+}
+
+if(1)
+{
+	VAR toX, toY, toZ, zCut;
+	VAR ArcR;
+	
+	// Z안전위치
+	fputs(fp,"(Z안전위치급속이송)\n"); 
+	fprintf_real(fp, "G00 Z%-8.3lf\n", ZSafe);
+	
+	// XY초기위치
+	fputs(fp,"(XY초기위치이동)\n");
+	fprintf_real(fp, "F%-8.1lf\n", FeedXY);
+	fputs(fp, "G00 X0.0 Y0.0\n");
+	
+	toZ = ZStart;
+	
+	while( toZ > ZEnd )
+	{
+		// Z진입량 계산
+		if( (toZ - ZCut) < ZEnd ) { zCut = toZ - ZEnd; }
+		else { zCut = ZCut; }
+		toZ = toZ - zCut;
+
+		// Z진입
+		fputs(fp,"(Z시작진입)\n");
+		fprintf_real(fp, "F%-8.1lf\n", FeedZ);
+		fprintf_real(fp, "G01 Z%-8.3lf\n", toZ);
+		
+		// XY초기위치	
+		toX = 0.0;
+		toY = 0.0;	
+
+		// XY피드
+		fputs(fp,"(XY절삭코드)\n");
+		fprintf_real(fp, "F%-8.1lf\n", FeedXY);
+
+		// XY절삭 루프
+		while( toX < MetW )
+		{
+			// 아크회전반경
+			if( toX+MetC <= MetW ) { ArcR = MetC/2; }
+			else { ArcR = (MetW-toX)/2; }
+			
+			if( toY == 0.0 )
+			{
+				toY = MetH;			
+				// G01 Y(toY)
+				fprintf_real(fp, "G01 Y%-8.3lf\n", toY);
+				
+				// G02 I(ArcR) X(toX+2*ArcR)
+				fprintf_real(fp, "G02 I%-8.3lf", ArcR);
+				fprintf_real(fp, "X%-8.3lf\n", toX+2*ArcR);
+			}
+			else
+			{
+				toY = 0.0;
+				// G01 Y(toY)
+				fprintf_real(fp, "G01 Y%-8.3lf\n", toY);
+
+				// G03 I(ArcR) X(toX+2*ArcR)
+				fprintf_real(fp, "G03 I%-8.3lf", ArcR);
+				fprintf_real(fp, "X%-8.3lf\n", toX+2*ArcR);
+			}
+			toX = toX + 2*ArcR;
+		}
+
+		// 마지막 XY절삭
+		if( toY == 0.0 )
+		{
+			toY = MetH;			
+			// G01 Y(toY)
+			fprintf_real(fp, "G01 Y%-8.3lf\n", toY);			
+		}
+		else
+		{
+			toY = 0.0;
+			// G01 Y(toY)
+			fprintf_real(fp, "G01 Y%-8.3lf\n", toY);
+		}
+		
+		// Z안전위치
+		fputs(fp,"(Z안전위치)\n");
+		fprintf_real(fp, "G00 Z%8.3lf\n", ZSafe);
+
+		// XY초기위치
+		fputs(fp,"(XY초기위치)\n");
+		fputs(fp, "G00 X0.0 Y0.0\n");
+	}
+}
+
+// 종료 코드 생성
+if(1)
+{
+	fputs(fp,"\x3b-----------------------------------\n"); 
+	fputs(fp,"\x3b 종료코드 \n"); 
+	fputs(fp,"\x3b-----------------------------------\n"); 
+}
+fputs(fp, "M30\n");
+
+
+/*------------------------------
+
+	파일닫기
+
+------------------------------*/
+fclose(fp);
+
+
+/*------------------------------
+
+	에디터 파일 재로딩
+
+------------------------------*/
+{
+	VAR dlgMssg[2];
+	dlgMssg[0] =  sprintf_str("type=richedit, no=0, link=%s", OpenFilename);
+	dlgMssg[1] =  "type=button, no=40, check=0";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 2);
+}
+
+/*------------------------------
+
+	메시지 알림
+
+------------------------------*/
+//messagebox(1,1,"알림창", "코드가 생성되었습니다!");
+

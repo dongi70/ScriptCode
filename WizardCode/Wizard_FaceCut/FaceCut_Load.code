@@ -1,0 +1,4 @@
+VAR LoadFilename;
+LoadFilename = WINC_GET_DATA_STR(20100);
+//PRINT $LoadFilename;
+WINC_LOAD_FILE(LoadFilename);

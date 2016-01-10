@@ -1,0 +1,64 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 티칭동작가능여부확인
+if( !TeachOpEnable ) 
+{ 
+	messagebox(0,0,"티칭동작이 활성화(티칭ON)되어 있지 않습니다. 티칭동작을 활성화해 주십시오", "");
+	return(0); 
+}
+
+// 현재 이동이 없을때 실행
+if(#30199) { return(0); }
+
+VAR axis, toPos[8], toMachPos[8], stepNo, stepDataMem ;
+axis = TeachAxis;
+
+// 현재 스텝메모리
+stepNo = TeachCurStep-1;
+if(stepNo < 0 ) { return (0); }
+if( stepNo >= TeachStepMax ) {stepNo = TeachStepMax-1; }
+stepDataMem = TeachDataTableMem + stepNo * TeachDataTableSize;
+
+// 현재 스텝번호 얻기
+TeachCurStepNo = TeachCurStep;
+
+// 현재 명령번호 얻기
+VAR curCmdNo;
+curCmdNo = TeachDataTable[stepNo][1];
+if( curCmdNo < 0 ) { return (0); }
+
+// 현재 명령인자 얻기
+copy_array( TeachCurCmdBuf, TeachDataTable[stepNo], TeachDataTableSize);
+
+// 현재 위치얻기
+TeachLastPosX = #30010;
+TeachLastPosY = #30011;
+TeachLastPosZ = #30012;
+TeachLastPosA = #30013;
+TeachLastPosB = #30014;
+TeachLastPosC = #30015;
+
+// 항상 주작업 off상태이다.
+TeachWorkStart = 0;
+
+// 현재 명령실행파일 실행
+// 명령번호로 스텝실행파일이름 얻기
+VAR filename;
+filename = sprintf_int("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_StepExe_%02ld.code", curCmdNo);
+
+call(filename);
+
+// 커서이동
+{
+	VAR nextCurOffset;
+	nextCurOffset = TeachCmdTable[curCmdNo-1][TeachCmdTableOffset_ViaNo];
+	if( nextCurOffset < 1 ) { nextCurOffset = 1; }
+	
+	if( TeachDataTable[TeachCurStep-1][1] > 0 )
+	{
+		TeachCurStep = TeachCurStep + nextCurOffset;
+		if( TeachCurStep > TeachStepMax ) { TeachCurStep = TeachStepMax; }
+		call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+	}
+}

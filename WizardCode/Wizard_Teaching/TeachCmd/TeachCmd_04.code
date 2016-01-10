@@ -1,0 +1,33 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 명령기록
+TeachCurCmdNo = 4;
+if( call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd.code") < 0 ) { return (0) };
+
+// 평면에 따른 명령
+VAR memIndex;
+memIndex = get_varindex("TeachDataTable");
+memIndex = memIndex + (TeachCurStep-1)*TeachDataTableSize + 0;
+
+if( TeachCmdPlane == 0 )
+{
+	TeachDataTable[TeachCurStep-1][8] = 0;
+	WINC_PUT_DATA_STR( memIndex, "Cir.XY");
+}
+else if( TeachCmdPlane == 1 )
+{
+	TeachDataTable[TeachCurStep-1][8] = 1;
+	WINC_PUT_DATA_STR( memIndex, "Cir.YZ");
+}
+else if( TeachCmdPlane == 2 )
+{
+	TeachDataTable[TeachCurStep-1][8] = 2;
+	WINC_PUT_DATA_STR( memIndex, "Cir.XY");
+}
+else
+{
+	// 오류
+}
+
+call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd_Post.code");

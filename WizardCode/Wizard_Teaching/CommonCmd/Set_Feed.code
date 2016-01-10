@@ -1,0 +1,6 @@
+// 자동동작중에는 작동안하기
+VAR OnAuto:#30194;
+if( OnAuto ) { return (0); }
+
+VAR feed:#37908;
+WINC_FEED(feed);

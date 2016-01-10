@@ -1,0 +1,81 @@
+/*
+
+	명령기록
+
+*/
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR curStepNo, curCmdNo, setCmdMem, cmdName;
+
+curStepNo = TeachCurStep-1;
+if(curStepNo < 0 ) { return (0); }
+
+curCmdNo = TeachCurCmdNo-1;
+if( curCmdNo < 0 ) { return (0); }
+
+if( TeachOpEnable )
+{
+	// 현재위치에 명령이 존재하면 
+	// 명령을 덮어쓸 것인지 확인한다.
+	if( TeachDataTable[curStepNo][1] != 0 ) //curCmdNo )
+	{
+		VAR mssg;
+		mssg = "\"";
+		mssg = strcat ( mssg, WINC_GET_DATA_STR( get_varindex("TeachCmdTable") + curCmdNo*TeachCmdTableSize + TeachCmdTableOffset_Title));
+		mssg = strcat ( mssg, " \" 명령으로 덮어쓰시겠습니까?" );
+		if( messagebox(2,0,"확인메세지창", mssg) == 2 )
+		{
+			return (-1);
+		}
+	}
+}
+
+setCmdMem = TeachDataTableMem + curStepNo * TeachDataTableSize;
+cmdName = WINC_GET_DATA_STR( TeachCmdTableMem + curCmdNo * TeachCmdTableSize + TeachCmdTableOffset_Name);
+
+
+// 평면에 요구에 따른 명령 추가변환설정
+if( TeachCmdTable[curCmdNo][TeachCmdTableOffset_Plane] == 2 )
+{
+	if( TeachCmdPlane == 0 )
+	{
+		TeachDataTable[curStepNo][8] = 0;
+		cmdName = strcat(cmdName , "XY");
+	}
+	else if( TeachCmdPlane == 1 )
+	{
+		TeachDataTable[curStepNo][8] = 1;
+		cmdName = strcat(cmdName , "YZ");
+	}
+	else if( TeachCmdPlane == 2 )
+	{
+		TeachDataTable[curStepNo][8] = 2;
+		cmdName = strcat(cmdName , "ZX");
+	}
+	else
+	{
+		// 오류
+	}
+}
+
+WINC_PUT_DATA_STR( setCmdMem , cmdName);
+WINC_PUT_DATA_REAL( setCmdMem+1 , TeachCurCmdNo);
+
+// 위치요구가 없는 명령이다면 파라메터 클리어
+if( TeachCmdTable[curCmdNo][TeachCmdTableOffset_ViaNo] <= 0 )
+{
+	VAR teachDataMem;
+	teachDataMem = TeachDataTableMem + curStepNo * TeachDataTableSize;
+	WINC_PUT_DATA_REAL(teachDataMem + 2, 0);
+	WINC_PUT_DATA_REAL(teachDataMem + 3, 0);
+	WINC_PUT_DATA_REAL(teachDataMem + 4, 0);
+	WINC_PUT_DATA_REAL(teachDataMem + 5, 0);
+	WINC_PUT_DATA_REAL(teachDataMem + 6, 0);
+	WINC_PUT_DATA_REAL(teachDataMem + 7, 0);
+	WINC_PUT_DATA_REAL(teachDataMem + 8, 0);
+	WINC_PUT_DATA_REAL(teachDataMem + 9, 0);
+}
+
+return(0);

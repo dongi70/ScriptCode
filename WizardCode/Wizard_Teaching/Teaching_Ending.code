@@ -1,0 +1,12 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+/*-----------------------------------
+
+		 티칭구성저장
+		
+-----------------------------------*/
+VAR loadconfigfilename;
+loadconfigfilename = get_programpath();
+loadconfigfilename = strcat( loadconfigfilename, "\\ScriptCode\\WizardCode\\Wizard_Teaching\\Teach_Config.dat");
+save_datafile( loadconfigfilename, TeachConfigTable, TeachConfigTableMax);

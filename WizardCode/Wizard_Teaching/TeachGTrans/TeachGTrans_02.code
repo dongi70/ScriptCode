@@ -1,0 +1,64 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// LINE 명령 G코드변환
+VAR fp;
+VAR axis;
+VAR toPos[8], toLiftPos[8], toPos1[8], toDownPos[8];
+VAR str;
+VAR i;
+
+// 동작 파라메터
+axis = TeachCmdTable[TeachCurCmdNo-1][TeachCmdTableOffset_Axis];
+
+// 좌표
+toPos[0] = TeachCurParaX;
+toPos[1] = TeachCurParaY;
+toPos[2] = TeachCurParaZ;
+toPos[3] = TeachCurParaA;
+toPos[4] = TeachCurParaB;
+toPos[5] = TeachCurParaC;
+
+// G코드 파일
+fp = TeachCurGFile_FP;
+if( fp == NULL ) { return (0); }
+
+// 시작처리코드 호출
+call("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_Start.code");
+
+// G01 기록
+fputs(fp, "G01 ");
+
+// 좌표 기록
+if( axis & AXIS_X ) { fprintf_real(fp, "X%-8.3lf", toPos[0]); }
+
+if( axis & AXIS_Y ) { fprintf_real(fp, "Y%-8.3lf", toPos[1]); }
+
+if( axis & AXIS_Z ) { fprintf_real(fp, "Z%-8.3lf", toPos[2]); }
+
+if( axis & AXIS_A ) { fprintf_real(fp, "A%-8.3lf", toPos[3]); }
+
+if( axis & AXIS_B ) { fprintf_real(fp, "B%-8.3lf", toPos[4]); }
+
+if( axis & AXIS_C ) { fprintf_real(fp, "C%-8.3lf", toPos[5]); }
+
+// 종료 기록
+fputs(fp, "\x3b 직선\n" ); // \x3b = 세미콜론
+
+// 최종해석명령업데이트
+copy_array( TeachLastCmdBuf, TeachCurCmdBuf, TeachDataTableSize );
+
+// TeachLastPos 갱신
+TeachLastPos[0] = toPos[0];
+TeachLastPos[1] = toPos[1];
+TeachLastPos[2] = toPos[2];
+TeachLastPos[3] = toPos[3];
+TeachLastPos[4] = toPos[4];
+TeachLastPos[5] = toPos[5];
+
+// 종료처리코드 호출
+call("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_End.code");
+
+// 리턴
+return(0);
+

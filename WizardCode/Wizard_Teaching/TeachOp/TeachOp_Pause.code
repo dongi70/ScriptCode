@@ -1,0 +1,14 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR dlgMssg[10];
+
+WINC_ENTER_IMCMD();
+WINC_PAUSE();
+WINC_LEAVE_IMCMD();
+
+beep(4000,0.7);
+WINC_ENTER_IMCMD();
+WINC_CLR_QUEUE();
+WINC_CANCEL();
+WINC_LEAVE_IMCMD();

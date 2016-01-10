@@ -1,0 +1,1468 @@
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+/*-----------------------------------------------
+
+	티칭 시스템 초기화
+	
+-----------------------------------------------*/
+call("\\WizardCode\\Wizard_Teaching\\Teaching_Setup.code");
+
+
+/*-----------------------------------------------
+
+	화면을 그리는 기본적인 메시지변수 선언
+
+-----------------------------------------------*/
+VAR  dlgMssg[10](0);
+
+/*-----------------------------------------------
+
+	화면 지우기
+
+-----------------------------------------------*/
+{
+	dlgMssg[0] = "type=all, clear=1, show=0";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+//-----------------------------------------------
+//
+// 화면을 위치, 색 지정들을 위한 몇가지 변수지정
+//
+//-----------------------------------------------
+VAR bttnNo(0);
+VAR bttnMode(0);		// 버튼모드 : 일반 버튼 = 0, 이미지버튼 = 1
+VAR bttnX;				// 버튼 (초기)위치 X
+VAR bttnY;				// 버튼 (초기)위치 Y
+VAR bttnOffsetX;		// 버튼 배열 X옵셋
+VAR bttnOffsetY;		// 버튼 배열 Y옵셋
+VAR bttnW;				// 버튼 너비 W
+VAR bttnH;				// 버튼 높이 H
+VAR bttnR;				// 버튼 라운드 R
+VAR bttnFontSize(25);	// 버튼 폰트사이즈
+VAR bttnMemory;
+VAR bttnBlinkTime;
+
+// 버튼의 칼라속성
+VAR bttnColor,	bttnBkColor,	bttnHovColor,	bttnSelColor,	bttnSelTextColor,	bttnDisColor;
+VAR bttn2Color, bttn2BkColor,	bttn2HovColor,	bttn2SelColor,	bttn2SelTextColor,	bttn2DisColor;
+
+// 버튼 칼라지정
+bttnColor 			= BLACK;	// 텍스트 및 일반칼라
+bttnSelTextColor	= RED;		// 선택되었을 때 텍스트 칼라
+bttnBkColor 		= GRAY;		// 기본 배경칼라 (이미지 버튼의 경우 의미없음)
+bttnHovColor 		= CYAN;		// 마우스포인터 올려질 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnSelColor 		= CYAN;		// 선택되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnDisColor 		= GRAY;		// 비활성화 되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+
+// 행렬버튼속성
+VAR bttnCol, bttnRow;
+
+// 비프 속성
+VAR beepHz(3000);
+VAR beepTime(0.1);
+
+/*--------------------------------------------------------------------------------------------------------
+//
+// 위치 좌표 정보 
+//
+--------------------------------------------------------------------------------------------------------*/
+bttnNo 		= 0;
+
+bttnX		= 119;
+bttnY		= 42;
+bttnW		= 107;
+bttnH		= 35;
+bttnR		= 5;
+bttnOffsetX	= 107;
+bttnOffsetY	= 0;
+bttnFontSize= 18;
+
+
+//----------------------------------------
+// 위치버튼 (bttn:0~7)
+//----------------------------------------
+bttnBlinkTime = 0.0;
+bttnNo = bttnNo;
+bttnColor 			= BLACK;
+bttnBkColor 		= RGB(150,255,150); //GREEN;
+bttnSelColor 		= RGB(200,200,200);// RGB(255,150,150); //RGB(230,230,230);
+bttnSelTextColor	= BLACK
+bttnR 				= 0;
+
+bttnMemory = get_varindex("TeachOpHoldPosXOn");
+bttnCol = 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, selcolor=bttnSelColor, seltextcolor=bttnSelTextColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=X축, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~	 
+	 readmemory=bttnMemory, writememory=bttnMemory, \~
+	 valtype=real, setvalue=1, toggle=1, blink=bttnBlinkTime, autoblink=0, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_HoldPosX.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+bttnNo = bttnNo+1;
+bttnMemory = get_varindex("TeachOpHoldPosYOn");
+bttnCol = 1; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, selcolor=bttnSelColor, seltextcolor=bttnSelTextColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=Y축, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~	 
+	 readmemory=bttnMemory, writememory=bttnMemory, \~
+	 valtype=real, setvalue=1, toggle=1, blink=bttnBlinkTime, autoblink=0, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_HoldPosY.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+bttnNo = bttnNo+1;
+bttnMemory = get_varindex("TeachOpHoldPosZOn");
+bttnCol = 2; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, selcolor=bttnSelColor, seltextcolor=bttnSelTextColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=Z축, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~	 
+	 readmemory=bttnMemory, writememory=bttnMemory, \~
+	 valtype=real, setvalue=1, toggle=1, blink=bttnBlinkTime, autoblink=0, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_HoldPosZ.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+bttnNo = bttnNo+1;
+bttnMemory = get_varindex("TeachOpHoldPosAOn");
+bttnCol = 3; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, selcolor=bttnSelColor, seltextcolor=bttnSelTextColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=A축, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~
+	 readmemory=bttnMemory, writememory=bttnMemory, \~
+	 valtype=real, setvalue=1, toggle=1, blink=bttnBlinkTime, autoblink=0, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_HoldPosA.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+bttnNo = bttnNo+1;
+bttnMemory = get_varindex("TeachOpHoldPosBOn");
+bttnCol = 4; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, selcolor=bttnSelColor, seltextcolor=bttnSelTextColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=B축, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~	 
+	 readmemory=bttnMemory, writememory=bttnMemory, \~
+	 valtype=real, setvalue=1, toggle=1, blink=bttnBlinkTime, autoblink=0, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_HoldPosB.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+bttnNo = bttnNo+1;
+bttnMemory = get_varindex("TeachOpHoldPosCOn");
+bttnCol = 5; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, selcolor=bttnSelColor, seltextcolor=bttnSelTextColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=C축, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~	 
+	 readmemory=bttnMemory, writememory=bttnMemory, \~
+	 valtype=real, setvalue=1, toggle=1, blink=bttnBlinkTime, autoblink=0, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_HoldPosC.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 속도
+bttnNo = bttnNo+1;
+bttnCol = 6; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=0, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=속도, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~	 
+	";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// RPM
+bttnNo = bttnNo+1;
+bttnMemory = get_varindex("TeachOpHoldPosCOn");
+bttnCol = 7; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=0, \~
+	 x=bttnX+bttnCol*bttnOffsetX, y=bttnY+bttnRow*bttnOffsetY, w=bttnW, h=bttnH, round=bttnR, \~ 
+	 color=bttnColor, bkcolor=bttnBkColor, outlinecolor=BLACK, \~
+	 fontsize=bttnFontSize, title=RPM, image=Common_Button.bmp, round=0, color=BLACK, blinkimage=Common_Button_GREEN.bmp, \~	 
+	";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 위치정보 창 edit>0~7 (고정번호 : 다른 메소드에서 참조됨)
+//----------------------------------------
+VAR editNo(0);
+VAR editX;
+VAR editY;
+VAR editOffsetX;
+VAR editOffsetY;
+VAR editW;
+VAR editH;
+VAR editFontSize(24);
+VAR OptionKeyPad ;
+OptionKeyPad = 0;
+
+editX = bttnX;
+editY = bttnY+bttnH+6;
+editOffsetX = bttnOffsetX;
+editOffsetY = 0;
+editW = bttnW;
+editH = 28;
+
+editNo = editNo;
+dlgMssg[0] =	"type=edit, no=editNo, enable=1, show=1, readonly=0,\~
+				x=editX + 0*editOffsetX, y=editY + 0*editOffsetY, w=editW, h=editH, \~
+				color=BLACK, font=Arial, bkcolor=WHITE, \~
+				format=%8.3f, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=30010, writememory=37900, beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\WorkCoord_Set_X.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+dlgMssg[0] = 	"type=edit, no=editNo, enable=1, show=1, readonly=0,\~
+				x=editX + 1*editOffsetX, y=editY + 1*editOffsetY, w=editW, h=editH, \~
+				color=BLACK, font=Arial, bkcolor=WHITE, \~
+				format=%8.3f, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=30011, writememory=37901, beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\WorkCoord_Set_Y.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+dlgMssg[0] = 	"type=edit, no=editNo, enable=1, show=1, readonly=0, \~
+				x=editX + 2*editOffsetX, y=editY + 2*editOffsetY, w=editW, h=editH, \~
+				color=BLACK, font=Arial, bkcolor=WHITE, \~
+				format=%8.3f, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=30012, writememory=37902, beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\WorkCoord_Set_Z.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+dlgMssg[0] = 	"type=edit, no=editNo, enable=1, show=1, readonly=0, \~
+				x=editX + 3*editOffsetX, y=editY + 3*editOffsetY, w=editW, h=editH, \~
+				color=BLACK, font=Arial, \~
+				format=%8.3f, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=30013, writememory=37903,  beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\WorkCoord_Set_A.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+dlgMssg[0] = 	"type=edit, no=editNo, enable=1, show=1, readonly=0,\~
+				x=editX + 4*editOffsetX, y=editY + 4*editOffsetY, w=editW, h=editH, \~
+				color=BLACK,, font=Arial, \~
+				format=%8.3f, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=30014, writememory=37904,  beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\WorkCoord_Set_B.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+dlgMssg[0] = 	"type=edit, no=editNo, enable=1, show=1, readonly=0, \~
+				x=editX + 5*editOffsetX, y=editY + 5*editOffsetY, w=editW, h=editH, \~
+				color=BLACK,, font=Arial, \~
+				format=%8.3f, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=30015, writememory=37905,  beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\WorkCoord_Set_C.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+dlgMssg[0] =	"type=edit, no=editNo, enable=1, show=1, readonly=0, \~
+				x=editX + 6*editOffsetX, y=editY + 6*editOffsetY, w=editW, h=editH, \~
+				color=BLACK, font=Arial, \~
+				format=% 5.1f, keypad=0, fontsize=editFontSize, \~
+				memory=30121, writememory=37908, beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\Set_Feed.code, ";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+dlgMssg[0] =	"type=edit, no=editNo, enable=1, show=1, readonly=0, \~
+				x=editX + 7*editOffsetX, y=editY + 7*editOffsetY, w=editW, h=editH, \~
+				color=BLACK, font=Arial, \~
+				format=% 5.1f, keypad=0, fontsize=editFontSize, \~
+				memory=30129, writememory=37909, beep=beepHz, \~
+				link2=\\WizardCode\\Wizard_Teaching\\CommonCmd\\Set_Spindle_Rpm.code, ";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+/*-----------------------------------------------
+
+ 명령스텝 (edit 9)
+
+-----------------------------------------------*/
+editNo = editNo+1;
+dlgMssg[0]	= "type=edit, no=editNo, enable=1, show=1,  x=16, y=55, w=100, h=50, \~
+			color=WHITE, bkcolor=RED, \~
+			font=Arial, fontsize=45,\~
+			memory=get_varindex(\"TeachCurStep\"), writememory=get_varindex(\"TeachCurStep\"), \~
+			format=%3.0lf,  beep=beepHz, beeptime=0.2, \~
+			link2=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Set_Step.code, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+
+//--------------------------------------------------------------------------------------------------------
+//
+// 3D VIEW 출력 ;
+//
+//--------------------------------------------------------------------------------------------------------
+VAR _3dViewX(694);
+VAR _3dViewY(143);
+VAR _3dViewW(280);
+VAR _3dViewH(187);
+VAR _3dViewbkcolor(0x0000);
+VAR _3dViewOption
+VAR _3dViewer;
+VAR _3dViewerTarget;
+VAR _3dViewerUp;
+VAR _3dView;
+
+dlgMssg[0] = "type=3dview, show=1, no=0, x=_3dViewX, y=_3dViewY, w=_3dViewW, h=_3dViewH, bkcolor=_3dViewbkcolor, title=\"3DView\", color=YELLOW, ";
+
+_3dViewOption	= " 3doption = 1, 3dtool=1, 3ddraft=1, 3dxyplane=1, ";
+_3dViewer 		= " 3dviewer.x=1000, 3dviewer.y=-1000, 3dviewer.z=1000, ";
+_3dViewerTarget = " 3dviewer.tx=60, 3dviewer.ty=100, 3dviewer.tz=0, ";
+_3dViewerUp 	= " 3dviewer.ux=0, 3dviewer.uy=0, 3dvieweruz=1,";
+
+_3dView = "3dview.xmin=-120, 3dview.xmax=120, 3dview.ymin=-1, 3dview.ymax=-1 ";
+
+// 스트링결합
+dlgMssg[0] = strcat( dlgMssg[0], _3dViewOption );
+dlgMssg[0] = strcat( dlgMssg[0], _3dViewer );
+dlgMssg[0] = strcat( dlgMssg[0], _3dViewerTarget );
+dlgMssg[0] = strcat( dlgMssg[0], _3dViewerUp );
+dlgMssg[0] = strcat( dlgMssg[0], _3dView );
+
+//----------------------------------------
+// 진행 바
+//----------------------------------------
+dlgMssg[1] = "type=slider, no=1, enable=1, readonly=1, vertical=0, show=1, x=_3dViewX, y=_3dViewY+_3dViewH, w=_3dViewW, h=24, width=30, min=0, max=100,  pos=10, memory=30782, bkcolor=CYAN, outlinecolor=BLACK,  image=Slider_Bar.gif, link=";
+
+//----------------------------------------
+// 윈도우에 전송
+//----------------------------------------
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+
+/*-----------------------------------------------
+
+	그리드 컨트롤 변수
+
+-----------------------------------------------*/
+VAR gridNo;
+VAR gridX, gridY, gridW, gridH;
+VAR gridWidth, gridHeight, gridTitleHeight;
+VAR gridColMax, gridRowMax;
+VAR gridTitleColor, gridTitleBkColor;
+VAR gridRowTitleColor, gridRowTitleBkColor, gridRowBkColor;
+VAR gridColor, gridBkColor;
+VAR gridSelColor, gridSelBkColor;
+VAR gridSelRowTitleColor, gridSelRowTitleBkColor;
+VAR gridCmdDataOffset;
+
+// 그리드 컨트롤 변수 초기화
+gridNo=0;
+gridWidth = 100; gridHeight=30; gridTitleHeight = 30;
+gridColMax = 10; gridRowMax=100;
+gridTitleColor = BLACK; gridTitleBkColor = YELLOW;
+gridRowTitleColor = BLACK; gridRowTitleBkColor = GRAY;
+
+/*-----------------------------------------------
+
+	티칭 코드 그리드
+
+-----------------------------------------------*/
+gridX = 12;
+gridY = 143;
+gridW = 681;//712; //962;
+gridH = 187;
+dlgMssg[0] ="type=grid, no=gridNo, enable=1, show=1, x=gridX, y=gridY, w=gridW, h=gridH, \~
+			colmax=10, rowmax=TeachStepMax+1, width=gridWidth, height=30, titleheight=30,\~
+			color=BLACK, bkcolor=WHITE,\~
+			titlecolor=BLACK, titlebkcolor=YELLOW,\~
+			rowtitlecolor=BLACK, rowtitlebkcolor=GRAY,\~
+			font=바탕체, fontsize=18, align=0, \~
+			read = 1, write = 1, \~
+			rowoffset=0, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=0,  write=0, titlecolor=0xFFFFFF, titlebkcolor=RED, width=60, \~
+			title=스텝, \~
+			datatype=const, format=%4.0lf, startindex=1, nextindex=2, write=0, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+gridCmdDataOffset = 0;
+dlgMssg[0] ="type=grid, no=gridNo, col=1, row=0, write=0, titlecolor=0xFFFFF, titlebkcolor=BLUE, width=gridWidth, \~
+			datatype=str,  datasize=8, format=%s, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=명령, link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Check_Cmd.code, \~
+			";	
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 2;
+dlgMssg[0] ="type=grid, no=gridNo, col=2, titlecolor=BLUE,  row=0, width=gridWidth,  \~
+			datatype=real, format=%8.3lf,  startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=X, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 3;
+dlgMssg[0] ="type=grid, no=gridNo, col=3, titlecolor=BLUE, row=0, width=gridWidth, \~
+			datatype=real,  format=%8.3lf, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=Y, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 4;
+dlgMssg[0] ="type=grid, no=gridNo, col=4, titlecolor=BLUE, row=0, width=gridWidth, \~
+			datatype=real,  format=%8.3lf, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=Z, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 5;
+dlgMssg[0] ="type=grid, no=gridNo, col=5, titlecolor=BLUE, row=0, width=gridWidth, \~
+			datatype=real,  format=%8.3lf, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=A, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 6;
+dlgMssg[0] ="type=grid, no=gridNo, col=6, titlecolor=BLUE, row=0, width=gridWidth, \~
+			datatype=real,  format=%8.3lf, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=B, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 7;
+dlgMssg[0] ="type=grid, no=gridNo, col=7, titlecolor=BLUE, row=0, width=gridWidth, \~
+			datatype=real,  format=%8.3lf, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=C, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 8;
+dlgMssg[0] ="type=grid, no=gridNo, col=8, titlecolor=BLUE, row=0, width=gridWidth, \~
+			datatype=real,  format=%8.3lf, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=P7, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+gridCmdDataOffset = 9;
+dlgMssg[0] ="type=grid, no=gridNo, col=9, titlecolor=BLUE, row=0, width=gridWidth, \~
+			datatype=real,  format=%8.3lf, startindex=TeachDataTableMem+gridCmdDataOffset, nextindex=TeachDataTableMem+TeachDataTableSize+gridCmdDataOffset, \~
+			title=P8, \~
+			";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 커서이동 초기화
+dlgMssg[0] ="type=grid, no=gridNo, fixedrow=0,  gotorow=TeachCurStep, currow=TeachCurStep, rowtitleselbkcolor=0Xf080f0, selbkcolor=0x80ff80,";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+/*--------------------------------------------------------------------------------------
+
+	코드 리스트 에디터 (bttn : 20 ~ 30)
+
+---------------------------------------------------------------------------------------*/
+bttnX		= 12;
+bttnY		= 331;
+bttnW		= 102;
+bttnH		= 43;
+bttnR		= 0;
+bttnOffsetX	= 103;
+bttnOffsetY	= 0;
+bttnFontSize= 17;
+
+//----------------------------------------
+// 편집 ON/OFF
+//----------------------------------------
+bttnCol = 0; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, enable=1, groupid=0, show=1, lamp=1,  beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=GRAY, selcolor=CYAN, seltextcolor=BLACK,  \~
+	 outlinecolor=BLACK,  outline=2, round=bttnR, \~
+	 fontsize=bttnFontSize, title=편집OFF, seltitle=편집ON, \~
+	 blink=0.5, autoblink=1, readmemory=get_varindex(\"TeachEditEnable\"), valtype=real, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Enable.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 커서 이전
+//----------------------------------------
+bttnCol = 0; bttnRow = 0;
+bttnX = bttnX + bttnOffsetX;
+bttnW = 86;
+bttnOffsetX = 86;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=이전, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_Back.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 커서 다음
+//----------------------------------------
+bttnCol = 1; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=다음, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_Next.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+//----------------------------------------
+// 커서 처음
+//----------------------------------------
+bttnCol = 2; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=처음, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_Start.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 커서 끝
+//----------------------------------------
+bttnCol = 3; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=끝, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_End.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 커서 삽입
+//----------------------------------------
+bttnCol = 4; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=삽입, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_Insert.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 커서 삭제
+//----------------------------------------
+bttnCol = 5; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=삭제, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_Delete.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 후방 삭제
+//----------------------------------------
+bttnCol = 6; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=후방\n삭제, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_DelAfter.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+//----------------------------------------
+// 전체 삭제
+//----------------------------------------
+bttnCol = 7; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=전체\n삭제, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Step_DelAll.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+//----------------------------------------
+// 파일 열기
+//----------------------------------------
+bttnCol = 8; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=열기, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Open.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+//----------------------------------------
+// 저장
+//----------------------------------------
+bttnCol = 9; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, beep=beepHz, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=저장, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_Save.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+/*--------------------------------------------------------------------------------------
+
+	티칭 명령 옵션 
+
+---------------------------------------------------------------------------------------*/
+bttnX		= 15;
+bttnY		= 562;
+bttnW		= 60;
+bttnH		= 60;
+bttnR		= 60;
+bttnOffsetX	= 95;
+bttnOffsetY	= 75;
+bttnFontSize= 20;
+
+// 비상정지
+bttnNo	= bttnNo+1;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, enable=1, mode=0, show=1, lamp=1, \~
+	 x=910, y=bttnY + 10, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=WHITE, bkcolor=RED, selcolor=YELLOW, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=비상, \~
+	 readmemory=30191, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_EStop.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+// 리셋
+bttnNo	= bttnNo+1;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, enable=1, mode=0, show=1, lamp=1, \~
+	 x=846, y=bttnY + 10, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=WHITE, bkcolor=GREEN, selcolor=YELLOW, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=리셋, \~
+	 readmemory=30192, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Reset.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 홈
+bttnNo	= bttnNo+1;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, enable=1,  mode=0, show=1, lamp=1, \~
+	 x=782, y=bttnY + 10, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=WHITE, bkcolor=BLUE, selcolor=YELLOW, outlinecolor=BLACK, seltextcolor=BLUE, \~
+	 fontsize=bttnFontSize, title=홈, \~
+	 readmemory=30195, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Home.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 정지-취소
+bttnNo = bttnNo+1;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, enable=1, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=718, y=bttnY + 10, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=BLACK, bkcolor=RGB(255\\,180\\,180), selcolor=YELLOW, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=정지, \~
+	 readmemory=30196, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Pause.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 옵션설정
+bttnNo = bttnNo+1;
+bttnX = 22;
+bttnW = 60;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, enable=1,  mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY + 10, w=bttnW, h=bttnH, round=25, \~
+	 color=BLACK, bkcolor=RGB(230\\,250\\,50), selcolor=WHITE, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=옵션\n설정, \~
+	 readmemory=30196, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Option.code,";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 평면 (고정버튼번호=90)
+//bttnNo = bttnNo+1;
+bttnX = 365;
+bttnW = 60;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=90, enable=1,  mode=0, groupid=0, show=1, lamp=0, \~
+	 x=bttnX, y=bttnY + 10, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=BLACK, bkcolor=RGB(0\\,255\\,0), outlinecolor=BLACK, \~
+	 dmemory=-1,\~
+	 fontsize=bttnFontSize, title=X-Y, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Plane.code";
+
+TeachCmdPlane = 0;
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 자동작업
+bttnNo = bttnNo+1;
+bttnX = 430;
+bttnW = 60;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, enable=1,  mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY + 10, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=BLACK, bkcolor=RGB(155\\,155\\,155), selcolor=RED, outlinecolor=BLACK,  seltextcolor=WHITE,\~
+	 fontsize=16, title=작업\n연동, \~
+	 readmemory=get_varindex(\"TeachAutoWorkOn\"), writememory=get_varindex(\"TeachAutoWorkOn\"),\~
+	 valtype=real, toggle=1, blink=0., autoblink=0, beep=3000, beeptime=0.1, \~
+	 link=-1;"
+
+TeachCmdPlane = 0;
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// TO GO 
+bttnNo = bttnNo+1;
+bttnX = 495;
+bttnW = 60;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, enable=1,  mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY + 10, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=BLACK, bkcolor=RGB(250\\,250\\,150), selcolor=WHITE, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=To\nGo, \~
+	 readmemory=30196, valtype=real, blink=0.25, autoblink=1, \~
+	 link=-1";//\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_MDI_Win_UI.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 속도 설정 옵션
+bttnNo	= bttnNo+1;
+bttnX = 88;
+bttnY = 572;
+bttnW = 90;
+bttnH = 29;
+bttnFontSize = 16;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, enable=1, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=RGB(255\\,255\\,220), outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=속도, \~
+	 readmemory=30191, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Speed.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+editX = bttnX;
+editY = bttnY+bttnH;
+editW = bttnW;
+editH = 29;
+editFontSize = 24;
+
+dlgMssg[0] =	"type=edit, no=editNo, enable=1, show=1, ,\~
+				x=editX, y = editY, w = editW, h = editH, \~
+				color=BLACK, font=Arial, bkcolor=WHITE, border=1, \~
+				format=%6.1lf, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=get_varindex(\"TeachCmdSpeed\"), writememory=get_varindex(\"TeachCmdSpeed\"),\~
+				link2=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Speed.code";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+// 속도 2 설정 옵션
+bttnNo	= bttnNo+1;
+bttnX = bttnX+bttnW;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=RGB(255\\,255\\,220), outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=속도2, \~
+	 readmemory=30191, valtype=real, blink=0.25, autoblink=1, \~
+	 link=-1";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+editNo = editNo+1;
+editX = editX+editW;
+dlgMssg[0] =	"type=edit, no=editNo, enable=1, show=1, ,\~
+				x=editX, y = editY, w = editW, h = editH, \~
+				color=BLACK, font=Arial, bkcolor=WHITE, border=1, \~
+				format=%6.1lf, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=get_varindex(\"TeachCmdSpeed2\"), writememory=get_varindex(\"TeachCmdSpeed2\"),\~
+				link2=-1";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+// 지연시간
+bttnNo	= bttnNo+1;
+bttnX = bttnX+bttnW;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=0, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=RGB(255\\,255\\,220), outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=타이머, \~
+	 readmemory=-1,  valtype=real, blink=0.25, autoblink=1, \~
+	 link=-1";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+editX = editX+editW;
+dlgMssg[0] =	"type=edit, no=editNo, enable=1, show=1, ,\~
+				x=editX, y = editY, w = editW, h = editH, \~
+				color=BLACK, font=Arial, bkcolor=WHITE, border=1, \~
+				format=%5.1lf, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory= get_varindex(\"TeachDelayTime\"), writememory=get_varindex(\"TeachDelayTime\"), \~
+				link2=-1";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+/*
+
+// 티칭 이동Z 옵셋
+bttnNo	= bttnNo+1;
+bttnX = bttnX+bttnW;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=0, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=RGB(255\\,255\\,220), outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=이동Z옵셋, \~
+	 readmemory=-1, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_OpMOveOffset.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+editNo = editNo+1;
+editX = editX+editW;
+dlgMssg[0] =	"type=edit, no=editNo, enable=1, show=1, ,\~
+				x=editX, y = editY, w = editW, h = editH, \~
+				color=BLACK, font=Arial, bkcolor=WHITE, border=1, \~
+				format=%5.1lf, keypad=OptionKeyPad, fontsize=editFontSize, \~
+				memory=get_varindex(\"TeachOpMoveOffsetZ\"), writememory=get_varindex(\"TeachOpMoveOffsetZ\"),\~
+				link2=-1";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+// 위치홀딩
+bttnNo	= bttnNo+1;
+bttnX = bttnX+bttnW+5;
+bttnY = bttnY;
+bttnW = 50;
+bttnH = 58;
+bttnR = 0;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=0, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+	 color=BLACK, bkcolor=RGB(255\\,255\\,220), outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=홀딩\n위치, \~
+	 readmemory=-1, valtype=real, blink=0, autoblink=0, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_HoldPos.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+*/
+
+// 버튼
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	x=575, y=570 ,w=50, h=30, \~
+	round=0, color=BLACK, fontsize=12, \~
+	title=속도\n50%, image=Common_Button.bmp, \~
+	setvalue=50, writememory=30803, valtype=real, \~
+	link=-1\\Custom_Screen\\Feed_Override_100P.code,";  
+
+// 슬라이더바
+dlgMssg[1] = "type=slider, no=0, enable=1, readonly=0, vertical=0, show=1, \~
+	x=575, y=600, w=120, h=30, width=45, \~
+	bkcolor=RED, outlinecolor=BLACK,  image=Slider_Bar.gif, \~
+	min=0, max=100,  pos=10,\~
+	memory=30803, \~
+	link=-1;//\\WizardCode\\Wizard_Teaching\\CommonCmd\\JogFeed_Override_Update.code";
+
+// 에디터
+editNo = editNo+1;
+dlgMssg[2] = "type=edit, no=editNo, enable=1, show=1, readonly=1, keypad=0, \~
+	x=630, y=570 ,w=80, h=24, \~
+	color=BLACK, font=굴림체,  fontsize=24, bkcolor=WHITE, \~
+	format=%3.0f%%, memory=30803, writememory=30126, \~
+	link2=-1";//\\Custom_Screen\\Feed_Override_Update.code ";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*--------------------------------------------------------------------------------------
+
+	티칭 동작 버튼 
+
+---------------------------------------------------------------------------------------*/
+bttnX		= 12;
+bttnY		= 645;
+bttnW		= 96;
+bttnH		= 58;
+bttnR		= 0;
+bttnOffsetX	= 96;
+bttnOffsetY	= 0;
+bttnFontSize= 18;
+
+//----------------------------------------
+// 티칭 ON/OFF
+//----------------------------------------
+bttnCol = 0; bttnRow = 0;
+bttnNo = bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, enable=1, groupid=0, show=1, lamp=1, beep=beepHz, beeptime=0.25, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW+3, h=bttnH, \~
+	 color=BLACK, bkcolor=GRAY, selcolor=RED, seltextcolor=WHITE,  \~
+	 outlinecolor=BLACK,  outline=2, round=bttnR, \~
+	 fontsize=bttnFontSize, title=티칭OFF, seltitle=티칭ON, \~
+	 blink=0.5, autoblink=1, readmemory=get_varindex(\"TeachOpEnable\"), valtype=real, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Enable.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+//----------------------------------------
+// 기록
+//----------------------------------------
+bttnX		= 15;
+bttnCol = 1; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=기록\n다음, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Next.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+//----------------------------------------
+// 백이동
+//----------------------------------------
+bttnCol = 2; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=이전\n이동, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_BackMove.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 다음이동
+//----------------------------------------
+bttnCol = 3; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=다음\n이동, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_NextMove.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 커서이동
+//----------------------------------------
+bttnCol = 4; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=커서\n이동, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_CurMove.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 스텝실행
+//----------------------------------------
+bttnCol = 5; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=스텝\n실행, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_StepExe.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 전체실행
+//----------------------------------------
+bttnCol = 6; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=전체\n실행, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_AllExe.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// G코드변환
+//----------------------------------------
+bttnCol = 7; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=G코드\n변환, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_TransGCode.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+//----------------------------------------
+// 매크로등록
+//----------------------------------------
+bttnCol = 8; bttnRow = 0;
+bttnNo	= bttnNo+1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=매크로\n등록, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Reg_MacroTable.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+//----------------------------------------
+// 종료
+//----------------------------------------
+bttnCol = 9; bttnRow = 0;
+bttnNo = 49;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, enable=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=Common_Button.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=종료, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOp\\TeachOp_Exit.code";
+	 
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+/*--------------------------------------------------------------------------------------
+
+	티칭 사용자 명령 버튼
+
+---------------------------------------------------------------------------------------*/
+bttnX		= 15;
+bttnY		= 410;
+bttnW		= 100;
+bttnH		= 80;
+bttnR		= 25;
+bttnOffsetX	= 95;
+bttnOffsetY	= 75;
+bttnFontSize= 16;
+
+VAR cmdNo;
+
+/*----------------------------------------
+	명령 01 >
+----------------------------------------*/
+cmdNo	= 0;
+bttnNo	= bttnNo+1;
+bttnCol	= 0; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_01.code";
+
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+
+/*----------------------------------------
+	명령 02 > 
+----------------------------------------*/
+cmdNo = 1;
+bttnNo	= bttnNo+1;
+bttnCol = 1; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_02.code";
+
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf, ", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 03 > 
+----------------------------------------*/
+cmdNo = 2;
+bttnNo	= bttnNo+1;
+bttnCol = 2; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_03.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 04 > 
+----------------------------------------*/
+cmdNo = 3;
+bttnNo	= bttnNo+1;
+bttnCol = 3; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_04.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 05 > 
+----------------------------------------*/
+cmdNo = 4;
+bttnNo	= bttnNo+1;
+bttnCol = 4; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_05.code";
+
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 06 >
+----------------------------------------*/
+cmdNo = 5;
+bttnNo	= bttnNo+1;
+bttnCol = 5; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_06.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 07 >
+----------------------------------------*/
+cmdNo = 6;
+bttnNo	= bttnNo+1;
+bttnCol = 6; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_07.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 08 >
+----------------------------------------*/
+cmdNo = 7;
+bttnNo	= bttnNo+1;
+bttnCol = 7; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_08.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 09 >
+----------------------------------------*/
+cmdNo = 8;
+bttnNo	= bttnNo+1;
+bttnCol = 8; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=-, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_09.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+
+/*----------------------------------------
+	명령 10 >
+----------------------------------------*/
+cmdNo = 9;
+bttnNo	= bttnNo+1;
+bttnCol = 9; bttnRow = 0;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=-, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_10.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 11 >
+----------------------------------------*/
+cmdNo = 10;
+bttnNo	= bttnNo+1;
+bttnCol = 0; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=지연, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_11.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 12 >
+----------------------------------------*/
+cmdNo = 11;
+bttnNo	= bttnNo+1;
+bttnCol = 1; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1,  groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=대기, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_12.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+
+/*----------------------------------------
+	명령 13 >
+----------------------------------------*/
+cmdNo = 12;
+bttnNo	= bttnNo+1;
+bttnCol = 2; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1,  groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=주축On, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_13.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 14 >
+----------------------------------------*/
+cmdNo = 13;
+bttnNo	= bttnNo+1;
+bttnCol = 3; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=주축Off, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_14.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 15 >
+----------------------------------------*/
+cmdNo = 14;
+bttnNo	= bttnNo+1;
+bttnCol = 4; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1,  groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=출력On, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_15.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 16 >
+----------------------------------------*/
+cmdNo = 15;
+bttnNo	= bttnNo+1;
+bttnCol = 5; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=출력Off, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_16.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 17 >
+----------------------------------------*/
+cmdNo = 16;
+bttnNo	= bttnNo+1;
+bttnCol = 6; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=-, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_17.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 18 >
+----------------------------------------*/
+cmdNo = 17;
+bttnNo	= bttnNo+1;
+bttnCol = 7; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1, groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=M100, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_18.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 19 >
+----------------------------------------*/
+cmdNo = 18;
+bttnNo	= bttnNo+1;
+bttnCol = 8; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1,  groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=M101, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_19.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+/*----------------------------------------
+	명령 20 >
+----------------------------------------*/
+bttnFontSize= 20;
+cmdNo = 19;
+bttnNo	= bttnNo+1;
+bttnCol = 9; bttnRow = 1;
+dlgMssg[0] ="type=button, no=bttnNo, mode=1,  groupid=0, show=1, \~
+	 x=bttnX + bttnCol*bttnOffsetX , y=bttnY + bttnRow*bttnOffsetY, w=bttnW, h=bttnH, \~
+	 image=3D_Bttn_Y_01.bmp, round=0, color=BLACK, \~
+	 fontsize=bttnFontSize, title=종료, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_20.code";
+	 
+// Enable
+dlgMssg[1] = sprintf_real( "type=button, no=bttnNo, enable=%lf", TeachCmdTable[cmdNo][TeachCmdTableOffset_Enable]);
+// Title
+dlgMssg[2] = WINC_GET_DATA_STR(TeachCmdTableMem + cmdNo * TeachCmdTableSize + TeachCmdTableOffset_Title);
+dlgMssg[2] = sprintf_str( "type=button, no=bttnNo, title=%s", dlgMssg[2] );
+WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+
+// 화면그리기 종료비프
+beep(3000,0.1);
+
+
+/*--------------------------------------------------
+
+	프레임 화면 그리기
+	
+----------------------------------------------------*/
+dlgMssg[0] = \~
+	"type=frame, enable=1,  show=1, jogkey=1,mode = 0, float=1,\~
+	x=0, y=-20, w=1000, h=750, title=티칭 위저드,\~
+	resize = 0, image=Wizard_Teaching_Main.bmp, \~ //, imagex=0,imagey=0, imagew=1503,imageh=915,
+	link=\\WizardCode\\Wizard_Teaching\\Teaching_Ending.code";
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+return(0);
+		
+		

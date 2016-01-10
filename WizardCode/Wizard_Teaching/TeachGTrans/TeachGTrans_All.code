@@ -1,0 +1,58 @@
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR stepNo, cmdNo;
+VAR stepInc;
+stepNo = 0;
+
+// 현재 위치얻기
+TeachLastPosX = #30010;
+TeachLastPosY = #30011;
+TeachLastPosZ = #30012;
+TeachLastPosA = #30013;
+TeachLastPosB = #30014;
+TeachLastPosC = #30015;
+
+VAR saveCurStep;
+saveCurStep = TeachCurStep;
+
+while(stepNo < TeachStepMax )
+{
+	// 해석 스텝번호
+	TeachCurStepNo = stepNo+1;
+	
+	// 현재 명령번호 얻기
+	cmdNo = TeachDataTable[stepNo][1];
+	if( cmdNo >= 1 )
+	{ 
+		// 현재 명령인자 얻기
+		copy_array( TeachCurCmdBuf, TeachDataTable[stepNo], TeachDataTableSize);
+	
+		// 스텝 G코드생성 파일 호출
+		{
+			VAR stepGTransFilename;
+			stepGTransFilename = sprintf_int("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_%02ld.code", cmdNo);
+			call(stepGTransFilename);
+		}
+	}
+	else
+	{
+		break;
+	}
+	
+	// 스텝 증가
+	stepInc = TeachCmdTable[cmdNo-1][TeachCmdTableOffset_ViaNo];
+	if(stepInc < 1) { stepInc = 1; }
+	stepNo = stepNo + stepInc;
+	
+	// 커서이동 함수를 호출한다.
+	TeachCurStep = TeachCurStepNo;
+	call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+}
+
+// 커서복귀
+TeachCurStep = saveCurStep;
+call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+
+

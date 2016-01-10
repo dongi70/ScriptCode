@@ -1,0 +1,615 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+/*-----------------------------------------------
+
+	화면을 그리는 기본적인 메시지변수 선언
+
+-----------------------------------------------*/
+VAR dlgMssg[10](0);
+VAR winNo(2);
+
+/*-----------------------------------------------
+
+	화면 지우기
+
+-----------------------------------------------*/
+{
+	dlgMssg[0] = "type=all, clear=1, show=0";
+	WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+}
+
+
+//-----------------------------------------------
+//
+// 화면을 위치, 색 지정들을 위한 몇가지 변수지정
+//
+//-----------------------------------------------
+// 전체화면
+VAR winX, winY, winW, winH;
+winX=100;
+winY=90;
+winW=780;
+winH=560;
+
+// 클라이언드 화면
+VAR clX, clY, clW, clH;
+clX=0;
+clY=0;
+clW=winW;
+clH=winH;
+
+// 버튼변수지정
+VAR bttnNo(0);
+VAR bttnMode(0);		// 버튼모드 : 일반 버튼 = 0, 이미지버튼 = 1
+VAR bttnX;				// 버튼 (초기)위치 X
+VAR bttnY;				// 버튼 (초기)위치 Y
+VAR bttnOffsetX;		// 버튼 배열 X옵셋
+VAR bttnOffsetY;		// 버튼 배열 Y옵셋
+VAR bttnW;				// 버튼 너비 W
+VAR bttnH;				// 버튼 높이 H
+VAR bttnR;				// 버튼 라운드 R
+VAR bttnFontSize(25);	// 버튼 폰트사이즈
+
+// 버튼의 칼라속성
+VAR bttnColor,	bttnBkColor,	bttnHovColor,	bttnSelColor,	bttnSelTextColor,	bttnDisColor;
+VAR bttn2Color, bttn2BkColor,	bttn2HovColor,	bttn2SelColor,	bttn2SelTextColor,	bttn2DisColor;
+
+// 버튼 칼라지정
+bttnColor 			= BLACK;	// 텍스트 및 일반칼라
+bttnSelTextColor	= RED;		// 선택되었을 때 텍스트 칼라
+bttnBkColor 		= GRAY;		// 기본 배경칼라 (이미지 버튼의 경우 의미없음)
+bttnHovColor 		= CYAN;		// 마우스포인터 올려질 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnSelColor 		= CYAN;		// 선택되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+bttnDisColor 		= GRAY;		// 비활성화 되었을 때 칼라 (이미지 버튼의 경우 의미없음)
+
+// 행렬버튼속성
+VAR bttnCol, bttnRow;
+
+// 에디터변수지정
+VAR editNo(0);
+VAR editX;
+VAR editY;
+VAR editOffsetX;
+VAR editOffsetY;
+VAR editW;
+VAR editH;
+VAR editFontSize(24);
+VAR OptionKeyPad ;
+OptionKeyPad = 0;
+
+editX = bttnX;
+editY = bttnY+bttnH+6;
+editOffsetX = bttnOffsetX;
+editOffsetY = 0;
+editW = bttnW;
+editH = 28;
+
+/*-----------------------------------------------
+
+	그리드 컨트롤 변수
+
+-----------------------------------------------*/
+VAR gridNo;
+VAR gridX, gridY, gridW, gridH;
+VAR gridCol, gridRow;
+VAR gridWidth, gridHeight, gridTitleHeight;
+VAR gridColMax, gridRowMax;
+VAR gridTitleColor, gridTitleBkColor;
+VAR gridRowTitleColor, gridRowTitleBkColor, gridRowBkColor;
+VAR gridColor, gridBkColor;
+VAR gridSelColor, gridSelBkColor;
+VAR gridSelRowTitleColor, gridSelRowTitleBkColor;
+VAR gridDataOffset;
+VAR gridMemIndex, gridMemNextIndex;
+
+/*-----------------------------------------------
+
+	티칭 명령 타이틀 버튼
+
+-----------------------------------------------*/
+bttnNo	= bttnNo;
+bttnX = 0;
+bttnY = 0;
+bttnW = clW;
+bttnH = 29;
+bttnFontSize = 16;
+
+bttnBkColor = RGB(185,255,255);
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=bttnBkColor, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=티칭명령 테이블, \~
+	 readmemory=-1,\~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Speed.code";
+
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+/*-----------------------------------------------
+
+	티칭 명령 그리드
+
+-----------------------------------------------*/
+// 그리드 컨트롤 변수 초기화
+gridNo=0;
+gridX = 1;
+gridY = bttnY+bttnH+1;
+gridW = clW-20;
+gridH = 135;
+gridWidth = 60; gridHeight=30; gridTitleHeight = 30;
+gridColMax = 10; gridRowMax=100;
+gridTitleColor = BLACK; gridTitleBkColor = YELLOW;
+gridRowTitleColor = BLACK; gridRowTitleBkColor = GRAY;
+
+dlgMssg[0] ="type=grid, no=gridNo, enable=1, show=1, x=gridX, y=gridY, w=gridW, h=gridH, \~
+			colmax=13, rowmax=21, width=100, height=30, titleheight=30,\~
+			color=BLACK, bkcolor=WHITE,\~
+			titlecolor=BLACK, titlebkcolor=YELLOW,\~
+			rowtitlecolor=BLACK, rowtitlebkcolor=GRAY,\~
+			font=바탕체, fontsize=18, align=0, \~
+			read = 1, write = 0, \~
+			rowoffset=0, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 명령ID
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=0,  titlecolor=0xFFFFFF, titlebkcolor=RED, width=65, \~
+			title=명령ID, \~
+			datatype=const, format=%3.0lf, startindex=1, nextindex=2, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 명령가능여부
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_Enable;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=1, titlecolor=BLUE,  row=0, width=50,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=가능, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 명령이름
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_Name;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=2, titlecolor=BLUE,  row=0, width=80,  \~
+			datatype=str, format=%s,  datasize=8, startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=이름, write=1, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 명령타이블
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_Title;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=3, titlecolor=BLUE,  row=0, width=80,  \~
+			datatype=str, format=%s,  datasize=15, startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=버튼명, write=1, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 명령축
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_Axis;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=4, titlecolor=BLUE,  row=0, width=40,  \~
+			datatype=real, format=%4.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=축, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 경로수
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_ViaNo;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=5, titlecolor=BLUE,  row=0, width=40,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=경로, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 모달명령
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_Modal;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=6, titlecolor=BLUE,  row=0, width=50,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=모달, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 매크로
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_MacroNo;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=7, titlecolor=BLUE,  row=0, width=60,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=매크로, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+// 파라메터속성
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_IsPara;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=8, titlecolor=BLUE,  row=0, width=60,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=인자, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 다음커서
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_ImNext;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=9, titlecolor=BLUE,  row=0, width=60,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=커서, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 위치요구
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_ImPos;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=10, titlecolor=BLUE,  row=0, width=60,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=위치, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 주작업명령
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_MainWork;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=11, titlecolor=BLUE,  row=0, width=60,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=주작업, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 평면요구
+gridMemIndex = get_varindex("TeachCmdTable") + TeachCmdTableOffset_Plane;
+gridMemNextIndex = gridMemIndex + TeachCmdTableSize;
+dlgMssg[0] ="type=grid, no=gridNo, col=12, titlecolor=BLUE,  row=0, width=60,  \~
+			datatype=real, format=%3.0lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=평면, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+// 커서 속성
+dlgMssg[0] ="type=grid, no=gridNo, fixedrow=0,  gotorow=TeachCurStep, currow=1, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+/*-----------------------------------------------
+
+	속도 설정  테이블 타이틀 버튼
+
+-----------------------------------------------*/
+bttnNo	= bttnNo+1;
+bttnX = 0;
+bttnY = gridY+gridH+1;
+bttnW = clW;
+bttnH = 29;
+bttnFontSize = 16;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=bttnBkColor, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=속도설정 테이블, \~
+	 readmemory=30191, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Speed.code";
+
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+/*----------------------------------------------
+
+	속도 설정 그리드
+
+-----------------------------------------------*/
+// 그리드 컨트롤 변수 초기화
+gridNo = gridNo+1;
+gridX = 1;
+gridY = bttnY+bttnH+1;
+gridW = clW-20;
+gridH = 77;
+gridWidth = 60; 
+gridHeight = 30; 
+gridTitleHeight = 30;
+gridColMax = 10; 
+gridRowMax=100;
+gridTitleColor = BLACK; 
+gridTitleBkColor = YELLOW;
+gridRowTitleColor = BLACK; 
+gridRowTitleBkColor = GRAY;
+
+dlgMssg[0] ="type=grid, no=gridNo, enable=1, show=1, x=gridX, y=gridY, w=gridW, h=gridH, \~
+			colmax=10, rowmax=2, width=100, height=30, titleheight=30,\~
+			color=BLACK, bkcolor=WHITE,\~
+			titlecolor=BLACK, titlebkcolor=YELLOW,\~
+			rowtitlecolor=BLACK, rowtitlebkcolor=GRAY,\~
+			font=바탕체, fontsize=18, align=0, \~
+			read = 1, write = 1, \~
+			rowoffset=0, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 행타이틀
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=0,  titlecolor=0xFFFFFF, titlebkcolor=RED, width=0, \~
+			title=명령ID, \~
+			datatype=const, format=%3.0lf, startindex=1, nextindex=2, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 주작업속도
+gridMemIndex = get_varindex("TeachCmdSpeed");
+gridMemNextIndex = gridMemIndex + 0;
+dlgMssg[0] ="type=grid, no=gridNo, col=1, titlecolor=BLUE,  row=0, width=120,  \~
+			datatype=real, format=%8.2lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=주작업속도, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 주작업속도2
+gridMemIndex = get_varindex("TeachCmdSpeed2");
+gridMemNextIndex = gridMemIndex + 0;
+dlgMssg[0] ="type=grid, no=gridNo, col=2, titlecolor=BLUE,  row=0, width=120,  \~
+			datatype=real, format=%8.2lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=주작업속도2, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 티칭이동속도
+gridMemIndex = get_varindex("TeachOpMoveSpeed");
+gridMemNextIndex = gridMemIndex + 0;
+dlgMssg[0] ="type=grid, no=gridNo, col=3, titlecolor=BLUE,  row=0, width=120,  \~
+			datatype=real, format=%8.2lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=스텝이동속도, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 티칭이동명령속도
+gridMemIndex = get_varindex("TeachCmdMoveSpeed");
+gridMemNextIndex = gridMemIndex + 0;
+dlgMssg[0] ="type=grid, no=gridNo, col=4, titlecolor=BLUE,  row=0, width=120,  \~
+			datatype=real, format=%8.2lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=이동명령속도, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+// 커서 속성
+dlgMssg[0] ="type=grid, no=gridNo, fixedrow=0,  gotorow=TeachCurStep, currow=1, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+/*-----------------------------------------------
+
+	위치 설정  테이블 타이틀 버튼
+
+-----------------------------------------------*/
+bttnNo	= bttnNo+1;
+bttnX = 0;
+bttnY = gridY+gridH+1;
+bttnW = clW;
+bttnH = 29;
+bttnFontSize = 16;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=bttnBkColor, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=위치 설정 테이블, \~
+	 readmemory=30191, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Speed.code";
+
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+/*----------------------------------------------
+
+	위치   설정 그리드
+
+-----------------------------------------------*/
+// 그리드 컨트롤 변수 초기화
+gridNo = gridNo+1;
+gridX = 1;
+gridY = bttnY+bttnH+1;
+gridW = clW-20;
+gridH = 107;
+gridWidth = 60; 
+gridHeight = 30; 
+gridTitleHeight = 30;
+gridColMax = 10; 
+gridRowMax=100;
+gridTitleColor = BLACK; 
+gridTitleBkColor = YELLOW;
+gridRowTitleColor = BLACK; 
+gridRowTitleBkColor = GRAY;
+
+dlgMssg[0] ="type=grid, no=gridNo, enable=1, show=1, x=gridX, y=gridY, w=gridW, h=gridH, \~
+			colmax=7, rowmax=6, width=100, height=30, titleheight=30,\~
+			color=BLACK, bkcolor=WHITE,\~
+			titlecolor=BLACK, titlebkcolor=YELLOW,\~
+			rowtitlecolor=BLACK, rowtitlebkcolor=GRAY,\~
+			font=바탕체, fontsize=16, align=0, \~
+			read = 1, write = 1, \~
+			rowoffset=0, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 행타이틀
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=0,  titlecolor=0xFFFFFF, titlebkcolor=RED, width=130, \~
+			title=위치 종류, \~
+			datatype=rowtitle, format=%3.0lf, startindex=1, nextindex=2, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 행1타이틀
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=0, rowtitle=티칭이동Z옵셋, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 행2타이틀
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=1, rowtitle=위치홀딩 중, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 행3타이틀
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=2, rowtitle=홀딩위치, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 행4타이틀
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=3, rowtitle=주작업명령옵셋, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 행5타이틀
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=4, rowtitle=이동명령옵셋, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 위치X
+gridMemIndex = get_varindex("TeachPosOptionTable") + 0;
+gridMemNextIndex = gridMemIndex + 10;
+dlgMssg[0] ="type=grid, no=gridNo, col=1, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%10.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=X, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 위치Y
+gridMemIndex = get_varindex("TeachPosOptionTable") + 1;
+gridMemNextIndex = gridMemIndex + 10;
+dlgMssg[0] ="type=grid, no=gridNo, col=2, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%10.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=Y, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 위치Z
+gridMemIndex = get_varindex("TeachPosOptionTable") + 2;
+gridMemNextIndex = gridMemIndex + 10;
+dlgMssg[0] ="type=grid, no=gridNo, col=3, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%10.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=Z, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 위치A
+gridMemIndex = get_varindex("TeachPosOptionTable") + 3;
+gridMemNextIndex = gridMemIndex + 10;
+dlgMssg[0] ="type=grid, no=gridNo, col=4, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%10.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=A, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 위치B
+gridMemIndex = get_varindex("TeachPosOptionTable") + 4;
+gridMemNextIndex = gridMemIndex + 10;
+dlgMssg[0] ="type=grid, no=gridNo, col=5, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%10.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=B, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 위치C
+gridMemIndex = get_varindex("TeachPosOptionTable") + 5;
+gridMemNextIndex = gridMemIndex + 10;
+dlgMssg[0] ="type=grid, no=gridNo, col=6, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%10.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=C, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+// 커서 속성
+dlgMssg[0] ="type=grid, no=gridNo, fixedrow=0,  gotorow=TeachCurStep, currow=1, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+/*-----------------------------------------------
+
+	옵션 설정  테이블 타이틀 버튼
+
+-----------------------------------------------*/
+bttnNo	= bttnNo+1;
+bttnX = 0;
+bttnY = gridY+gridH+1;
+bttnW = clW;
+bttnH = 29;
+bttnFontSize = 16;
+
+dlgMssg[0] ="type=button, no=bttnNo, mode=0, groupid=0, show=1, lamp=1, \~
+	 x=bttnX, y=bttnY, w=bttnW, h=bttnH, \~
+	 color=BLACK, bkcolor=bttnBkColor, outlinecolor=BLACK,  seltextcolor=BLUE,\~
+	 fontsize=bttnFontSize, title=옵션 설정 테이블, \~
+	 readmemory=30191, valtype=real, blink=0.25, autoblink=1, \~
+	 link=\\WizardCode\\Wizard_Teaching\\TeachOption\\TeachOption_Set_Speed.code";
+
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+/*----------------------------------------------
+
+	옵션  설정 그리드
+
+-----------------------------------------------*/
+// 그리드 컨트롤 변수 초기화
+gridNo = gridNo+1;
+gridX = 1;
+gridY = bttnY+bttnH+1;
+gridW = clW-20;
+gridH = 77;
+gridWidth = 60; 
+gridHeight = 30; 
+gridTitleHeight = 30;
+gridColMax = 10; 
+gridRowMax=100;
+gridTitleColor = BLACK; 
+gridTitleBkColor = YELLOW;
+gridRowTitleColor = BLACK; 
+gridRowTitleBkColor = GRAY;
+
+dlgMssg[0] ="type=grid, no=gridNo, enable=1, show=1, x=gridX, y=gridY, w=gridW, h=gridH, \~
+			colmax=20, rowmax=2, width=100, height=30, titleheight=30,\~
+			color=BLACK, bkcolor=WHITE,\~
+			titlecolor=BLACK, titlebkcolor=YELLOW,\~
+			rowtitlecolor=BLACK, rowtitlebkcolor=GRAY,\~
+			font=바탕체, fontsize=16, align=0, \~
+			read = 1, write = 1, \~
+			rowoffset=0, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 명령ID
+dlgMssg[0] ="type=grid, no=gridNo, col=0, row=0,  titlecolor=0xFFFFFF, titlebkcolor=RED, width=0, \~
+			title=명령ID, \~
+			datatype=const, format=%3.0lf, startindex=1, nextindex=2, \~
+			";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 주작업지연시간
+gridMemIndex = get_varindex("TeachDelayMainWork");
+gridMemNextIndex = gridMemIndex + 0;
+dlgMssg[0] ="type=grid, no=gridNo, col=1, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%8.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=주작업지연, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 딜레이명령지연
+gridMemIndex = get_varindex("TeachDelayTime");
+gridMemNextIndex = gridMemIndex + 0;
+dlgMssg[0] ="type=grid, no=gridNo, col=2, titlecolor=BLUE,  row=0, width=100,  \~
+			datatype=real, format=%8.3lf,  startindex=gridMemIndex, nextindex=gridMemNextIndex, \~
+			title=지연명령시간, \~
+			";	
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+// 커서 속성
+dlgMssg[0] ="type=grid, no=gridNo, fixedrow=0,  gotorow=TeachCurStep, currow=1, ";
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);
+
+
+
+/*--------------------------------------------------
+
+	프레임 화면 그리기
+	
+----------------------------------------------------*/
+dlgMssg[0] = \~
+	"type=frame, enable=1, jogkey=1, show=1, redraw=1, float=1,\~
+	x=winX, y=winY, w=winW, h=winH, title=티칭 동작 옵션설정,  \~ bkcolor=RGB(200\\,200\\,200), image=-1,\~
+	link=-1,";
+
+WINC_SET_USER_WINDOW(winNo, dlgMssg, 1);

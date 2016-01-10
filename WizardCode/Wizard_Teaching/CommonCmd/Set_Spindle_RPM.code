@@ -1,0 +1,8 @@
+// 자동동작중에는 작동안하기
+VAR OnAuto:#30194;
+if( OnAuto ) { return (0); }
+
+VAR spindleRPM:#37909;
+WINC_SPINDLE_RPM(spindleRPM);
+
+

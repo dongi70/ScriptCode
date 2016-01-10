@@ -1,0 +1,10 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 명령기록
+TeachCurCmdNo = 14;
+if( call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd.code") < 0 ) { return (0) };
+
+TeachDataTable[TeachCurStep-1][2] = WINC_SPINDLE_RPM(-1);
+
+call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd_Post.code");
