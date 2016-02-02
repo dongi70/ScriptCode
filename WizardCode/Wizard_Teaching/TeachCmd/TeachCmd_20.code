@@ -1,0 +1,27 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 명령기록
+TeachCurCmdNo = 20;
+if( call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd.code") < 0 ) { return (0) };
+
+// 다음명령이 END이면 다음줄 삭제
+if(0)
+{
+	VAR stepNo;
+	stepNo = TeachCurStep;
+	
+	VAR i;
+	i = TeachCurStep+1;
+	if( i<2) {return (0);}
+	while (i <= TeachStepMax )
+	{
+		copy_array( TeachDataTable[i-1], TeachDataTable[i], TeachDataTableSize);
+		i=i+1;
+	}
+}
+
+// 가장 끝 명령 클리어
+set_array( TeachDataTable[TeachStepMax-1], TeachDataTableSize, 0);
+
+call("\\WizardCode\\Wizard_Teaching\\TeachCmd\\TeachCmd_Set_Cmd_Post.code");

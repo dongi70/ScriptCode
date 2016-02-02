@@ -1,0 +1,12 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR dlgMssg[10];
+VAR gotoRow;
+VAR curRow;
+gotoRow = TeachCurStep-2;
+curRow = TeachCurStep;
+if( gotoRow <1 ) { gotoRow = 1; }
+
+dlgMssg[0] ="type=grid, no=0, gotorow=gotoRow, currow=curRow, ";
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);

@@ -1,0 +1,7 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR dlgMssg[10];
+
+WINC_ESTOP();
+beep(4000,0.5);

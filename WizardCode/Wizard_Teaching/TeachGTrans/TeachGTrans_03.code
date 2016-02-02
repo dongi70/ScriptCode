@@ -1,0 +1,508 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// ARC XY 명령 G코드변환
+VAR fp;
+VAR axis;
+
+// G코드 파일
+fp = TeachCurGFile_FP;
+if( fp == NULL ) { return (0); }
+
+VAR toPos[8], toPos1[8], toPos2[8], toPos3[8], toMovePos[8],  toLinePos1[8], toLinePos2[8];
+VAR isValidLinePos1(0), isValidLinePos2(0);
+VAR x, y, x1, y1, x2, y2, cx, cy;
+VAR str;
+VAR step1No, step2No, step3No;
+VAR arcAxis, arcAxisXNo, arcAxisYNo;
+VAR arcPlane;
+VAR i;
+
+// 동작 파라메터
+axis = TeachCmdTable[TeachCurCmdNo-1][TeachCmdTableOffset_Axis];
+
+// 스텝 
+step1No = TeachCurStepNo;
+step2No = TeachCurStepNo+1;
+step3No = TeachCurStepNo+2;
+
+step1No = step1No - 1;
+step2No = step2No - 1;
+step3No = step3No - 1;
+
+// 평면 설정
+arcPlane = TeachDataTable[step1No][8];
+
+// 원호 축 설정
+arcAxisXNo = 0;
+arcAxisYNo = 1;
+arcAxis = AXIS_X | AXIS_Y;
+
+if( arcPlane == 1 ) 
+{ 
+	arcAxisXNo = 1;
+	arcAxisYNo = 2;
+	arcAxis = AXIS_Y | AXIS_Z; 
+}
+else if( arcPlane == 2 ) 
+{ 
+	arcAxisXNo = 2;
+	arcAxisYNo = 0;
+	arcAxis = AXIS_Z | AXIS_X; 
+}
+
+// 최근 종점 좌표
+toPos[0] = TeachLastPosX;
+toPos[1] = TeachLastPosY;
+toPos[2] = TeachLastPosZ;
+toPos[3] = TeachLastPosA;
+toPos[4] = TeachLastPosB;
+toPos[5] = TeachLastPosC;
+
+// 좌표 1
+toPos1[0] = TeachDataTable[step1No][2];
+toPos1[1] = TeachDataTable[step1No][3];
+toPos1[2] = TeachDataTable[step1No][4];
+toPos1[3] = TeachDataTable[step1No][5];
+toPos1[4] = TeachDataTable[step1No][6];
+toPos1[5] = TeachDataTable[step1No][7];
+
+// 좌표2
+toPos2[0] = TeachDataTable[step2No][2];
+toPos2[1] = TeachDataTable[step2No][3];
+toPos2[2] = TeachDataTable[step2No][4];
+toPos2[3] = TeachDataTable[step2No][5];
+toPos2[4] = TeachDataTable[step2No][6];
+toPos2[5] = TeachDataTable[step2No][7];
+
+// 좌표3
+toPos3[0] = TeachDataTable[step3No][2];
+toPos3[1] = TeachDataTable[step3No][3];
+toPos3[2] = TeachDataTable[step3No][4];
+toPos3[3] = TeachDataTable[step3No][5];
+toPos3[4] = TeachDataTable[step3No][6];
+toPos3[5] = TeachDataTable[step3No][7];
+
+
+//PRINT toPos, toPos1, toPos2, toPos3;
+
+
+/*--------------------------------
+
+		원호좌표
+		
+--------------------------------*/
+x = toPos1[ arcAxisXNo ];
+y = toPos1[ arcAxisYNo ];
+x1 = toPos2[ arcAxisXNo ] - x;
+y1 = toPos2[ arcAxisYNo ] - y;
+x2 = toPos3[arcAxisXNo ] - x;
+y2 = toPos3[arcAxisYNo ] - y;
+
+
+VAR det;
+
+// 판별값
+det = x1 * y2 - y1 * x2;
+
+// 중심점찾기
+VAR p1, p2, e2;
+p1 = x1*x1 + y1*y1;
+p2 = x2*x2 + y2*y2;
+e2 = 2.0 * det;
+
+cx = (y2 * p1 - y1 * p2 ) / e2;
+cy = (-x2*p1 + x1 * p2 ) / e2;
+
+/*--------------------------------
+
+		직선이동 좌표
+		
+--------------------------------*/
+{
+	toMovePos[0] =  toPos1[0] - toPos[0];
+	toMovePos[1] =  toPos1[1] - toPos[1];
+	toMovePos[2] =  toPos1[2] - toPos[2];
+	toMovePos[3] =  toPos1[3] - toPos[3];
+	toMovePos[4] =  toPos1[4] - toPos[4];
+	toMovePos[5] =  toPos1[5] - toPos[5];
+
+	toLinePos1[0] = toPos2[0] - toPos1[0]
+	toLinePos1[1] = toPos2[1] - toPos1[1]
+	toLinePos1[2] = toPos2[2] - toPos1[2]
+	toLinePos1[3] = toPos2[3] - toPos1[3]
+	toLinePos1[4] = toPos2[4] - toPos1[4]
+	toLinePos1[5] = toPos2[5] - toPos1[5]
+	
+	toLinePos2[0] = toPos3[0] - toPos2[0];
+	toLinePos2[1] = toPos3[1] - toPos2[1];
+	toLinePos2[2] = toPos3[2] - toPos2[2];
+	toLinePos2[3] = toPos3[3] - toPos2[3];
+	toLinePos2[4] = toPos3[4] - toPos2[4];
+	toLinePos2[5] = toPos3[5] - toPos2[5];
+
+	// 직선이동 유무검사
+	if( toLinePos1[0] && (axis & AXIS_X) && (!(arcAxis & AXIS_X)) ) { isValidLinePos1 = TRUE; }
+	if( toLinePos1[1] && (axis & AXIS_Y) && (!(arcAxis & AXIS_Y)) ) { isValidLinePos1 = TRUE; }
+	if( toLinePos1[2] && (axis & AXIS_Z) && (!(arcAxis & AXIS_Z)) ) { isValidLinePos1 = TRUE; }
+	if( toLinePos1[3] && (axis & AXIS_A) && (!(arcAxis & AXIS_A)) ) { isValidLinePos1 = TRUE; }
+	if( toLinePos1[4] && (axis & AXIS_B) && (!(arcAxis & AXIS_B)) ) { isValidLinePos1 = TRUE; }
+	if( toLinePos1[5] && (axis & AXIS_C) && (!(arcAxis & AXIS_C)) ) { isValidLinePos1 = TRUE; }
+
+	// 직선이동 유무검사
+	if( toLinePos2[0] && (axis & AXIS_X) && (!(arcAxis & AXIS_X)) ) { isValidLinePos2 = TRUE; }
+	if( toLinePos2[1] && (axis & AXIS_Y) && (!(arcAxis & AXIS_Y)) ) { isValidLinePos2 = TRUE; }
+	if( toLinePos2[2] && (axis & AXIS_Z) && (!(arcAxis & AXIS_Z)) ) { isValidLinePos2 = TRUE; }
+	if( toLinePos2[3] && (axis & AXIS_A) && (!(arcAxis & AXIS_A)) ) { isValidLinePos2 = TRUE; }
+	if( toLinePos2[4] && (axis & AXIS_B) && (!(arcAxis & AXIS_B)) ) { isValidLinePos2 = TRUE; }
+	if( toLinePos2[5] && (axis & AXIS_C) && (!(arcAxis & AXIS_C)) ) { isValidLinePos2 = TRUE; }
+}
+
+/*--------------------------------
+
+	이동 명령 추가발생
+		
+--------------------------------*/
+if( toMovePos[0] != 0 || toMovePos[1] != 0 || toMovePos[2] != 0 || toMovePos[3] != 0 || toMovePos[4] != 0 || toMovePos[5] != 0 )
+{
+	// 이동명령 추가발생
+	fputs(fp, "\n\x3b <추가 이동명령> \n");
+	fputs(fp, "G00 ");
+	if( toMovePos[0] != 0.0  && (axis & AXIS_X) ) { fprintf_real(fp, "X%-8.3lf ", toPos1[0]) };
+	if( toMovePos[1] != 0.0  && (axis & AXIS_Y) ) { fprintf_real(fp, "Y%-8.3lf ", toPos1[1]) };
+	if( toMovePos[2] != 0.0  && (axis & AXIS_Z) ) { fprintf_real(fp, "Z%-8.3lf ", toPos1[2]) };
+	if( toMovePos[3] != 0.0  && (axis & AXIS_A) ) { fprintf_real(fp, "A%-8.3lf ", toPos1[3]) };
+	if( toMovePos[4] != 0.0  && (axis & AXIS_B) ) { fprintf_real(fp, "B%-8.3lf ", toPos1[4]) };
+	if( toMovePos[5] != 0.0  && (axis & AXIS_C) ) { fprintf_real(fp, "C%-8.3lf ", toPos1[5]) };
+	// 블록끝
+	fputs(fp, "\x3b 원호보간 시작점 이동명령  \n" );
+}
+
+/*--------------------------------
+
+		시작코드 호출
+
+--------------------------------*/
+call("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_Start.code");
+
+/*--------------------------------
+
+	판별값에 따른 구분명령
+		
+--------------------------------*/
+
+// ARC 평면 기록
+if( arcPlane == 0 )
+{
+	fputs(fp, "G17 \x3b XY평면 \n");
+}
+else if( arcPlane == 1 )
+{
+	fputs(fp, "G19 \x3b YZ평면 \n");
+}
+else if( arcPlane == 2 )
+{
+	fputs(fp, "G18 \x3b ZX평면 \n");
+}
+
+//PRINT det;
+
+// CW 원호
+if( det < 0.0 ) 
+{
+
+	// 다중연속보간시작	
+	if( isValidLinePos1)
+	{
+		fputs(fp, "\nM516 \x3b \n");
+	}
+
+	// 원호 1
+	fputs(fp, "G02 ");
+
+	if( arcPlane == 0 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "I%-8.3lf ", cx);
+		fprintf_real(fp, "J%-8.3lf ", cy);
+		
+	}
+	else if( arcPlane == 1 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "J%-8.3lf ", cx);
+		fprintf_real(fp, "K%-8.3lf ", cy);
+		
+	}
+	else if( arcPlane == 2 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "K%-8.3lf ", cx);
+		fprintf_real(fp, "I%-8.3lf ", cy);
+		
+	}
+	
+	// 직선이동
+	if( toLinePos1[0] && (axis & AXIS_X) && (!(arcAxis & AXIS_X)) ) { fprintf_real(fp, "X%-8.3lf ", toPos3[0]) };
+	if( toLinePos1[0] && (axis & AXIS_Y) && (!(arcAxis & AXIS_Y)) ) { fprintf_real(fp, "Y%-8.3lf ", toPos3[1]) };
+	if( toLinePos1[2] && (axis & AXIS_Z) && (!(arcAxis & AXIS_Z)) ) { fprintf_real(fp, "Z%-8.3lf ", toPos3[2]) };
+	if( toLinePos1[3] && (axis & AXIS_A) && (!(arcAxis & AXIS_A)) ) { fprintf_real(fp, "A%-8.3lf ", toPos3[3]) };
+	if( toLinePos1[4] && (axis & AXIS_B) && (!(arcAxis & AXIS_B)) ) { fprintf_real(fp, "B%-8.3lf ", toPos3[4]) };
+	if( toLinePos1[5] && (axis & AXIS_C) && (!(arcAxis & AXIS_C)) ) { fprintf_real(fp, "C%-8.3lf ", toPos3[5]) };
+
+	// 블록끝
+	fputs(fp, "\x3b CW원호 \n" );
+
+	// 다중보간 종료
+	if( isValidLinePos1 )
+	{
+		fputs(fp, "M517 \x3b \n");
+	}
+
+
+
+	/*--------------------------------------
+	
+		현재 단일 원호방식으로만 사용
+	
+	----------------------------------------*/
+	/*
+
+	// 다중연속보간
+	if( isValidLinePos1 && (!isValidLinePos2) )
+	{
+		fputs(fp, "M517 \x3b \n");
+	}
+	if( (!isValidLinePos1) && isValidLinePos2 )
+	{
+		fputs(fp, "M516 \x3b \n");
+	}
+	
+	// 원호 2
+	fputs(fp, "G02 ");
+	
+	if( arcPlane == 0 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "I%-8.3lf ", -x1 + cx);
+		fprintf_real(fp, "J%-8.3lf ", -y1 + cy);
+	}
+	else if( arcPlane == 1 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "J%-8.3lf ", -x1 + cx);
+		fprintf_real(fp, "K%-8.3lf ", -y1 + cy);
+	}
+	else if( arcPlane == 2 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "K%-8.3lf ", -x1 + cx);
+		fprintf_real(fp, "I%-8.3lf ", -y1 + cy);
+	}
+	
+	// 직선이동
+	if( toLinePos1[0] && (axis & AXIS_X) && (!(arcAxis & AXIS_X)) ) { fprintf_real(fp, "X%-8.3lf ", toPos2[0]) };
+	if( toLinePos1[0] && (axis & AXIS_Y) && (!(arcAxis & AXIS_Y)) ) { fprintf_real(fp, "Y%-8.3lf ", toPos2[1]) };
+	if( toLinePos1[2] && (axis & AXIS_Z) && (!(arcAxis & AXIS_Z)) ) { fprintf_real(fp, "Z%-8.3lf ", toPos2[2]) };
+	if( toLinePos1[3] && (axis & AXIS_A) && (!(arcAxis & AXIS_A)) ) { fprintf_real(fp, "A%-8.3lf ", toPos2[3]) };
+	if( toLinePos1[4] && (axis & AXIS_B) && (!(arcAxis & AXIS_B)) ) { fprintf_real(fp, "B%-8.3lf ", toPos2[4]) };
+	if( toLinePos1[5] && (axis & AXIS_C) && (!(arcAxis & AXIS_C)) ) { fprintf_real(fp, "C%-8.3lf ", toPos2[5]) };
+
+	// 블록끝
+	fputs(fp, "\x3b 제2 원호 \n" );
+
+	// 다중연속보간 종료
+	if( isValidLinePos2 )
+	{
+		fputs(fp, "M517 \x3b \n");
+	}
+	
+	*/
+}
+// CCW 원호
+else if( det > 0.0 )
+{
+
+	// 다중연속보간시작	
+	if( isValidLinePos1)
+	{
+		fputs(fp, "\nM516 \x3b \n");
+	}
+
+	// 원호 1
+	fputs(fp, "G03 ");
+	
+	if( arcPlane == 0 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisYNo]); 
+
+		// 원호 중심
+		fprintf_real(fp, "I%-8.3lf ", cx);
+		fprintf_real(fp, "J%-8.3lf ", cy);	
+	}
+	else if( arcPlane == 1 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "J%-8.3lf ", cx);
+		fprintf_real(fp, "K%-8.3lf ", cy);	
+	}
+	else if( arcPlane == 2 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "K%-8.3lf ", cx);
+		fprintf_real(fp, "I%-8.3lf ", cy);	
+	}
+
+	// 직선이동
+	if( toLinePos1[0] && (axis & AXIS_X) && (!(arcAxis & AXIS_X)) ) { fprintf_real(fp, "X%-8.3lf ", toPos3[0]) };
+	if( toLinePos1[0] && (axis & AXIS_Y) && (!(arcAxis & AXIS_Y)) ) { fprintf_real(fp, "Y%-8.3lf ", toPos3[1]) };
+	if( toLinePos1[2] && (axis & AXIS_Z) && (!(arcAxis & AXIS_Z)) ) { fprintf_real(fp, "Z%-8.3lf ", toPos3[2]) };
+	if( toLinePos1[3] && (axis & AXIS_A) && (!(arcAxis & AXIS_A)) ) { fprintf_real(fp, "A%-8.3lf ", toPos3[3]) };
+	if( toLinePos1[4] && (axis & AXIS_B) && (!(arcAxis & AXIS_B)) ) { fprintf_real(fp, "B%-8.3lf ", toPos3[4]) };
+	if( toLinePos1[5] && (axis & AXIS_C) && (!(arcAxis & AXIS_C)) ) { fprintf_real(fp, "C%-8.3lf ", toPos3[5]) };
+
+	// 블록끝
+	fputs(fp, "\x3b CCW원호 \n" );
+
+	// 다중연속보간시작	
+	if( isValidLinePos1)
+	{
+		fputs(fp, "\nM517 \x3b \n");
+	}
+
+
+	/*--------------------------------------
+	
+		현재 단일 원호방식으로만 사용
+	
+	----------------------------------------*/
+	/*
+
+	// 다중연속보간
+	if( isValidLinePos1 && (!isValidLinePos2) )
+	{
+		fputs(fp, "M517 \x3b \n");
+	}
+	if( (!isValidLinePos1) && isValidLinePos2 )
+	{
+		fputs(fp, "M516 \x3b \n");
+	}
+
+	// 원호 2
+	fputs(fp, "G03 ");
+	
+	if( arcPlane == 0 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "I%-8.3lf ", -x1 + cx);
+		fprintf_real(fp, "J%-8.3lf ", -y1 + cy);
+	}
+	else if( arcPlane == 1 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Y%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "J%-8.3lf ", -x1 + cx);
+		fprintf_real(fp, "K%-8.3lf ", -y1 + cy);
+	}
+	else if( arcPlane == 2 )
+	{
+		// 원호 종점
+		fprintf_real(fp, "Z%-8.3lf ", toPos3[arcAxisXNo]); 
+		fprintf_real(fp, "X%-8.3lf ", toPos3[arcAxisYNo]); 
+		
+		// 원호 중심
+		fprintf_real(fp, "K%-8.3lf ", -x1 + cx);
+		fprintf_real(fp, "I%-8.3lf ", -y1 + cy);
+	}
+	
+	// 직선이동
+	if( toLinePos1[0] && (axis & AXIS_X) && (!(arcAxis & AXIS_X)) ) { fprintf_real(fp, "X%-8.3lf ", toPos2[0]) };
+	if( toLinePos1[0] && (axis & AXIS_Y) && (!(arcAxis & AXIS_Y)) ) { fprintf_real(fp, "Y%-8.3lf ", toPos2[1]) };
+	if( toLinePos1[2] && (axis & AXIS_Z) && (!(arcAxis & AXIS_Z)) ) { fprintf_real(fp, "Z%-8.3lf ", toPos2[2]) };
+	if( toLinePos1[3] && (axis & AXIS_A) && (!(arcAxis & AXIS_A)) ) { fprintf_real(fp, "A%-8.3lf ", toPos2[3]) };
+	if( toLinePos1[4] && (axis & AXIS_B) && (!(arcAxis & AXIS_B)) ) { fprintf_real(fp, "B%-8.3lf ", toPos2[4]) };
+	if( toLinePos1[5] && (axis & AXIS_C) && (!(arcAxis & AXIS_C)) ) { fprintf_real(fp, "C%-8.3lf ", toPos2[5]) };
+
+	// 블록끝
+	fputs(fp, "\x3b 제2 원호 \n" );
+	
+	// 다중연속보간 종료
+	if( isValidLinePos2 )
+	{
+		fputs(fp, "M517 \x3b \n");
+	}
+
+	*/
+
+}
+
+// 원 아니면 직선
+else if( det == 0.0 )
+{
+	// 원
+	if( x2==0.0 && y2==0.0 ) 
+	{
+	}
+	// 직선
+	else
+	{
+	}
+}
+
+// 최종해석명령업데이트
+copy_array( TeachLastCmdBuf, TeachCurCmdBuf, TeachDataTableSize );
+
+// TeachLastPos 갱신
+TeachLastPos[0] = toPos3[0];
+TeachLastPos[1] = toPos3[1];
+TeachLastPos[2] = toPos3[2];
+TeachLastPos[3] = toPos3[3];
+TeachLastPos[4] = toPos3[4];
+TeachLastPos[5] = toPos3[5];
+
+// 종료처리코드 호출
+call("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_End.code");
+
+// 리턴
+return(0);

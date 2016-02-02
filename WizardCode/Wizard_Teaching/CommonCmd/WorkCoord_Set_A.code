@@ -1,0 +1,11 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+VAR workpos[8];
+workpos[3]=#37903;
+
+if( !TeachOpHoldPosAOn )
+{
+	WINC_SET_WORKCOORD(0x08, workpos);
+}
+

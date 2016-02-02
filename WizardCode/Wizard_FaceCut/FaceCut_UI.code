@@ -1,0 +1,258 @@
+{
+	//#################################################
+	//
+	// 화면 전체 클리어
+	//
+	//#################################################
+	VAR  dlgMssg[10](0);
+	dlgMssg[0] = "type=all, clear=1, show=0";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+//-----------------------------------------------
+//
+// 칼라코드 변수 선언
+//
+//-----------------------------------------------
+// 0xBGR
+VAR WHITE	(0xffffff);
+VAR RED		(0x0000ff);
+VAR GREEN	(0x00ff00);
+VAR BLUE	(0xff0000);
+VAR CYAN	(0xffff00);
+VAR YELLOW	(0x00ffff);
+VAR BLACK	(0x000000);
+VAR GRAY	(0XE0E0E0);
+
+
+//-----------------------------------------------
+// 화면을 그리는 기본적인 메시지변수 선언
+//-----------------------------------------------
+VAR  dlgMssg[10](0);
+
+//-----------------------------------------------
+// 좌표변수
+//-----------------------------------------------
+VAR BttnX,BttnY,BttnW,BttnH,BttnOffsetX, BttnOffsetY, BttnRound;
+VAR BttnColor, BttnBkColor, BttnLineColor, BttnSelColor, BttnSelTextColor;
+
+VAR EditX,EditY,EditW,EditH,EditOffsetX, EditOffsetY, EditRound;
+VAR EditColor, EditBkColor, EditLineColor, EditSelColor, EditSelTextColor;
+VAR EditMemory;
+
+/*------------------------------
+//
+//  파라메터 에디터
+//
+//-----------------------------*/
+{
+	EditX=100;
+	EditY=200;
+	EditW=73;
+	EditH=25;
+	EditOffsetX=0;
+	EditOffsetY=50;
+	EditRound = 15;
+	
+	EditColor = WHITE;
+	EditBkColor = RED;
+	EditLineColor = RED;
+	EditSelColor = RED;
+	EditSelTextColor = RED;
+
+	// 모재H
+	EditMemory = 20001;
+	dlgMssg[0] =  "\~
+		type=edit, no=11, enable=1, show=1, keypad=0, readonly=0,\~
+		x=48, y=129, w=75, h=25,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=20 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	// 모재W
+	EditMemory = 20002;
+	dlgMssg[0] =  "\~
+		type=edit, no=12, enable=1, show=1, keypad=0, readonly=0,\~
+		x=248, y=239, w=100, h=25,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=20 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	// XY절입
+	EditMemory = 20003;
+	dlgMssg[0] =  "\~
+		type=edit, no=13, enable=1, show=1, keypad=0, readonly=0,\~
+		x=212, y=108, w=73, h=25,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=20 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+
+	EditColor = BLACK
+	EditBkColor = WHITE;
+	EditLineColor = BLACK;
+	EditSelColor = YELLOW;
+	EditSelTextColor = BLACK;
+
+	// Z시작
+	EditMemory = 20005;
+	dlgMssg[0] =  "\~
+		type=edit, no=20, enable=1, show=1, keypad=0, readonly=0,\~
+		x=100 , y=374, w=100, h=28,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory, \~
+		textselcolor=EditTextColor, fontsize=22 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	// Z절입
+	EditMemory = 20006;
+	dlgMssg[0] =  "\~
+		type=edit, no=22, enable=1, show=1, keypad=0, readonly=0,\~
+		x=100 , y=406, w=100, h=28,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=22 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	// Z종료
+	EditMemory = 20007;
+	dlgMssg[0] =  "\~
+		type=edit, no=23, enable=1, show=1, keypad=0, readonly=0,\~
+		x=100 , y=438, w=100, h=28,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=22 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	// Z안전
+	EditMemory = 20008;
+	dlgMssg[0] =  "\~
+		type=edit, no=24, enable=1, show=1, keypad=0, readonly=0,\~
+		x=100 , y=470, w=100, h=28,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=22 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	// XY피드
+	EditMemory = 20009;
+	dlgMssg[0] =  "\~
+		type=edit, no=25, enable=1, show=1, keypad=0, readonly=0,\~
+		x=320 , y=374, w=100, h=28,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=22 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+	// Z피드
+	EditMemory = 20010;
+	dlgMssg[0] =  "\~
+		type=edit, no=26, enable=1, show=1, keypad=0, readonly=0,\~
+		x=320 , y=406, w=100, h=28,\~
+		color=EditColor, bkcolor=EditBkColor, outlinecolor=EditLineColor, selcolor=EditSelColor,\~
+		format=%8.3lf, memory=EditMemory, writememory=EditMemory,\~
+		textselcolor=EditTextColor, fontsize=22 ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+/*------------------------------
+//
+//  코드 에디터
+//
+//-----------------------------*/
+{
+	VAR Filename;
+	Filename = WINC_GET_DATA_STR(20100);
+	
+	EditColor = WHITE;
+	EditBkColor = BLUE;
+	EditLineColor = RED;
+	EditSelColor = RED;
+	EditSelTextColor = BLACK;
+
+	dlgMssg[0] =  sprintf_str("\~
+		type=richedit, no=0, enable=1, show=1, keypad=0, readonly=0, lineno=0, \~
+		x=484, y=50, w=232, h=260,\~
+		color=EditColor, bkcolor=EditBkColor, selcolor=EditSelColor, textselcolor=EditTextColor,\~
+		linenumbercolor=BLACK, linenumberbkcolor=GREEN, fontsize=10, memory=-1, \~
+		link=%s,", Filename);
+	
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+}
+
+/*------------------------------
+//
+//  기능버튼
+//
+//-----------------------------*/
+{
+	BttnX=500;
+	BttnY=380;
+	BttnW=100;
+	BttnH=50;
+	BttnOffsetX=105;
+	BttnOffsetY=55;
+	BttnRound = 15;
+	
+	BttnColor = BLACK;
+	BttnBkColor = 0XC0FFC0;
+	BttnLineColor = BLACK;
+	BttnSelColor = YELLOW;
+	BttnSelTextColor = BLACK;
+
+	dlgMssg[0] = "\~
+		type=button, no=40, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=코드생성, fontsize=22, memory=-1, writememory=-1, \~
+		link=\\WizardCode\\Wizard_FaceCut\\FaceCut_CodeGen.code,";
+
+	dlgMssg[1] = "\~
+		type=button, no=41, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX+BttnOffsetX , y=BttnY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=코드저장, fontsize=22, memory=-1, \~
+		link=\\WizardCode\\Wizard_FaceCut\\FaceCut_Save.code,";
+
+	dlgMssg[2] = "\~
+		type=button, no=42, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX , y=BttnY+BttnOffsetY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=로딩, fontsize=22, memory=-1, \~
+		link=\\WizardCode\\Wizard_FaceCut\\FaceCut_Load.code,";
+
+	dlgMssg[3] = "\~
+		type=button, no=43, enable=1, show=1, mode=0, groupid=0, \~
+		x=BttnX+BttnOffsetX , y=BttnY+BttnOffsetY, w=BttnW, h=BttnH, round=BttnRound,\~
+		color=BttnColor, bkcolor=BttnBkColor, outlinecolor=BttnLineColor, selcolor=BttnSelColor,\~
+		textselcolor=BttnTextColor, \~
+		title=종료, fontsize=22, memory=-1, writememory=-1, \~
+		link=\\WizardCode\\Wizard_FaceCut\\FaceCut_Exit.code,";
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
+
+}
+
+//#################################################
+//
+// 마지막에 커스텀 화면 전체 프레임을 그려준다.
+//
+//#################################################
+dlgMssg[0] = \~
+	"type=frame, enable=1, jogkey=1, show=1, redraw=1, mode = 0, float=1,\~
+	x=50, y=50, w=750, h=550, title=면치기 위저드,\~
+	resize = 1, image=Wizard_FaceCut_Base_01.png, imagex=0,imagey=0, imagew=750,imageh=550";
+
+
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+return(0);
+	
+	

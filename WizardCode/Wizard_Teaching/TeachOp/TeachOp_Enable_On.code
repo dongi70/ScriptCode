@@ -1,0 +1,27 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+VAR AutoMode:#30162;
+VAR OpMode:#30170;
+if( OpMode < 120 )
+{
+	AutoMode = 0;
+	
+	// JOG 화면생성
+	WINC_PUT_DATA_BOOL(30815,1);
+	#37002 = 3; // 조그탭으로 전환
+		
+	// JOG 동작을 연속으로 지정한다.
+	WINC_PUT_DATA_INT(30812,1);
+
+	// 티칭동작 on
+	TeachOpEnable = 1;
+
+	// 편집동작 off
+	TeachEditEnable = 0; 
+	
+	// 커서뷰 고정
+	VAR dlgMssg[10];
+	dlgMssg[0] ="type=grid, no=0, fixedrow=1, write=1, ";
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+	call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");
+}

@@ -1,0 +1,4 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+WINC_FEED( TeachCmdSpeed );

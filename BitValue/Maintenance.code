@@ -62,6 +62,17 @@ bttnHovColor        = CYAN;     // ¸¶¿ì½ºÆ÷ÀÎÅÍ ¿Ã·ÁÁú ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ
 bttnSelColor        = CYAN;     // ¼±ÅÃµÇ¾úÀ» ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ¿ì ÀÇ¹Ì¾øÀ½)
 bttnDisColor        = GRAY;     // ºñÈ°¼ºÈ­ µÇ¾úÀ» ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ¿ì ÀÇ¹Ì¾øÀ½)
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 //-------------------------------------------------
 //			Ãàº° ¸ðÅÍ À§Ä¡ 
 //--------------------------------------------------
@@ -174,6 +185,16 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 //--------------------------------------------------------------------------------------------------------
 // À§Ä¡ ÁÂÇ¥ Á¤º¸ 
 //--------------------------------------------------------------------------------------------------------
@@ -304,7 +325,19 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 6);
 	
 }
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
 
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 //--------------------------------------------
 //     Ãàº° ¼¾¼­ µ¿ÀÛ È®ÀÎ
 //--------------------------------------------
@@ -315,18 +348,58 @@ if(1)
 // À§Ä¡ ÁÂÇ¥ Á¤º¸ 
 //--------------------------------------------------------------------------------------------------------
 	bttnX       = 80;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 	bttnY       = 330;  
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 220;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 	bttnY       = 300;  
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 260;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 	bttnH       = 30;
 	bttnR       = 5;
 	bttnFontSize= 24;
 	
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 	dlgMssg[0] = "type=button, no=10, enable=0, show=1, \~
 				mode=0, \~
 				x=60, y= 285, w=260, h=40, \~
@@ -338,11 +411,33 @@ if(1)
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 	GOUT = WINC_GET_DATA_REAL(36103);
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
 
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -350,11 +445,33 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
+		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
+
+		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
 
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
 
+<<<<<<< HEAD
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -364,11 +481,33 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36113);
 	if(GOUT == 1)
 	{
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
+		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
+
+		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
 
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
 
+<<<<<<< HEAD
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -376,11 +515,33 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
+		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
+
+		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
 
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
 
+<<<<<<< HEAD
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -390,11 +551,33 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36123);
 	if(GOUT == 1)
 	{
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
+		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
+
+		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
 
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
 
+<<<<<<< HEAD
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -402,11 +585,33 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
+		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
+
+		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
 
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
 
+<<<<<<< HEAD
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -416,11 +621,33 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36133);
 	if(GOUT == 1)
 	{
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
+		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
+
+		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
 
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
 
+<<<<<<< HEAD
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -428,11 +655,33 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
+		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
+
+		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
+<<<<<<< HEAD
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
 
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
 
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
 
+<<<<<<< HEAD
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -442,7 +691,19 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 //-------------------------------------------- 
 //     ÀÔ·Â ¼¾¼­ µ¿ÀÛ È®ÀÎ
 //--------------------------------------------
@@ -590,7 +851,19 @@ if(1)
 	
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
 
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 //-------------------------------------------------
 //			Ãàº° ¸ðÅÍ À§Ä¡ 
 //--------------------------------------------------
@@ -694,6 +967,17 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+>>>>>>> 8bb91d47118eec4de97a2de21baa8346e952bd2c
+=======
+>>>>>>> 1ì°¨ ìˆ˜ì • ì—°ìŠµ
+=======
+>>>>>>> bf620964a1d496f420f443df2b0e9c7e41e2c077
+=======
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 //-----------------------------------------------
 // Ä¿½ºÅÒ È­¸é ÇÁ·¹ÀÓÀ» ±×¸°´Ù.
 //-----------------------------------------------

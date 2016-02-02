@@ -1,0 +1,9 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 경계처리
+if( TeachCurStep < 1 ) { TeachCurStep = 1; }
+if( TeachCurStep > TeachStepMax ) { TeachCurStep = TeachStepMax; }
+
+// 커서이동
+call("\\WizardCode\\Wizard_Teaching\\TeachEdit\\TeachEdit_GotoCursor.code");

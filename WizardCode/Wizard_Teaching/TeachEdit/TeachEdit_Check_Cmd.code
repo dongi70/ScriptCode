@@ -1,0 +1,15 @@
+
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 그리드의 에디터 값은 변수 grid_col, grid_row, grid_value로 전달됩니다.
+// 상기변수들은 자동으로 변수선언 됩니다.
+VAR matchstr, okstr, failstr;
+VAR CmdStr[10], CmdMax, cmdName;
+
+// 검증없이 에코한다.
+okstr = "ok";
+failstr = "";
+
+return grid_value;
+

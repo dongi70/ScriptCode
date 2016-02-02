@@ -1,0 +1,530 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+/*-----------------------------------
+
+		 초기화
+
+------------------------------------*/
+VAR i;
+TeachOpEnable		= 0;
+TeachAxis			= #38510; //(AXIS_X | AXIS_Y | AXIS_Z | AXIS_A)
+TeachStepMax 		= 500;
+TeachCurStep 		= 1;
+TeachCurStepMax		= 1;
+TeachEditEnable 	= 1;
+TeachStepExeOn		= 0;
+TeachAllExeOn		= 0;
+TeachGTransOn		= 0;
+
+TeachCurStepNo		= 1;
+TeachCurGFile_FP	= NULL;
+TeachCmdAxis		= TeachAxis;
+TeachCmdPlane		= 0; // XY평면
+TeachCmdDir			= 0; // CW방향
+TeachWorkStart		= 0;
+TeachMIOnStart		= 0;
+TeachAutoWorkOn		= 1;
+TeachWorkOnMacroNo	= 3; // M3
+TeachWorkOffMacroNo	= 5; // M5
+
+set_array(TeachOpMoveOffset, 10, 0);
+TeachOpMoveOffsetZ	= 10;
+TeachCmdSpeed		= 1000;
+TeachCmdMoveSpeed	= 6000;
+TeachOpMoveSpeed	= 3000;
+TeachOpMoveLoSpeed	= 300;
+TeachSafeSpeed		= 300;
+TeachCmdRpm			= 3000;
+
+TeachCmdSpeed2		= 300; // low
+TeachCmdSpeed3		= 3000;// high
+
+TeachOpMoveSpeedX	= TeachOpMoveSpeed;
+TeachOpMoveSpeedY	= TeachOpMoveSpeed;
+TeachOpMoveSpeedZ	= TeachOpMoveSpeed;
+TeachOpMoveSpeedA	= TeachOpMoveSpeed;
+TeachOpMoveSpeedB	= TeachOpMoveSpeed;
+TeachOpMoveSpeedC	= TeachOpMoveSpeed;
+
+TeachBeep1Freq		= 2500;
+TeachBeep1Time		= 0.2;
+TeachBeep2Freq		= 1500;
+TeachBeep2Time		= 0.2;
+TeachBeep3Freq		= 500;
+TeachBeep3Time		= 0.2;
+TeachBeep3Freq		= 3500;
+TeachBeep3Time		= 0.2;
+
+TeachDelayTime		= 1;
+TeachDelayTime2		= 1;
+TeachDelayMainWork	= 0;
+
+TeachDataTableMem	= get_varindex("TeachDataTable");
+TeachDataTableSize	= 10;
+TeachEditEnable 	= 1;
+TeachCmdTableMem	= get_varindex("TeachCmdTable");
+TeachCmdTableSize 	= 50;
+TeachCmdTableMax	= 40;
+TeachCustomPosTableMem = get_varindex("TeachCustomPosTable");
+TeachCustomPosTableMax = 10;
+
+
+/*-----------------------------------
+
+		 명령등록
+
+-----------------------------------*/
+VAR cmdNo;
+
+/*---------------------------
+
+	명령 테이블 초기화
+
+-----------------------------*/
+
+i=0;
+while(i<TeachCmdTableMax)
+{
+	// Enable
+	TeachCmdTable[i][TeachCmdTableOffset_Enable] = 0;
+	
+	// Name
+	WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "");
+	
+	// ID
+	TeachCmdTable[i][TeachCmdTableOffset_ID] = i+1;
+	
+	// Axis
+	TeachCmdTable[i][TeachCmdTableOffset_Axis] = TeachAxis;
+	
+	// Name
+	WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, sprintf_int("%02ld", i+1) );
+
+	// VialNo
+	TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+	
+	// Modal
+	TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+	
+	// MacroNo
+	TeachCmdTable[i][TeachCmdTableOffset_MacroNo] = -1;
+	
+	// IsPara
+	TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+	
+	// Vel
+	TeachCmdTable[i][TeachCmdTableOffset_Vel] = -1;	
+
+	// EnableImNext
+	TeachCmdTable[i][TeachCmdTableOffset_ImNext] = 1;	
+
+	// EnableImPos
+	TeachCmdTable[i][TeachCmdTableOffset_ImPos] = 1;	
+
+	// Main Work
+	TeachCmdTable[i][TeachCmdTableOffset_MainWork] = 0;	
+
+	// Plane
+	TeachCmdTable[i][TeachCmdTableOffset_Plane] = 0;	
+	
+	i = i + 1;
+}
+
+
+/*---------------------------
+
+	MOVE 명령 등록
+
+-----------------------------*/
+cmdNo = 1;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Move");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "이동");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 1;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = cmdNo;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+/*---------------------------
+
+	LINE 명령 등록
+
+-----------------------------*/
+cmdNo = 2;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Line");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "직선");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 1;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = cmdNo;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+// Main Work
+TeachCmdTable[i][TeachCmdTableOffset_MainWork] = 1;	
+
+/*---------------------------
+
+	ARC 명령 등록
+
+-----------------------------*/
+cmdNo = 3;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Arc");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "원호");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 3;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = cmdNo;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+// Main Work
+TeachCmdTable[i][TeachCmdTableOffset_MainWork] = 1;	
+// Plane
+TeachCmdTable[i][TeachCmdTableOffset_Plane] = 2;
+
+/*---------------------------
+
+	원 명령 등록
+
+-----------------------------*/
+cmdNo = 4;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Circle");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "원");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 3;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = cmdNo;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+// Main Work
+TeachCmdTable[i][TeachCmdTableOffset_MainWork] = 1;	
+// Plane
+TeachCmdTable[i][TeachCmdTableOffset_Plane] = 2;	
+
+/*---------------------------
+
+	HOME 명령 등록
+
+-----------------------------*/
+cmdNo = 10;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Home");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "원점");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+
+/*---------------------------
+
+	경유점 명령 등록
+
+-----------------------------*/
+cmdNo = 11;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Pt");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "경유점");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 1;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = cmdNo;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara]= 1;
+
+/*---------------------------
+
+	매크로100 등록
+
+cmdNo = 8;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "M100");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "M100");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+// Macro
+TeachCmdTable[i][TeachCmdTableOffset_MacroNo] = 100;
+-----------------------------*/
+
+
+/*---------------------------
+
+	속도 명령 등록
+
+-----------------------------*/
+cmdNo = 12;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Speed");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "속도");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+/*---------------------------
+
+	속도2 명령 등록
+
+-----------------------------*/
+cmdNo = 13;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Speed2");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "속도2");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+
+/*---------------------------
+
+	주축 ON 명령 등록
+
+-----------------------------*/
+cmdNo = 14;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "S.On");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "주축On");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+
+/*---------------------------
+
+	주축 OFF 등록
+
+-----------------------------*/
+cmdNo = 15;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "S.Off");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "주축Off");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+/*---------------------------
+
+	시간지연 등록
+
+-----------------------------*/
+cmdNo = 19;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "Delay");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "시간지연");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+
+/*---------------------------
+
+	END 명령 등록
+
+-----------------------------*/
+cmdNo = 20;
+i = cmdNo-1;
+// Enable
+TeachCmdTable[i][TeachCmdTableOffset_Enable] = 1;
+// Name
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Name, "End");
+// ID
+TeachCmdTable[i][TeachCmdTableOffset_ID] = cmdNo;
+// Title
+WINC_PUT_DATA_STR( TeachCmdTableMem + i * TeachCmdTableSize + TeachCmdTableOffset_Title, "종료");
+// VialNo
+TeachCmdTable[i][TeachCmdTableOffset_ViaNo] = 0;
+// Modal
+TeachCmdTable[i][TeachCmdTableOffset_Modal] = 0;
+// IsPara
+TeachCmdTable[i][TeachCmdTableOffset_IsPara] = 0;
+
+
+/*-----------------------------------
+
+		초기화 파일 로딩
+		
+-----------------------------------*/
+VAR loadconfigfilename;
+loadconfigfilename = get_programpath();
+loadconfigfilename = strcat( loadconfigfilename, "\\ScriptCode\\WizardCode\\Wizard_Teaching\\Teach_Config.dat");
+load_datafile( loadconfigfilename, TeachConfigTable, TeachConfigTableMax);
+
+/*-----------------------------------
+
+		재초기화
+		
+-----------------------------------*/
+TeachOpEnable		= 0;
+TeachAxis			= #38510; //(AXIS_X | AXIS_Y | AXIS_Z | AXIS_A)
+TeachStepMax 		= 500;
+TeachCurStep 		= 1;
+TeachCurStepMax		= 1;
+TeachEditEnable 	= 1;
+TeachStepExeOn		= 0;
+TeachAllExeOn		= 0;
+TeachGTransOn		= 0;
+
+TeachCurStepNo		= 1;
+TeachCurGFile_FP	= NULL;
+TeachCmdAxis		= TeachAxis;
+//TeachCmdPlane		= 0; // XY평면
+//TeachCmdDir			= 0; // CW방향
+TeachWorkStart		= 0;
+TeachMIOnStart		= 0;
+
+//TeachAutoWorkOn		= 1;
+//TeachWorkOnMacroNo	= 3; // M3
+//TeachWorkOffMacroNo	= 5; // M5
+
+//set_array(TeachOpMoveOffset, 10, 0);
+//TeachOpMoveOffsetZ	= 10;
+//TeachCmdSpeed		= 1000;
+//TeachCmdMoveSpeed	= 6000;
+//TeachOpMoveSpeed	= 3000;
+//TeachOpMoveLoSpeed	= 300;
+//TeachSafeSpeed		= 300;
+//TeachCmdRpm			= 3000;
+
+//TeachCmdSpeed2		= 300; // low
+//TeachCmdSpeed3		= 3000;// high
+
+//TeachOpMoveSpeedX	= TeachOpMoveSpeed;
+//TeachOpMoveSpeedY	= TeachOpMoveSpeed;
+//TeachOpMoveSpeedZ	= TeachOpMoveSpeed;
+//TeachOpMoveSpeedA	= TeachOpMoveSpeed;
+//TeachOpMoveSpeedB	= TeachOpMoveSpeed;
+//TeachOpMoveSpeedC	= TeachOpMoveSpeed;
+
+//TeachBeep1Freq		= 2500;
+//TeachBeep1Time		= 0.2;
+//TeachBeep2Freq		= 1500;
+//TeachBeep2Time		= 0.2;
+//TeachBeep3Freq		= 500;
+//TeachBeep3Time		= 0.2;
+//TeachBeep3Freq		= 3500;
+//TeachBeep3Time		= 0.2;
+
+//TeachDelayTime		= 1;
+//TeachDelayTime2		= 1;
+//TeachDelayMainWork	= 0;
+
+TeachDataTableMem	= get_varindex("TeachDataTable");
+TeachDataTableSize	= 10;
+TeachEditEnable 	= 1;
+TeachCmdTableMem	= get_varindex("TeachCmdTable");
+TeachCmdTableSize 	= 50;
+TeachCmdTableMax	= 40;
+TeachCustomPosTableMem = get_varindex("TeachCustomPosTable");
+TeachCustomPosTableMax = 10;
+
+
+/*-----------------------------------
+
+		초기 설정
+		
+-----------------------------------*/
+// 피드초기화
+WINC_FEED(TeachCmdSpeed);
+WINC_SPINDLE_RPM(TeachCmdRpm);
+
+// 조그모드 off
+WINC_PUT_DATA_INT(30815,0);
+
+return(0);

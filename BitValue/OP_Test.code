@@ -210,9 +210,13 @@ WINC_SET_USER_WINDOW(1, dlgMssg, 3);
 
 dlgMssg[0] = "type=button, no=1, show=1, enable=0, mode=bttnMode, lamp=1, \~
 			x=10, y=220, w=300, h=45, round=bttnR, \~
+<<<<<<< HEAD
+            color=GREEN, bkcolor=bttnBkColor, \~
+=======
 
             color=GREEN, bkcolor=bttnBkColor, \~
             color=BLACK, bkcolor=bttnBkColor, \~
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
             fontsize=30,  title= Progress Process : , \~
             ";
 			
@@ -284,7 +288,10 @@ dlgMssg[2] = "type=button, no=32, show=1, enable=0, mode=bttnMode, lamp=1, \~
             fontsize=40,  title=S, \~
             ";			
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+<<<<<<< HEAD
+=======
 
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 
 //------------------------------------------
 //                진행 시간

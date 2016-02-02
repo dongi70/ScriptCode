@@ -1,0 +1,75 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 동작가능여부확인
+if( !TeachEditEnable ) 
+{ 
+	messagebox(0,0,"펀집모드에서만 동작 가능합니다. 편집모드로 전환해 주세요.", "");
+	return(0); 
+}
+
+
+VAR loadfilename;
+loadfilename = file_dialog( "*.msp", 1);
+if( loadfilename < 0 ) { return (0); }
+WINC_PUT_DATA_STR( get_varindex("TeachFilePath"), loadfilename);
+load_datafile( loadfilename, TeachDataTable, TeachStepMax*TeachDataTableSize);
+
+// 명령어  이름 변환
+VAR i, cmdNo, cmdName;
+
+i=0;
+while(i<TeachStepMax)
+{
+	cmdNo = TeachDataTable[i][1];
+	cmdName = WINC_GET_DATA_STR( get_varindex("TeachCmdTable") + (i)*TeachCmdTableSize + TeachCmdTableOffset_Name);
+	
+	if(cmdNo >= 1)
+	{
+		{
+			cmdName = WINC_GET_DATA_STR( TeachCmdTableMem + (cmdNo-1)*TeachCmdTableSize + TeachCmdTableOffset_Name);
+			
+			// 평면에 요구에 따른 명령 추가변환설정
+			if( TeachCmdTable[cmdNo-1][TeachCmdTableOffset_Plane] == 2 )
+			{
+				if( TeachDataTable[i][8] == 0 )
+				{
+					cmdName = strcat( cmdName, "XY");
+				}
+				else if( TeachDataTable[i][8] == 1 )
+				{
+					cmdName = strcat( cmdName, "YZ");
+				}
+				else if( TeachDataTable[i][8] == 2 )
+				{
+					cmdName = strcat( cmdName, "ZX");
+				}
+			}
+			WINC_PUT_DATA_STR( TeachDataTableMem + i*TeachDataTableSize + 0, cmdName);
+		}
+	}
+	else
+	{
+		TeachDataTable[i][0] = 0;
+	}	
+	i = i+1;
+}
+
+// 타이들에 파일이름 표기
+{
+	VAR dlgMssg[10];
+	VAR filename;
+	dlgMssg[0] = "type=frame, enable=1, jogkey=1, show=1, mode = 0, float=1,\~
+				title=티칭 위저드 <";\~
+	filename = WINC_GET_DATA_STR(get_varindex("TeachFilePath"));
+	dlgMssg[0] = strcat(dlgMssg[0], filename);
+	dlgMssg[0] = strcat(dlgMssg[0], ">");
+
+	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+}
+
+// 종료 비프
+beep(3000,0.2);
+
+return(0);
+

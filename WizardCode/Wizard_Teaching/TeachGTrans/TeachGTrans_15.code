@@ -1,0 +1,21 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 주축OFF 명령 G코드변환
+VAR fp;
+VAR axis;
+
+// G코드 파일
+fp = TeachCurGFile_FP;
+if( fp == NULL ) { return (0); }
+
+// 시작처리코드 호출
+call("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_Start.code");
+
+// 본체 코드작성
+fputs(fp, "M05 \x3b 주축 OFF \n");
+
+// 종료코드처리 호출
+call("\\WizardCode\\Wizard_Teaching\\TeachGTrans\\TeachGTrans_End.code");
+
+return(0);

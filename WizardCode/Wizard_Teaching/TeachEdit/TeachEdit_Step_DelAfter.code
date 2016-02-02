@@ -1,0 +1,29 @@
+// 인클루드
+include("\\WizardCode\\Wizard_Teaching\\Teaching_System.h");
+
+// 동작가능여부확인
+if( !TeachEditEnable ) 
+{ 
+	messagebox(0,0,"펀집모드에서만 동작 가능합니다. 편집모드로 전환해 주세요.", "");
+	return(0); 
+}
+
+if( messagebox(2,0,"확인메시지창", "후방전체를 삭제하시겠습니까?") == 1 )
+{
+
+	VAR i, j, k;
+	VAR memAddr;
+	VAR cmd;
+	
+	i = TeachCurStep; 
+	if( i<1) {return (0);}
+	
+	while (i <= TeachStepMax-1 )
+	{
+		// 명령 클리어
+		set_array( TeachDataTable[i], TeachDataTableSize, 0);
+		i=i+1;
+	}
+
+}
+
