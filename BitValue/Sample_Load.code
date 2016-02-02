@@ -97,6 +97,10 @@ dlgMssg[1] ="type=button, no=2, mode=1, enable=1, show=1, \~
     fontsize=bttnFontSize, title=Load Complete, \~
     image=Common_Button.bmp, \~
 	memory=38054,writememory=38054, valtype=int, setvalue =1, \~
+<<<<<<< HEAD
+=======
+//	memory=38052,writememory=38052, valtype=int, setvalue =1, \~
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
     link=\\BitValue\\OpCode\\Proc_Finishing.code, 	\~
 	";
 

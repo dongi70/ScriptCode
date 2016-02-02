@@ -1,6 +1,10 @@
 
 WINC_PUT_DATA_REAL(30450,0);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 74f3b5beaba9c496c25f09149c30ace7ddbae248
 WINC_PUT_DATA_INT(38050,200);
 WINC_PUT_DATA_INT(38052,200);
 
