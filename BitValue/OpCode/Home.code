@@ -4,8 +4,13 @@ call("\\BitValue\\AllMotorOn.code");
 
 WINC_PUT_DATA_REAL(30450,0);
 
+<<<<<<< HEAD
 WINC_PUT_DATA_INT(38050,200);
 WINC_PUT_DATA_INT(38052,200);
+=======
+//WINC_PUT_DATA_INT(38050,400);
+//WINC_PUT_DATA_INT(38052,1000);
+>>>>>>> 시연 1차 버전
 
 WINC_RUN_NCCODE("\\BitValue\\OpCode\\Home.nc");
 //WINC_SET_GIO(6);

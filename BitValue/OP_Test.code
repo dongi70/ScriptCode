@@ -149,6 +149,7 @@ WINC_SET_USER_WINDOW(1, dlgMssg, 5);
 //  ÁÖ µ¿ÀÛ ¹öÆ°
 //
 //--------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
 bttnMode    = 1;        // ÀÌ¹ÌÁö¹öÆ° 
 bttnX       = 15;
 bttnY       = 20;
@@ -157,23 +158,49 @@ bttnW       = 200;
 bttnH       = 150;
 bttnR       = 30;   // 25
 bttnFontSize= 22;
+=======
+bttnMode    = 1;        // ÀÌ¹ÌÁö¹öÆ°
+bttnX       = 15;
+bttnY       = 80;
+bttnOffsetX = 220;
+bttnW       = 200;
+bttnH       = 150;
+bttnR       = 100;   // 25
+bttnFontSize= 35;
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 
 //----------------------------------------
 // °Ë»çÇÁ·Î¼¼½º
 //----------------------------------------
+<<<<<<< HEAD
 dlgMssg[0] = "type=button, no=22, show=1, mode=bttnMode, lamp=1, \~
 			beep=bellHz, beeptime=0.1, \~
 			x=bttnX + 0*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ À§Ä¡ ¹× ¸ð¾ç ¼³Á¤
             color=BLACK, bkcolor=bttnBkColor, \~
             fontsize=bttnFontSize, title=Diagnosis Process, \~
+=======
+dlgMssg[0] = "type=button, no=22, show=1, mode=bttnMode, lamp-1, \~
+			beep=bellHz, beeptime=0.1, \~
+			x=bttnX + 0*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ À§Ä¡ ¹× ¸ð¾ç ¼³Á¤
+            color=BLACK, bkcolor=bttnBkColor, \~
+            fontsize=bttnFontSize, title=Injection, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             image=Common_Button_Green.bmp, \~
-            autoblink=1, blink=0.5, \~
+            autoblink=1, blink=1.0, \~
             readmemory=10002, valtype=real, \~
+<<<<<<< HEAD
 			link=-1,\~
 			link2=\\BitValue\\OpCode\\Proc_1.code, \~
             link3=\\BitValue\\OpCode\\Proc_Diagnosis.code, \~
 			";
 
+=======
+		link=\\BitValue\\OpCode\\Proc_1.code, \~
+  		link2=\\BitValue\\OpCode\\Proc_Diagnosis.code, \~
+           
+	";
+ //
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 //----------------------------------------
 // Å©¸®´× ÇÁ·Î¼¼½º
 //----------------------------------------
@@ -181,7 +208,11 @@ dlgMssg[1] = "type=button, no=23, show=1, mode=bttnMode, lamp=1, \~
 			beep=bellHz, beeptime=0.1, \~
 			x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ À§Ä¡ ¹× ¸ð¾ç ¼³Á¤
             color=BLACK, bkcolor=bttnBkColor, \~
+<<<<<<< HEAD
             fontsize=bttnFontSize, title=Washing Process, \~
+=======
+            fontsize=bttnFontSize, title=Washing, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             image=Common_Button_Green.bmp, \~
             autoblink=1, blink=0.5, \~
             readmemory=10003, valtype=real, \~
@@ -195,24 +226,37 @@ dlgMssg[2] = "type=button, no=24, show=1, mode=bttnMode, lamp=1, \~
 			beep=bellHz, beeptime=0.1, \~
 			x=bttnX + 2*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ À§Ä¡ ¹× ¸ð¾ç ¼³Á¤
             color=BLACK, bkcolor=bttnBkColor, \~
+<<<<<<< HEAD
             fontsize=bttnFontSize, title= Dry Process, \~
+=======
+            fontsize=bttnFontSize, title= Drying, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             image=Common_Button_Green.bmp, \~
-            autoblink=1, blink=0.5, \~
+            autoblink=1, blink=0.5,  blinkimage=Common_Button_Pink.bmp,\~
             readmemory=10004, valtype=real, \~
 			link=\\BitValue\\OpCode\\Proc_3.code, \~
             link2=\\BitValue\\OpCode\\Proc_All.code";
 
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
 
+<<<<<<< HEAD
+=======
+
+/*
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 //------------------------------------------
 //  ÁøÇà ÇÁ·Î¼¼½º
 //------------------------------------------
 
 dlgMssg[0] = "type=button, no=1, show=1, enable=0, mode=bttnMode, lamp=1, \~
 			x=10, y=220, w=300, h=45, round=bttnR, \~
+<<<<<<< HEAD
 
             color=GREEN, bkcolor=bttnBkColor, \~
             color=BLACK, bkcolor=bttnBkColor, \~
+=======
+            color=GREEN, bkcolor=bttnBkColor, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             fontsize=30,  title= Progress Process : , \~
             ";
 			
@@ -226,6 +270,7 @@ dlgMssg[0] = "type=edit, no=25, enable=1, show=1, readonly=1, \~
     memory=38030, readmemory=38030, \~
 	";
 WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+<<<<<<< HEAD
 
 
 //------------------------------------------
@@ -247,6 +292,29 @@ dlgMssg[0] = "type=button, no=26, show=1, enable=0, mode=bttnMode, lamp=1, \~
             ";			
 WINC_SET_USER_WINDOW(1, dlgMssg, 1);
 
+=======
+*/
+
+//------------------------------------------
+//                ÁøÇà ½Ã°£
+//------------------------------------------
+bttnMode    = 1;        // ÀÌ¹ÌÁö¹öÆ° 
+bttnX       = 320;
+bttnY       = 320;
+bttnOffsetX = 115;
+bttnW       = 65;
+bttnH       = 45;
+bttnR       = 30;   // 25
+bttnFontSize= 22;
+
+dlgMssg[0] = "type=button, no=26, show=1, enable=0, mode=bttnMode, lamp=1, \~
+			x=5, y=bttnY, w=320, h=bttnH, round=bttnR, \~
+            color=GREEN, bkcolor=bttnBkColor, \~
+            fontsize=35,  title=Progessing Time:, \~
+            ";			
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 dlgMssg[0] = "type=edit, no=27, enable=1, show=1, readonly=1, \~
 			x=bttnX+bttnOffsetX*0, y=bttnY, w=bttnW, h=bttnH, border=0, \~
 			color=BLACK, font=±¼¸²Ã¼, bkcolor=WHITE, \~
@@ -284,6 +352,7 @@ dlgMssg[2] = "type=button, no=32, show=1, enable=0, mode=bttnMode, lamp=1, \~
             fontsize=40,  title=S, \~
             ";			
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+<<<<<<< HEAD
 
 
 //------------------------------------------
@@ -318,6 +387,8 @@ dlgMssg[2] = "type=edit, no=29, enable=1, show=1, readonly=1, \~9
 	";	
 		
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
+=======
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 
 //-----------------------------------------------
 // Ä¿½ºÅÒ È­¸é ÇÁ·¹ÀÓÀ» ±×¸°´Ù.

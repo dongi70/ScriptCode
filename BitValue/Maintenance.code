@@ -62,6 +62,10 @@ bttnHovColor        = CYAN;     // ¸¶¿ì½ºÆ÷ÀÎÅÍ ¿Ã·ÁÁú ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ
 bttnSelColor        = CYAN;     // ¼±ÅÃµÇ¾úÀ» ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ¿ì ÀÇ¹Ì¾øÀ½)
 bttnDisColor        = GRAY;     // ºñÈ°¼ºÈ­ µÇ¾úÀ» ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ¿ì ÀÇ¹Ì¾øÀ½)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 //-------------------------------------------------
 //			Ãàº° ¸ðÅÍ À§Ä¡ 
 //--------------------------------------------------
@@ -174,6 +178,7 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
+<<<<<<< HEAD
 //--------------------------------------------------------------------------------------------------------
 // À§Ä¡ ÁÂÇ¥ Á¤º¸ 
 //--------------------------------------------------------------------------------------------------------
@@ -305,6 +310,8 @@ if(1)
 	
 }
 
+=======
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 //--------------------------------------------
 //     Ãàº° ¼¾¼­ µ¿ÀÛ È®ÀÎ
 //--------------------------------------------
@@ -319,10 +326,13 @@ if(1)
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 220;
+<<<<<<< HEAD
 	bttnY       = 300;  
 	bttnOffsetX = 10;
 	bttnOffsetY = 30;
 	bttnW       = 260;
+=======
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 	bttnH       = 30;
 	bttnR       = 5;
 	bttnFontSize= 24;
@@ -338,11 +348,14 @@ if(1)
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
+<<<<<<< HEAD
 	GOUT = WINC_GET_DATA_REAL(36103);
 	if(GOUT == 1)
 	{
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
 
+=======
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -350,11 +363,15 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
 
 		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
 
 		dlgMssg[0] = "type=button, no=6, enable=1, show=1, \~
 
+=======
+		dlgMssg[0] = "type=button, no=11, enable=1, show=1, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*0, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -364,11 +381,15 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36113);
 	if(GOUT == 1)
 	{
+<<<<<<< HEAD
 
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
 
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
 
+=======
+		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -376,11 +397,15 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
 
 		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
 
 		dlgMssg[1] = "type=button, no=7, enable=1, show=1, \~
 
+=======
+		dlgMssg[1] = "type=button, no=12, enable=1, show=1, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*1, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -390,11 +415,15 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36123);
 	if(GOUT == 1)
 	{
+<<<<<<< HEAD
 
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
 
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
 
+=======
+		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -402,11 +431,15 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
 
 		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
 
 		dlgMssg[2] = "type=button, no=8, enable=1, show=1, \~
 
+=======
+		dlgMssg[2] = "type=button, no=13, enable=1, show=1, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*2, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -416,11 +449,15 @@ if(1)
 	GOUT = WINC_GET_DATA_REAL(36133);
 	if(GOUT == 1)
 	{
+<<<<<<< HEAD
 
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
 
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
 
+=======
+		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=BLUE, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -428,11 +465,15 @@ if(1)
 	}
 	else
 	{
+<<<<<<< HEAD
 
 		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
 
 		dlgMssg[3] = "type=button, no=9, enable=1, show=1, \~
 
+=======
+		dlgMssg[3] = "type=button, no=14, enable=1, show=1, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 				mode=0, \~
 				x=bttnX, y=bttnY+bttnOffsetY*3, w=bttnW, h=bttnH, \~
 				bkcolor=RED, color=WHITE, border=1, bordercolor=BLACK, \~
@@ -442,7 +483,10 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 //-------------------------------------------- 
 //     ÀÔ·Â ¼¾¼­ µ¿ÀÛ È®ÀÎ
 //--------------------------------------------
@@ -470,7 +514,11 @@ if(1)
 	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
 	
 	GOUT = WINC_GET_DATA_INT(38010);
+<<<<<<< HEAD
 	if(GOUT == 0)
+=======
+	if(GOUT == 1)
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 	{
 		dlgMssg[0] = "type=button, no=16, enable=1, show=1, \~
 				mode=0, \~
@@ -488,7 +536,11 @@ if(1)
 	}
 
 	GOUT1 = WINC_GET_DATA_INT(38011);
+<<<<<<< HEAD
 	if(GOUT1 == 0)
+=======
+	if(GOUT1 == 1)
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 	{
 		dlgMssg[1] = "type=button, no=17, enable=1, show=1, \~
 				mode=0, \~
@@ -506,7 +558,11 @@ if(1)
 	}	
 	
 	GOUT2 = WINC_GET_DATA_INT(38012);
+<<<<<<< HEAD
 	if(GOUT2 == 0)
+=======
+	if(GOUT2 == 1)
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 	{
 		dlgMssg[2] = "type=button, no=18, enable=1, show=1, \~
 				mode=0, \~
@@ -524,7 +580,11 @@ if(1)
 	}
 
 	GOUT3 = WINC_GET_DATA_INT(38013);
+<<<<<<< HEAD
 	if(GOUT3 == 0)
+=======
+	if(GOUT3 == 1)
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 	{
 		dlgMssg[3] = "type=button, no=19, enable=1, show=1, \~
 				mode=0, \~
@@ -541,7 +601,11 @@ if(1)
 				title=½Ã¾à 4 ¿ë·® OFF, fontsize=bttnFontSize;// \~
 	}
 	GOUT4 = WINC_GET_DATA_INT(38014);
+<<<<<<< HEAD
 	if(GOUT4 == 0)
+=======
+	if(GOUT4 == 1)
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 	{
 		dlgMssg[4] = "type=button, no=20, enable=1, show=1, \~
 				mode=0, \~
@@ -591,6 +655,7 @@ if(1)
 }
 
 
+<<<<<<< HEAD
 //-------------------------------------------------
 //			Ãàº° ¸ðÅÍ À§Ä¡ 
 //--------------------------------------------------
@@ -693,6 +758,30 @@ if(1)
 
 	WINC_SET_USER_WINDOW(1, dlgMssg, 4);
 }
+=======
+//--------------------------------------------------------------------------------------------------------
+// (¹öÆ°)
+//--------------------------------------------------------------------------------------------------------
+bttnX       = 415;
+bttnY       = 370;   
+bttnOffsetX = 100;
+bttnOffsetY = 80;
+bttnW       = 300;
+bttnH       = 60;
+bttnR       = 0;
+bttnFontSize= 35;
+
+dlgMssg[0] ="type=button, no=33,  enable=1, show=1, mode=1, \~
+		beep=bellHz, beeptime=0.1, \~
+        x=bttnX+0*bttnOffsetX, y=bttnY,  w=bttnW, h=bttnH, \~
+        seltextcolor=bttnSelTextColor, \~
+        image=Bttn_Cm_YellowGreen_01.bmp, \~
+        fontsize=bttnFontSize, title= ½Ç¸°Áö ³ôÀÌ Á¶Àý, \~
+        memory=38085,writememory=38085, valtype=int, setvalue =1, toggle = 1 \~
+        ";       
+WINC_SET_USER_WINDOW(1, dlgMssg, 1);
+
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 
 //-----------------------------------------------
 // Ä¿½ºÅÒ È­¸é ÇÁ·¹ÀÓÀ» ±×¸°´Ù.

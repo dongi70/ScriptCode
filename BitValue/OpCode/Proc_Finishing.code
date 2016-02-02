@@ -11,14 +11,29 @@ VAR Cover_Close;
 //-------------------------------------
 Cover_State = WINC_GET_DATA_INT(38015);
 
+<<<<<<< HEAD
 if( Cover_State == 1)
 {
 	call("\\BitValue\\OP_Test.code");
 }
+=======
+//if( Cover_State == 1)
+{
+	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Finishing.nc");
+	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Finishing.nc");
+	
+	call("\\BitValue\\OP_Test.code");
+	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Finishing.nc");
+	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Finishing.nc");
+	
+}
+/*
+>>>>>>> 시연 1차 버전
 else
 {
 	messagebox(0,1,"  COVER CLOSE \n ","");
 }
+<<<<<<< HEAD
 
 
 /*
@@ -37,3 +52,8 @@ if(1)
 */
 
 WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Finishing.nc");
+=======
+*/
+
+//WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Finishing.nc");
+>>>>>>> 시연 1차 버전

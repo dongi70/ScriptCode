@@ -85,7 +85,7 @@ if(1)
 	VAR GOUT, GOUT1, GOUT2, GOUT3, GOUT4, GOUT5, GOUT6, GOUT7;
 	
 	GOUT = WINC_GET_DATA_INT(38010);
-	if(GOUT == 0)
+	if(GOUT == 1)
 	{
 //		messagebox(0,0,"  OK \n ","");
 	// MDI 실행버튼
@@ -110,7 +110,7 @@ if(1)
 	}
 
 	GOUT1 = WINC_GET_DATA_INT(38011);
-	if(GOUT1 == 0)
+	if(GOUT1 == 1)
 	{
 //		messagebox(0,0,"  OK \n ","");
 	// MDI 실행버튼
@@ -136,7 +136,7 @@ if(1)
 	
 	
 	GOUT2 = WINC_GET_DATA_INT(38012);
-	if(GOUT2 == 0)
+	if(GOUT2 == 1)
 	{
 //		messagebox(0,0,"  OK \n ","");
 	// MDI 실행버튼
@@ -158,7 +158,7 @@ if(1)
 	}
 
 	GOUT3 = WINC_GET_DATA_INT(38013);
-	if(GOUT3 == 0)
+	if(GOUT3 == 1)
 	{
 //		messagebox(0,0,"  OK \n ","");
 	// MDI 실행버튼
@@ -181,7 +181,7 @@ if(1)
 
 	}
 	GOUT4 = WINC_GET_DATA_INT(38014);
-	if(GOUT4 == 0)
+	if(GOUT4 == 1)
 	{
 //		messagebox(0,0,"  OK \n ","");
 	// MDI 실행버튼
@@ -202,7 +202,7 @@ if(1)
 				title=시약 5 용량 Fail, fontsize=25;// \~
 	}
 	GOUT5 = WINC_GET_DATA_INT(38015);
-	if(GOUT5 == 0)
+	if(GOUT5 == 1)
 	{
 //		messagebox(0,0,"  OK \n ","");
 	// MDI 실행버튼

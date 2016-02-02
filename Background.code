@@ -357,6 +357,85 @@
 		
 		//messagebox(0,0," 테스트 1 ","");
 		OP_UI = WINC_GET_DATA_INT(38000);
+		if(OP_UI == 4)
+		{
+			VAR temp;
+			VAR ReagentTime:#10010;
+			
+			 temp = WINC_GET_DATA_INT(38085);
+			 if( temp == 1 )
+			  {
+				WINC_ENTER_IMCMD();
+				WINC_SET_GIO( 0x01<<4)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+				
+				WINC_ENTER_IMCMD();
+				WINC_SET_GIO( 0x01<<6)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+				
+				WINC_ENTER_IMCMD();
+				WINC_SET_GIO( 0x01<<7)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+
+				WINC_ENTER_IMCMD();
+				WINC_SET_GIO( 0x01<<8)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+
+				WINC_ENTER_IMCMD();
+				WINC_SET_GIO( 0x01<<9)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+
+				WINC_ENTER_IMCMD();
+				WINC_SET_GIO( 0x01<<14)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime )
+			 }
+			 else
+			 {
+				WINC_ENTER_IMCMD();
+				WINC_CLR_GIO( 0x01<<14)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+
+				WINC_ENTER_IMCMD();
+				WINC_CLR_GIO( 0x01<<6)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+				
+				WINC_ENTER_IMCMD();
+				WINC_CLR_GIO( 0x01<<7)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+
+				WINC_ENTER_IMCMD();
+				WINC_CLR_GIO( 0x01<<8)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+
+				WINC_ENTER_IMCMD();
+				WINC_CLR_GIO( 0x01<<9)
+				WINC_LEAVE_IMCMD();
+
+				delay( ReagentTime );
+
+			 }
+
+		}
 		
 //		if(OP_UI == 2)			
 		{
@@ -394,7 +473,7 @@
 	
 				GOUT = X(0);    // 현재의 상태를 읽어옴 
 			
-				if( GOUT == 0 )
+				if( GOUT == 1 )    // 임시 수정 16.01.20
 				{
 					WINC_PUT_DATA_INT(38010,1);
 					WINC_PUT_DATA_STR(38020,"OK");
@@ -406,7 +485,7 @@
 				}
 				
 				GOUT = X(1);    // 현재의 상태를 읽어옴 			
-				if( GOUT == 0 )
+				if( GOUT == 1 )
 				{
 					WINC_PUT_DATA_INT(38011,1);
 					WINC_PUT_DATA_STR(38021,"OK");
@@ -417,7 +496,7 @@
 					WINC_PUT_DATA_STR(38021,"부족");
 				}
 				GOUT = X(2);    // 현재의 상태를 읽어옴 			
-				if( GOUT == 0 )
+				if( GOUT == 1 )
 				{
 					WINC_PUT_DATA_INT(38012,1);
 					WINC_PUT_DATA_STR(38022,"OK");
@@ -428,7 +507,7 @@
 					WINC_PUT_DATA_STR(38022,"부족");
 				}
 				GOUT = X(3);    // 현재의 상태를 읽어옴 			
-				if( GOUT == 0 )
+				if( GOUT == 1 )
 				{
 					WINC_PUT_DATA_INT(38013,1);
 					WINC_PUT_DATA_STR(38023,"OK");
@@ -439,7 +518,7 @@
 					WINC_PUT_DATA_STR(38023,"부족");
 				}
 				GOUT = X(4);    // 현재의 상태를 읽어옴 			
-				if( GOUT == 0 )
+				if( GOUT == 1 )
 				{
 					WINC_PUT_DATA_INT(38014,1);
 					WINC_PUT_DATA_STR(38024,"OK");
@@ -450,7 +529,7 @@
 					WINC_PUT_DATA_STR(38024,"FAIL");
 				}
 				GOUT = X(5);    // 현재의 상태를 읽어옴 			
-				if( GOUT == 0 )
+				if( GOUT == 1 )
 				{
 					WINC_PUT_DATA_INT(38015,1);
 					WINC_PUT_DATA_STR(38025,"CLOSE");

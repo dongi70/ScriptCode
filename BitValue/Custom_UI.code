@@ -38,8 +38,13 @@ VAR bellHz(3000);
 //----------------------------------------------
 //   ¸ðÅÍ ¼Óµµ ÃÊ±â°ª ¼³Á¤
 //----------------------------------------------
+<<<<<<< HEAD
 WINC_PUT_DATA_INT(38050,200);
 WINC_PUT_DATA_INT(38052,200);
+=======
+WINC_PUT_DATA_INT(38050,400); 
+WINC_PUT_DATA_INT(38052,1000);
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 
 //-----------------------------------------------
 //    ½Ã½ºÅÛ Timer ÃÊ±âÈ­
@@ -152,7 +157,7 @@ bttnOffsetX = 157	//	115;
 bttnW       = 157;	//110;
 bttnH       = 100;	//90;
 bttnR       = 30;   // 25
-bttnFontSize= 22;
+bttnFontSize= 24;
 
 //----------------------------------------
 //  Àåºñ ¼³Á¤
@@ -161,8 +166,8 @@ bttnFontSize= 22;
 dlgMssg[0] = "  type=button, no=41, show=1, mode=bttnMode, lamp-1,              \~ ±âº» ¼³Á¤
 				beep=bellHz, beeptime=0.1, \~
                 x=bttnX + 0*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR,\~ À§Ä¡ ¹× ¸ð¾ç ¼³Á¤
-                color=bttnColor, bkcolor=bttnBkColor, seltextcolor=WHITE,       \~ Ä®¶ó 
-                title=Setting, seltitle=Setting, fontsize=bttnFontSize,       \~ Å¸ÀÌÆ²¼³Á¤
+                color=BLUE, bkcolor=bttnBkColor, seltextcolor=WHITE,       \~ Ä®¶ó 
+                title=Setting, seltitle=Setting, fontsize=30,       \~ Å¸ÀÌÆ²¼³Á¤
                 image=Common_Button_Green.bmp,                                    \~ ÀÌ¹ÌÁö µî·Ï
                 autoblink=0, blink=0.0,                                         \~ ±ô¹ÚÀÓ¼Ó¼º
                 memory=38000,writememory=38000, valtype=int, setvalue =1,         \~ ¿¬°á ¸Þ¸ð¸®
@@ -174,7 +179,11 @@ dlgMssg[0] = "  type=button, no=41, show=1, mode=bttnMode, lamp-1,              
 dlgMssg[1] = "type=button, no=42, show=1, mode=bttnMode, lamp-1, \~
 			beep=bellHz, beeptime=0.1, \~
             x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+<<<<<<< HEAD
             color=BLACK, bkcolor=bttnBkColor, \~
+=======
+            color=BLUE, bkcolor=bttnBkColor, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             fontsize=bttnFontSize, title=Sample Load, \~
             image=Common_Button_Green.bmp, \~
             autoblink=0, blink=0.0, \~
@@ -187,8 +196,8 @@ dlgMssg[1] = "type=button, no=42, show=1, mode=bttnMode, lamp-1, \~
 dlgMssg[2] = "type=button, no=43, show=1, mode=bttnMode, lamp-1, \~
     		beep=bellHz, beeptime=0.1, \~
 	        x=bttnX + 2*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
-            fontsize=bttnFontSize,  title=Test, \~
+            color=BLUE, bkcolor=bttnBkColor, \~
+            fontsize=30,  title=Test, \~
             image=Common_Button_Green.bmp, \~
             autoblink=0, blink=0.0, \~
             memory=38000,writememory=38000, valtype=int, setvalue =3,  \~
@@ -200,7 +209,11 @@ dlgMssg[2] = "type=button, no=43, show=1, mode=bttnMode, lamp-1, \~
 dlgMssg[3] = "type=button, no=44, show=1, mode=bttnMode, lamp-1, \~
 			beep=bellHz, beeptime=0.1, \~
             x=bttnX + 3*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
+<<<<<<< HEAD
             color=BLACK, bkcolor=bttnBkColor, \~
+=======
+            color=BLUE, bkcolor=bttnBkColor, \~
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             fontsize=bttnFontSize,  title=Maintenance, \~
             image=Common_Button_Green.bmp, \~
             autoblink=0, blink=0.0,\~
@@ -213,7 +226,7 @@ dlgMssg[3] = "type=button, no=44, show=1, mode=bttnMode, lamp-1, \~
 dlgMssg[4] = "type=button, no=45, show=1, mode=bttnMode, lamp-1, \~
             beep=bellHz, beeptime=0.1, \~
 			x=bttnX + 4*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-            color=BLACK, bkcolor=bttnBkColor, \~
+            color=BLUE, bkcolor=bttnBkColor, \~
             fontsize=bttnFontSize,  title=END, \~
             image=Common_Button_Red.bmp, \~
             autoblink=0, blink=0.0, blinkimage=Common_Button_Pink.bmp,  \~

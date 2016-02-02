@@ -193,14 +193,7 @@ dlgMssg[2] ="type=button, no=13, lamp=1, enable=1, show=1, mode=1, \~
         ";
 
 WINC_SET_USER_WINDOW(1, dlgMssg, 3);
-//
-//
-//
 
-<<<<<<< HEAD
-//
-=======
->>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 //------------------------------------------------
 //  ¸ðÅÍ ¼Óµµ º¯°æ
 //------------------------------------------------
@@ -231,78 +224,6 @@ if(1)
 		WINC_PUT_DATA_INT(38052,Set_Value2);
 	}
 }
-<<<<<<< HEAD
-
-if(1)
-{
-	bttnX       = 30;
-	bttnY       = 330;   
-	bttnOffsetX = 100;
-	bttnOffsetY = 65;
-	bttnW       = 100;
-	bttnH       = 60;
-	bttnR       = 0;
-	bttnFontSize= 35;
-	//------------------------------------------------
-	//    Ç÷¾× ¼Óµµ º¯°æ
-	//------------------------------------------------
-	dlgMssg[0] = "type=button, no=15, show=1, mode=bttnMode, enable=0, lamp=1, \~
-				beep=bellHz, beeptime=0.1, \~
-				x=bttnX, y=bttnY, w=bttnW+100, h=bttnH, round=bttnR, \~
-				color=BLACK, bkcolor=bttnBkColor, \~
-				fontsize=bttnFontSize,  title=Blood ul/M, \~
-				";
-	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-
-
-	dlgMssg[0] = "type=edit, no=16, enable=1, show=1, readonly=1, \~
-				x=bttnX+300, y=bttnY, w=bttnW, h=bttnH, border=0, \~
-				color=BLACK, font=±¼¸²Ã¼, bkcolor=WHITE, \~
-				format=%d, keypad=1, fontsize=45, \~
-				memory=38050, readmemory=38050, \~
-				";
-	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-	//----------------------------------------
-	// ¼Óµµ º¯°æ
-	//----------------------------------------
-	dlgMssg[0] ="type=button, no=17, lamp-1, show=1, mode=0, \~
-			beep=bellHz, beeptime=0.1, \~
-			x=440, y=bttnY,  w=80, h=bttnH, round=bttnR, \~
-			color=bttnColor, bkcolor=GREEN, hovcolor=bttnHovColor, selcolor=bttnSelColor, outlinecolor=BLACK, \~
-			seltextcolor=bttnSelTextColor, \~
-			fontsize=40, title=ul+, \~
-			image=Common_Button_Green.bmp, \~
-			autoblink=0, blink=0.0,\~
-			readmemory=38050, valtype=bool, writememory=-1, \~ 
-			link=\\BitValue\\JogCode\\Motor_Inc.code, \~
-			";
-
-	dlgMssg[1] ="type=button, no=18, lamp-1, show=1, mode=0, \~
-			beep=bellHz, beeptime=0.1, \~
-			x=240, y=bttnY,  w=80, h=bttnH, round=bttnR, \~
-			color=bttnColor, bkcolor=GREEN, hovcolor=bttnHovColor, selcolor=bttnSelColor, outlinecolor=BLACK, \~
-			seltextcolor=bttnSelTextColor, \~
-			fontsize=40, title=ul-, \~
-			image=Common_Button_Green.bmp, \~
-			autoblink=0, blink=0.0,\~
-			readmemory=38050, valtype=bool,  writememory=-1, \~ 
-			link=\\BitValue\\JogCode\\Motor_Dec.code, \~
-			";
-
-	WINC_SET_USER_WINDOW(1, dlgMssg, 2);
-	
-	//------------------------------------------------
-	//    ½Ã¾à ¼Óµµ º¯°æ
-	//------------------------------------------------
-	dlgMssg[0] = "type=button, no=19, show=1, mode=bttnMode, enable=0, lamp=1, \~
-				beep=bellHz, beeptime=0.1, \~
-				x=bttnX, y=bttnY+bttnOffsetY, w=bttnW+100, h=bttnH, round=bttnR, \~
-				color=BLACK, bkcolor=bttnBkColor, \~
-				fontsize=30,  title=Reagent ul/M, \~
-				";
-	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
-
-=======
 if(1)
 {
 	bttnX       = 30;
@@ -371,7 +292,6 @@ if(1)
 				";
 	WINC_SET_USER_WINDOW(1, dlgMssg, 1);
 
->>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 	dlgMssg[0] = "type=edit, no=20, enable=1, show=1, readonly=1, \~
 				x=bttnX+300, y=bttnY+bttnOffsetY, w=bttnW, h=bttnH, border=0, \~
 				color=BLACK, font=±¼¸²Ã¼, bkcolor=WHITE, \~

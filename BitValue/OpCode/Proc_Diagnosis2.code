@@ -1,0 +1,27 @@
+
+// ธ๐ลอ ON
+call("\\BitValue\\AllMotorOn.code");
+
+VAR Motor_Speed;
+VAR Motor_Move;
+VAR Speed_Temp;
+VAR Default_move;
+VAR Default_Speed;
+VAR Set_Value;
+
+/*
+Set_Value = WINC_GET_DATA_INT(38052);
+WINC_PUT_DATA_INT(38053,Set_Value);
+
+Speed_Temp = WINC_GET_DATA_INT(38052);
+
+Motor_Move = Default_move/Default_Speed * Speed_Temp/100 ;
+Motor_Speed = (Default_move/Default_Speed * Speed_Temp/100 )/60 ;
+
+WINC_PUT_DATA_REAL(38121,Motor_Speed);
+WINC_PUT_DATA_REAL(38122,Motor_Move);
+*/
+
+WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Diagnosis2.nc");
+
+

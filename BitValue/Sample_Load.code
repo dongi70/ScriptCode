@@ -70,14 +70,14 @@ bttnDisColor        = GRAY;     // ºñÈ°¼ºÈ­ µÇ¾úÀ» ¶§ Ä®¶ó (ÀÌ¹ÌÁö ¹öÆ°ÀÇ °æ¿ì À
 // À§Ä¡ ÁÂÇ¥ Á¤º¸ 
 //
 //--------------------------------------------------------------------------------------------------------
-bttnX       = 145;
-bttnY       = 50;  
-bttnOffsetX = 300;
-bttnOffsetY = 65;
-bttnW       = 180;
+bttnX       = 85;
+bttnY       = 130;  
+bttnOffsetX = 380;
+bttnOffsetY = 100;
+bttnW       = 230;
 bttnH       = 180;
 bttnR       = 5;
-bttnFontSize= 24;
+bttnFontSize= 27;
 
 //----------------------------------------
 // À§Ä¡¹öÆ°
@@ -86,7 +86,7 @@ dlgMssg[0] ="type=button, no=1, mode=1, enable=1, show=1, \~
 	beep=bellHz, beeptime=0.1, \~
      x=bttnX, y=bttnY + 0*bttnOffsetY, w=bttnW, h=bttnH,  round=0, \~
      color=BLACK, \~
-     fontsize=bttnFontSize, title= Loading, \~
+     fontsize=bttnFontSize, title=Sample Loading, \~
      image=Common_Button.bmp, \~
      link=\\BitValue\\OpCode\\Proc_Loading_Sample.code";
 
@@ -97,12 +97,16 @@ dlgMssg[1] ="type=button, no=2, mode=1, enable=1, show=1, \~
     fontsize=bttnFontSize, title=Load Complete, \~
     image=Common_Button.bmp, \~
 	memory=38054,writememory=38054, valtype=int, setvalue =1, \~
+<<<<<<< HEAD
 //	memory=38052,writememory=38052, valtype=int, setvalue =1, \~
+=======
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
     link=\\BitValue\\OpCode\\Proc_Finishing.code, 	\~
 	";
 
 WINC_SET_USER_WINDOW(1, dlgMssg, 2);
 
+<<<<<<< HEAD
 if(0)
 {
 	VAR Complete;
@@ -125,6 +129,8 @@ if(0)
 }
 
 
+=======
+>>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
 //-----------------------------------------------
 // Ä¿½ºÅÒ È­¸é ÇÁ·¹ÀÓÀ» ±×¸°´Ù.
 //-----------------------------------------------

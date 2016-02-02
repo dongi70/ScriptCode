@@ -5,6 +5,7 @@
 //---------------------------------------
 
 VAR Motor_Speed;
+VAR Motor_Move;
 VAR Speed_Temp;
 VAR Default_move;
 VAR Default_Speed;
@@ -16,15 +17,16 @@ VAR Set_Value;
 Set_Value = WINC_GET_DATA_INT(38050);
 WINC_PUT_DATA_INT(38051,Set_Value);
 
-Default_move = 70;
+Default_move =140;//70;
 Default_Speed = 100;
 
 Speed_Temp = WINC_GET_DATA_INT(38050);
 
-Motor_Speed = Default_move/Default_Speed * Speed_Temp/100;
+Motor_Move = Default_move/Default_Speed * Speed_Temp/100 + 0.3;
+Motor_Speed = (Motor_Move )/60+0.002;
 
 WINC_PUT_DATA_REAL(38121,Motor_Speed);
-WINC_PUT_DATA_REAL(38122,Motor_Speed);
+WINC_PUT_DATA_REAL(38122,Motor_Move);
 
 /*
 VAR fmt;
