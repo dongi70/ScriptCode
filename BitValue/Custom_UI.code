@@ -38,13 +38,10 @@ VAR bellHz(3000);
 //----------------------------------------------
 //   ¸ðÅÍ ¼Óµµ ÃÊ±â°ª ¼³Á¤
 //----------------------------------------------
-<<<<<<< HEAD
-WINC_PUT_DATA_INT(38050,200);
-WINC_PUT_DATA_INT(38052,200);
-=======
-WINC_PUT_DATA_INT(38050,400); 
-WINC_PUT_DATA_INT(38052,1000);
->>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
+WINC_PUT_DATA_INT(38050,200); 
+WINC_PUT_DATA_INT(38052,400);
+WINC_PUT_DATA_INT(38058,1000); 
+WINC_PUT_DATA_INT(38059,1000);
 
 //-----------------------------------------------
 //    ½Ã½ºÅÛ Timer ÃÊ±âÈ­
@@ -179,11 +176,7 @@ dlgMssg[0] = "  type=button, no=41, show=1, mode=bttnMode, lamp-1,              
 dlgMssg[1] = "type=button, no=42, show=1, mode=bttnMode, lamp-1, \~
 			beep=bellHz, beeptime=0.1, \~
             x=bttnX + 1*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-<<<<<<< HEAD
-            color=BLACK, bkcolor=bttnBkColor, \~
-=======
             color=BLUE, bkcolor=bttnBkColor, \~
->>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             fontsize=bttnFontSize, title=Sample Load, \~
             image=Common_Button_Green.bmp, \~
             autoblink=0, blink=0.0, \~
@@ -209,11 +202,7 @@ dlgMssg[2] = "type=button, no=43, show=1, mode=bttnMode, lamp-1, \~
 dlgMssg[3] = "type=button, no=44, show=1, mode=bttnMode, lamp-1, \~
 			beep=bellHz, beeptime=0.1, \~
             x=bttnX + 3*bttnOffsetX, y=bttnY, w=bttnW, h=bttnH, round=bttnR, \~
-<<<<<<< HEAD
-            color=BLACK, bkcolor=bttnBkColor, \~
-=======
             color=BLUE, bkcolor=bttnBkColor, \~
->>>>>>> ì‹œì—° 1ì°¨ ë²„ì „
             fontsize=bttnFontSize,  title=Maintenance, \~
             image=Common_Button_Green.bmp, \~
             autoblink=0, blink=0.0,\~

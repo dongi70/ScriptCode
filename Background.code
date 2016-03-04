@@ -366,11 +366,11 @@
 			 if( temp == 1 )
 			  {
 				WINC_ENTER_IMCMD();
-				WINC_SET_GIO( 0x01<<4)
+				WINC_SET_GIO( 0x01<<14)
 				WINC_LEAVE_IMCMD();
 
 				delay( ReagentTime );
-				
+
 				WINC_ENTER_IMCMD();
 				WINC_SET_GIO( 0x01<<6)
 				WINC_LEAVE_IMCMD();
@@ -394,12 +394,6 @@
 				WINC_LEAVE_IMCMD();
 
 				delay( ReagentTime );
-
-				WINC_ENTER_IMCMD();
-				WINC_SET_GIO( 0x01<<14)
-				WINC_LEAVE_IMCMD();
-
-				delay( ReagentTime )
 			 }
 			 else
 			 {

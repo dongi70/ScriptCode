@@ -3,6 +3,13 @@ VAR Memory_Inc;
 if(1)
 {
 	Memory_Value = WINC_GET_DATA_INT(38052);
-	Memory_Inc = Memory_Value + 50;
+	if( Memory_Value < 50)
+	{
+		Memory_Inc = Memory_Value + 10;
+	}	
+	else
+	{
+		Memory_Inc = Memory_Value + 50;
+	}
 	WINC_PUT_DATA_INT(38052,Memory_Inc);
 }

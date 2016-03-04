@@ -9,7 +9,7 @@ VAR Motor_Move;
 VAR Speed_Temp;
 VAR Default_move;
 VAR Default_Speed;
-VAR Set_Value;
+VAR Set_Value, Set_Value2;
 
 //-------------------------------------
 //  모터 설정 읽어 저장하기.
@@ -17,6 +17,10 @@ VAR Set_Value;
 Set_Value = WINC_GET_DATA_INT(38050);
 WINC_PUT_DATA_INT(38051,Set_Value);
 
+Set_Value2 = WINC_GET_DATA_INT(38052);
+WINC_PUT_DATA_INT(38053,Set_Value2);
+
+/*
 Default_move =140;//70;
 Default_Speed = 100;
 
@@ -27,7 +31,7 @@ Motor_Speed = (Motor_Move )/60+0.002;
 
 WINC_PUT_DATA_REAL(38121,Motor_Speed);
 WINC_PUT_DATA_REAL(38122,Motor_Move);
-
+*/
 /*
 VAR fmt;
 fmt = 123;

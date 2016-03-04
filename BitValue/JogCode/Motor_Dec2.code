@@ -3,10 +3,17 @@ VAR Memory_Dec;
 if(1)
 {
 	Memory_Value = WINC_GET_DATA_INT(38052);
-	Memory_Dec = Memory_Value - 50;
-	if(Memory_Value == 50)
+	if( Memory_Value > 50)
 	{
-		messagebox(0,0," Minimum Value :50ul  \n ","");
+		Memory_Dec = Memory_Value - 50;
+	}	
+	else
+	{
+		Memory_Dec = Memory_Value - 10;
+	}
+	if(Memory_Value == 10)
+	{
+		messagebox(0,0," Minimum Value :10ul  \n ","");
 		WINC_PUT_DATA_INT(38052,Memory_Value);
 	}
 	else

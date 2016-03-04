@@ -2,7 +2,28 @@
 // ธ๐ลอ ON
 call("\\BitValue\\AllMotorOn.code");
 
+VAR Chip_Processing;
 
-WINC_RUN_NCCODE("\\BitValue\\OpCode\\Proc_Diagnosis.nc");
+//-------------------------------------
+//
+//-------------------------------------
+Chip_Processing = WINC_GET_DATA_INT(38080);
 
-
+if( Chip_Processing == 1)
+{
+//	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test.nc");
+//	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test2.nc");
+//	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test7.nc");  // ?? ?? ?? ??
+//	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test8.nc");  // ??, ?? ??
+	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test_final.nc");  // ??, ?? ??
+}
+else if( Chip_Processing == 2)
+{
+//	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test.nc");
+	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test3.nc");
+}
+else if( Chip_Processing == 3)
+{
+//	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test.nc");
+	WINC_RUN_NCCODE("\\BitValue\\OpCode\\Diagnosis_test4.nc");
+}
